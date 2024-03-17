@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2>Edit User</h2>
+    <form id="editUserForm" method="post" action="{% url 'customuser-update' pk=user.pk %}" style="max-width: 400px; margin: 0 auto; padding-bottom: 20px;">
+        {% csrf_token %}
+        <div style="text-align: center;">
+            <label for="first_name" style="display: block; margin-bottom: 10px;">First Name:</label>
+            <input type="text" id="first_name" name="first_name" value="{{ user.first_name }}" style="width: 100%; padding: 8px; margin-bottom: 20px;">
+
+            <label for="last_name" style="display: block; margin-bottom: 10px;">Last Name:</label>
+            <input type="text" id="last_name" name="last_name" value="{{ user.last_name }}" style="width: 100%; padding: 8px; margin-bottom: 20px;">
+
+            <label for="email" style="display: block; margin-bottom: 10px;">Email:</label>
+            <input type="email" id="email" name="email" value="{{ user.email }}" style="width: 100%; padding: 8px; margin-bottom: 20px;">
+
+            <label for="password" style="display: block; margin-bottom: 10px;">Password:</label>
+            <input type="password" id="password" name="password" style="width: 100%; padding: 8px; margin-bottom: 20px;">
+        </div>
+
+        <!-- Div oculta para exibir mensagem de sucesso -->
+        <div id="successMessage" style="display: none; text-align: center; margin-top: 20px; padding-bottom: 20px;">
+            <p style="color: green;">Alterações salvas com sucesso!</p>
+        </div>
+
+        <button type="submit" style="display: block; margin: 0 auto; padding: 10px 20px; background-color: #007bff; color: #fff; border: none; border-radius: 5px; cursor: pointer;">Save Changes</button>
+    </form>
+
+    {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+                <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    <script>
+        document.getElementById("editUserForm").addEventListener("submit", function(event) {
+            document.getElementById("successMessage").style.display = "block";
+        });
+    </script>
+{% endblock %}
