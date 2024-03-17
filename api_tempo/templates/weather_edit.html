@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block title %}Editar Previsão do Tempo{% endblock %}
+
+{% block content %}
+    <h2 style="text-align: center;">Editar Previsão do Tempo</h2>
+    <form id="editWeatherForm" method="post" action="{% url 'weather-update' pk=weather.pk %}" style="max-width: 400px; margin: 0 auto; padding-bottom: 20px;">
+        {% csrf_token %}
+        <div style="text-align: center;">
+            <label for="city" style="display: block; margin-bottom: 10px;">Cidade:</label>
+            <input type="text" id="city" name="city" value="{{ weather.city }}" style="width: 100%; padding: 8px; margin-bottom: 20px;">
+
+            <label for="date" style="display: block; margin-bottom: 10px;">Data:</label>
+            <input type="datetime-local" id="date" name="date" value="{{ weather.date|date:'Y-m-d\TH:i' }}" style="width: 100%; padding: 8px; margin-bottom: 20px;">
+
+            <label for="temperature" style="display: block; margin-bottom: 10px;">Temperatura:</label>
+            <input type="number" id="temperature" name="temperature" value="{{ weather.temperature }}" style="width: 100%; padding: 8px; margin-bottom: 20px;">
+
+            <label for="pressure" style="display: block; margin-bottom: 10px;">Pressão:</label>
+            <input type="number" id="pressure" name="pressure" value="{{ weather.pressure }}" style="width: 100%; padding: 8px; margin-bottom: 20px;">
+
+            <label for="humidity" style="display: block; margin-bottom: 10px;">Umidade:</label>
+            <input type="number" id="humidity" name="humidity" value="{{ weather.humidity }}" style="width: 100%; padding: 8px; margin-bottom: 20px;">
+
+            <label for="precipitation" style="display: block; margin-bottom: 10px;">Precipitação:</label>
+            <input type="number" id="precipitation" name="precipitation" value="{{ weather.precipitation }}" style="width: 100%; padding: 8px; margin-bottom: 20px;">
+
+            <label for="weather_condition" style="display: block; margin-bottom: 10px;">Condição do Tempo:</label>
+            <input type="text" id="weather_condition" name="weather_condition" value="{{ weather.weather_condition }}" style="width: 100%; padding: 8px; margin-bottom: 20px;">
+        </div>
+
+        <!-- Div oculta para exibir mensagem de sucesso -->
+        <div id="successMessage" style="display: none; text-align: center; margin-top: 20px; padding-bottom: 20px;">
+            <p style="color: green;">Alterações salvas com sucesso!</p>
+        </div>
+
+        <button type="submit" style="display: block; margin: 0 auto; padding: 10px 20px; background-color: #007bff; color: #fff; border: none; border-radius: 5px; cursor: pointer;">Salvar Alterações</button>
+    </form>
+
+    <script>
+        document.getElementById("editWeatherForm").addEventListener("submit", function(event) {
+            document.getElementById("successMessage").style.display = "block";
+        });
+    </script>
+{% endblock %}
