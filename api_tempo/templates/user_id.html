@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block content %}   
+    {% if user %}
+        <h2>Detalhes do Usuário</h2>
+        <h3>User ID: {{ user.id }}</h3>
+        <h3>{{ user.first_name }} {{ user.last_name }}</h3>
+        <p>Email: {{ user.email }}</p>
+
+        <!-- Botões de editar e excluir -->
+        <button class="edit-btn" data-pk="{{ user.id }}" data-edit-url="{% url 'customuser-update' pk=user.id %}">Editar</button>
+        <button class="delete-btn" data-delete-url="{% url 'customuser-delete' pk=user.pk %}">Excluir</button>
+    {% else %}
+        <p>O usuário não foi encontrado.</p>
+    {% endif %}
+    <script>
+        // Adiciona evento de clique ao carregar o documento
+        document.addEventListener("DOMContentLoaded", function() {
+            // Add event listeners to all edit and delete buttons
+            document.querySelectorAll('.edit-btn').forEach(function(button) {
+                button.addEventListener('click', function() {
+                    var editUrl = button.dataset.editUrl;
+                    window.location.href = editUrl;
+                });
+            });
+
+            document.querySelectorAll('.delete-btn').forEach(function(button) {
+                button.addEventListener('click', function() {
+                    if (confirm('Tem certeza que deseja excluir este usuário?')) {
+                        var deleteUrl = button.dataset.deleteUrl;
+                        window.location.href = deleteUrl;
+                    }
+                });
+            });
+        });
+    </script>
+{% endblock %}
