@@ -1,13 +1,12 @@
 from pymongo import MongoClient
+from core import settings
 
 class WeatherCollection:
     def __init__(self):
-        self.connection_string = "mongodb+srv://gkrcido:128Acido@cluster0.xglpozx.mongodb.net/"
-        self.database_name = 'weather_rafaelRodrigues'
-        self.collection_name = 'weather'
-        self.client = MongoClient(self.connection_string)
-        self.db = self.client[self.database_name]
-        self.collection = self.db[self.collection_name]
+        mongo_settings = settings.DATABASES['default']
+        mongo_uri = f"mongodb+srv://{mongo_settings['USERNAME']}:{mongo_settings['PASSWORD']}@{mongo_settings['HOST']}/{mongo_settings['NAME']}"
+        self.client = MongoClient(mongo_uri)
+        self.db = self.client[mongo_settings['NAME']]
 
     def insert(self, data):
         self.collection.insert_one(data)
