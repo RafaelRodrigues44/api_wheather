@@ -1,26 +1,32 @@
-from rest_framework import viewsets, status
-from rest_framework.decorators import action
+from django.views import View
+from rest_framework import status
 from rest_framework.response import Response
-from api_tempo.models import Weather
 from api_tempo.serializers.weatherSerializer import WeatherSerializer
-from django.shortcuts import render, redirect
+from django.shortcuts import redirect, render
+from api_tempo.models.weatherCollections import WeatherCollection 
 
-class WeatherCreateViewSet(viewsets.ModelViewSet):
-    queryset = Weather.objects.all()
+class WeatherCreateViewSet(View):
     serializer_class = WeatherSerializer
 
-    def show_create_form(self, request):
-        # Se for uma solicitação GET, renderiza o formulário de criação de usuário
-        serializer = self.serializer_class()
-        return render(request, 'weather_create.html', {'serializer': serializer})
+    def get(self, request):
+        return render(request, 'weather_create.html')
 
+    def post(self, request):  # Alterado de create para post
+        try:
+            # Extrai os dados do corpo da solicitação
+            data = request.data
 
-    def create(self, request, *args, **kwargs):
-        # Tenta criar um novo usuário com base nos dados enviados
-        serializer = self.serializer_class(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            
+            # Valida os dados usando o serializador
+            serializer = self.serializer_class(data=data)
+            serializer.is_valid(raise_exception=True)
+
+            # Insere o novo registro usando a coleção WeatherCollection
+            weather_collection = WeatherCollection()
+            weather_collection.insert(serializer.validated_data)
+
+            # Retorna uma resposta de sucesso
             return redirect('weather-list')
-        
-        return self.show_create_form(request)
+
+        except Exception as e:
+            # Em caso de erro, retorna uma resposta de erro
+            return Response({'detail': 'Erro ao criar o registro de clima.'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

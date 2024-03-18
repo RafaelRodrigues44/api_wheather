@@ -1,24 +1,43 @@
-# view.py
+from django.contrib.auth import authenticate, login
+from django.http import JsonResponse
 from django.shortcuts import render, redirect
-from rest_framework import viewsets
-from api_tempo.models import CustomUser
-from api_tempo.serializers.customUserSerializer import CustomUserSerializer
+from django.views import View
+from api_tempo.models.customUsers import CustomUser
+from api_tempo.models.userCollections import CustomUserManagerMongoDB
 
-class CustomCreateUserView(viewsets.ViewSet):
-    queryset = CustomUser.objects.all()
-    serializer_class = CustomUserSerializer
-    
-    def show_create_form(self, request):
-        # Se for uma solicitação GET, renderiza o formulário de criação de usuário
-        serializer = self.serializer_class()
-        return render(request, 'user_create.html', {'serializer': serializer})
+class CreateUserView(View):
+    def post(self, request):
+        # Obtenha os dados do corpo da solicitação
+        data = request.POST
 
-    def create(self, request, *args, **kwargs):
-        # Tenta criar um novo usuário com base nos dados enviados
-        serializer = self.serializer_class(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            # Redireciona para a página de lista de usuários após a criação bem-sucedida
-            return redirect('customuser-list')
-        # Se os dados não forem válidos, renderiza novamente o formulário de criação com os erros
-        return self.show_create_form(request)
+        # Verifique se o e-mail já está em uso
+        if CustomUser.objects.filter(email=data['email']).exists():
+            return JsonResponse({'error': 'Este e-mail já está em uso'}, status=400)
+
+        # Crie o usuário no Django
+        user = CustomUser.objects.create_user(
+            email=data['email'],
+            password=data['password'],
+            first_name=data['first_name'],
+            last_name=data['last_name']
+        )
+
+        # Salve o usuário no MongoDB
+        user_manager_mongo = CustomUserManagerMongoDB()
+        user_manager_mongo.insert_user({
+            'email': data['email'],
+            'first_name': data['first_name'],
+            'last_name': data['last_name'],
+            # Adicione outros campos conforme necessário
+        })
+
+        # Autentique o usuário recém-criado
+        user = authenticate(request, email=data['email'], password=data['password'])
+        if user is not None:
+            login(request, user)
+            return JsonResponse({'success': 'Usuário criado e autenticado com sucesso'}, status=201)
+        else:
+            return JsonResponse({'error': 'Falha na autenticação'}, status=400)
+
+    def get(self, request):
+        return render(request, 'user_create.html')

@@ -1,17 +1,16 @@
-from urllib import request
-from django.shortcuts import redirect, render, get_object_or_404
+from django.shortcuts import redirect, render
 from django.views import View
-from api_tempo.models import CustomUser
+from api_tempo.models.customUsers import CustomUserManager
 
 class CustomUserById(View):
     template_name = 'user_id.html'
 
     def get(self, request, pk=None):
         if pk is not None:
-            # Se um ID de usuário foi fornecido na URL, chama a função get_id()
+            # Chama a função get_id() para buscar o usuário pelo ID fornecido
             return self.get_id(request, pk)
         else:
-            # Caso contrário, renderiza o formulário de busca
+            # Renderiza o formulário de busca se nenhum ID foi fornecido
             return render(request, self.template_name)
 
     def post(self, request):
@@ -22,10 +21,16 @@ class CustomUserById(View):
         return redirect('customuser-id', pk=pk)
 
     def get_id(self, request, pk):
-        # Busca o usuário com base no ID fornecido
-        user = get_object_or_404(CustomUser, pk=pk)
-        
-        # Retorna o usuário encontrado no contexto do template
-        return render(request, self.template_name, {'user': user})
-
-    
+        try:
+            # Chama o método get_user_by_id do CustomUserManager para buscar o usuário pelo ID
+            user_manager = CustomUserManager()
+            user = user_manager.get_user_by_id(pk)
+            
+            if user:
+                return render(request, self.template_name, {'user': user})
+            else:
+                # Retorna um erro 404 se o usuário não for encontrado
+                return render(request, '404.html', status=404)
+        except Exception as e:
+            # Retorna um erro genérico se ocorrer um erro inesperado
+            return render(request, '500.html', status=500)

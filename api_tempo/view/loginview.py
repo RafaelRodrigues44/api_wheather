@@ -2,6 +2,7 @@ from django.contrib.auth import authenticate, login
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
+from pymongo import MongoClient
 from api_tempo.models import CustomUser
 
 class LoginView(APIView):
@@ -14,11 +15,18 @@ class LoginView(APIView):
                 if not email or not password:
                     return Response({'detail': 'Forneça email e senha.'}, status=status.HTTP_400_BAD_REQUEST)
 
-                # Busca o usuário no banco de dados
-                user = CustomUser.objects.filter(email=email).first()
+                # Conecte-se ao MongoDB
+                connection_string = "mongodb+srv://gkrcido:128Acido@cluster0.xglpozx.mongodb.net/"
+                database_name = 'weather_rafaelRodrigues'
+                client = MongoClient(connection_string)
+                db = client[database_name]
 
-                if user is not None and user.check_password(password):
+                # Busca o usuário no MongoDB
+                user_data = db.users.find_one({'email': email})
+
+                if user_data and CustomUser(**user_data).check_password(password):
                     # Autentica o usuário
+                    user = CustomUser(**user_data)
                     login(request, user)
                     return Response({'detail': 'Login bem-sucedido'})
                 else:
