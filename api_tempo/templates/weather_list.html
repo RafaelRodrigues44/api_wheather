@@ -2,6 +2,13 @@
 
 {% block content %}
     <h2 style="text-align: center;">Dados Meteorológicos</h2>
+
+    <form id="search-form" action="{% url 'get_weather_by_city' city='placeholder' %}" method="GET">
+        <label for="search">Pesquisar:</label>
+        <input type="text" id="search" name="city">
+        <button type="submit">Procurar</button>
+    </form>
+    
     <div class="weather-list-container">
         <ul class="weather-list">
             {% for weather in weather_collections %}
@@ -13,10 +20,36 @@
                     <p>Umidade: {{ weather.humidity }}</p>
                     <p>Precipitação: {{ weather.precipitation }}</p>
                     <p>Condição: {{ weather.weather_condition }}</p>
+                    
+                    <!-- Botão de exclusão -->
+                    <button class="delete-btn" data-document-id="{{ weather.id }}">Excluir</button>
                 </li>
             {% endfor %}
         </ul>
     </div>
+
+    <!-- Script JavaScript -->
+    <script>
+        document.getElementById('search-form').addEventListener('submit', function(event) {
+            event.preventDefault(); 
+
+            var city = document.getElementById('search').value; 
+
+            // Atualiza o atributo 'action' do formulário com o endpoint desejado
+            var formAction = document.getElementById('search-form').getAttribute('action');
+            formAction = formAction.replace('placeholder', city);
+            document.getElementById('search-form').setAttribute('action', formAction);
+
+            // Envie o formulário
+            this.submit();
+        });
+
+        document.querySelectorAll('.delete-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                var documentId = this.getAttribute('data-document-id'); // Captura o ID do documento
+                var deleteUrl = '/weather/delete/' + JSON.parse(documentId)._id.$oid; // Extrai o ID do objeto BSON
+                window.location.href = deleteUrl; // Redireciona para a URL de exclusão
+            });
+        });
+    </script>
 {% endblock %}
-
-

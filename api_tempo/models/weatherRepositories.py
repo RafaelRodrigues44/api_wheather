@@ -1,5 +1,5 @@
 import pymongo
-
+from bson import ObjectId
 from core import settings
 
 class WeatherRepository:
@@ -19,14 +19,25 @@ class WeatherRepository:
         conn = self.connection
         collection = conn[self.collection_name]
         return collection
+    
+    def collection_exists(self):
+        return self.collection.name in self.connection.list_collection_names()
 
     def get_all(self):
         collection = self.get_collection()
         documents = collection.find({})
         return documents
+    
+    def get_by_id(self, document_id):
+        collection = self.get_collection()
+        document = collection.find_one({"_id": ObjectId(document_id)})
+        return document
+    
+    def get_by_city(self, city):
+        collection = self.get_collection()
+        documents = collection.find({"city": city})
+        return list(documents)
 
-    def collection_exists(self):
-        return self.collection.name in self.connection.list_collection_names()
 
     def create(self, weather):
         collection = self.get_collection()
@@ -41,4 +52,7 @@ class WeatherRepository:
         }
         collection.insert_one(data)
 
-    
+    def delete(self, document_id):
+        collection = self.get_collection()
+        result = collection.delete_one({"_id": ObjectId(document_id)})
+        return result.deleted_count

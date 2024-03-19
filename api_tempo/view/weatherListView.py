@@ -1,6 +1,5 @@
 from django.shortcuts import render
 from django.views import View
-from api_tempo.models import Weather
 from api_tempo.models.weatherRepositories import WeatherRepository
 
 class WeatherListView(View):
