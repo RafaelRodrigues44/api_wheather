@@ -1,12 +1,27 @@
+from rest_framework import viewsets
+from rest_framework.decorators import action
+from rest_framework.response import Response
+from rest_framework import viewsets
+from rest_framework.decorators import action
+from rest_framework.response import Response
+from api_tempo.models.weatherModel import Weather
+from api_tempo.serializers.weatherSerializer import WeatherSerializer
 from django.shortcuts import render
-from django.views import View
-from api_tempo.models import Weather
-from api_tempo.models.weatherRepositories import WeatherRepository
 
-class WeatherListView(View):
-    template_name = 'weather_list.html'
+class WeatherListView(viewsets.ModelViewSet):
+    queryset = Weather.objects.all()
+    serializer_class = WeatherSerializer
 
-    def get(self, request):
-        weather_repo = WeatherRepository()
-        weather_documents = weather_repo.get_all()
-        return render(request, self.template_name, {'weather_collections': weather_documents})
+    @action(detail=False, methods=['get'])
+    def list_cities(self, request):
+        cities = Weather.objects.values_list('city', flat=True).distinct()
+        return Response({'cities': cities})
+
+    def list(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
+        serializer = self.get_serializer(queryset, many=True)
+        weather_records = serializer.data
+        return render(request, 'weather_list.html', {'weather_records': weather_records})
+
+   
+   

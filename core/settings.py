@@ -62,42 +62,10 @@ WSGI_APPLICATION = 'core.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': 'mydatabase',
-#     }
-# }
-
-# MONGO_CONNECTION_STRING = 'mongodb://10.109.2.63:443/'
-# MONGO_DATABASE_NAME = 'weather_rafaelrodrigues'
-
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'djongo',
-#         'ENFORCE_SCHEMA': True,
-#         'NAME': 'weather_rafaelRodrigues',
-#         'CLIENT': {
-#             'host': 'mongodb+srv://dkrcido:123@cluster0.ky1knzt.mongodb.net/weather_rafaelRodrigues',
-#             'username': 'dkrcido',
-#             'password': '123',
-#         }
-#     }
-# }
-
-MONGO_CONNECTION_STRING = 'mongodb+srv://dkrcido:123@cluster0.ky1knzt.mongodb.net/'
-MONGO_DATABASE_NAME = 'weather_rafaelrodrigues'
-
 DATABASES = {
     'default': {
-        'ENGINE': 'djongo',
-        'ENFORCE_SCHEMA': True,
-        'NAME': 'weather_rafaelRodrigues',
-        'CLIENT': {
-            'host': MONGO_CONNECTION_STRING + MONGO_DATABASE_NAME,
-            'username': 'dkrcido',
-            'password': '123',
-        }
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / "db.sqlite3",
     }
 }
 
