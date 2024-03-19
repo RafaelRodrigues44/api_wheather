@@ -113,51 +113,48 @@
         <h3>Menu</h3>
         <ul>
             <li><a href="{% url 'home' %}">Home</a></li>
-            <li><a href="{% url 'customuser-list' %}">Users</a></li>
-            <li><a href="{% url 'customuser-create' %}">Create Users</a></li>
             <li><a href="{% url 'weather-list' %}">Weathers</a></li>
             <li><a href="{% url 'weather-create' %}">Create Weather</a></li>
-            
         </ul>
-        
     </div>
+
     <div class="main">
         <!-- Seção dinâmica para os templates do aplicativo -->
         {% block content %}
-    <div style="max-width: 800px; margin: 0 auto; line-height: 1.6;">
-        <h1 style="text-align: center; margin-bottom: 30px;">Bem-vindo à API de Previsão do Tempo</h1>
-        <p>Esta API, construída em Django com Django Rest Framework (DRF), é uma RESTful API que segue o padrão MVT (Model-View-Template).</p>
-        <p>O padrão MVT é uma variação do padrão MVC (Model-View-Controller), comumente usado em frameworks web como o Django. Aqui está uma breve explicação de cada componente:</p>
-        <ul style="margin-bottom: 20px;">
-            <li><strong>Modelo (Model):</strong> Representa a estrutura de dados da aplicação. No caso desta API, os modelos definem a estrutura das previsões do tempo e dos usuários.</li>
-            <li><strong>Visão (View):</strong> Lida com a lógica de apresentação e interação do usuário. As views são responsáveis por processar solicitações HTTP e retornar respostas apropriadas. As views neste contexto são implementadas como classes de visualização do Django.</li>
-            <li><strong>Template (Template):</strong> Fornece a estrutura de apresentação para as respostas das views. Os templates são arquivos HTML que podem incluir dados dinâmicos renderizados pelas views.</li>
-        </ul>
-        <p>Além disso, esta API utiliza o banco de dados NoSQL MongoDB para armazenar os dados das previsões do tempo. O MongoDB é uma escolha comum para aplicações que exigem escalabilidade e flexibilidade no esquema de dados.</p>
-
-        <h2 style="margin-top: 40px;">Endpoints Disponíveis</h2>
-        <ul style="margin-bottom: 20px;">
-            <li><strong>Usuários:</strong></li>
-            <ul>
-                <li><code>GET /api/users/</code>: Retorna a lista de usuários.</li>
-                <li><code>POST /api/users/create/</code>: Cria um novo usuário.</li>
-                <li><code>GET /api/users/:id/</code>: Retorna os detalhes de um usuário específico.</li>
-                <li><code>PUT /api/users/:id/update/</code>: Atualiza os dados de um usuário existente.</li>
-                <li><code>DELETE /api/users/:id/delete/</code>: Exclui um usuário existente.</li>
+        <div style="max-width: 800px; margin: 0 auto; line-height: 1.6;">
+            <h1 style="text-align: center; margin-bottom: 30px;">Bem-vindo à API de Previsão do Tempo</h1>
+            <p>Esta API, construída em Django com Django Rest Framework (DRF), é uma RESTful API que segue o padrão MVT (Model-View-Template).</p>
+            <p>O padrão MVT é uma variação do padrão MVC (Model-View-Controller), comumente usado em frameworks web como o Django. Aqui está uma breve explicação de cada componente:</p>
+            <ul style="margin-bottom: 20px;">
+                <li><strong>Modelo (Model):</strong> Representa a estrutura de dados da aplicação. No caso desta API, os modelos definem a estrutura das previsões do tempo e dos usuários.</li>
+                <li><strong>Visão (View):</strong> Lida com a lógica de apresentação e interação do usuário. As views são responsáveis por processar solicitações HTTP e retornar respostas apropriadas. As views neste contexto são implementadas como classes de visualização do Django.</li>
+                <li><strong>Template (Template):</strong> Fornece a estrutura de apresentação para as respostas das views. Os templates são arquivos HTML que podem incluir dados dinâmicos renderizados pelas views.</li>
             </ul>
-            <li><strong>Previsão do Tempo:</strong></li>
-            <ul>
-                <li><code>GET /api/weather/</code>: Retorna a lista de previsões do tempo.</li>
-                <li><code>POST /api/weather/create/</code>: Cria uma nova previsão do tempo.</li>
-                <li><code>GET /api/weather/:id/</code>: Retorna os detalhes de uma previsão do tempo específica.</li>
-                <li><code>PUT /api/weather/:id/update/</code>: Atualiza os dados de uma previsão do tempo existente.</li>
-                <li><code>DELETE /api/weather/:id/delete/</code>: Exclui uma previsão do tempo existente.</li>
-            </ul>
-        </ul>
-    </div>
-{% endblock %}
+            <p>Além disso, esta API utiliza o banco de dados NoSQL MongoDB para armazenar os dados das previsões do tempo. O MongoDB é uma escolha comum para aplicações que exigem escalabilidade e flexibilidade no esquema de dados.</p>
 
+            <h2 style="margin-top: 40px;">Endpoints Disponíveis</h2>
+            <ul style="margin-bottom: 20px;">
+                <li><strong>Usuários:</strong></li>
+                <ul>
+                    <li><code>GET /api/users/</code>: Retorna a lista de usuários.</li>
+                    <li><code>POST /api/users/create/</code>: Cria um novo usuário.</li>
+                    <li><code>GET /api/users/:id/</code>: Retorna os detalhes de um usuário específico.</li>
+                    <li><code>PUT /api/users/:id/update/</code>: Atualiza os dados de um usuário existente.</li>
+                    <li><code>DELETE /api/users/:id/delete/</code>: Exclui um usuário existente.</li>
+                </ul>
+                <li><strong>Previsão do Tempo:</strong></li>
+                <ul>
+                    <li><code>GET /api/weather/</code>: Retorna a lista de previsões do tempo.</li>
+                    <li><code>POST /api/weather/create/</code>: Cria uma nova previsão do tempo.</li>
+                    <li><code>GET /api/weather/:id/</code>: Retorna os detalhes de uma previsão do tempo específica.</li>
+                    <li><code>PUT /api/weather/:id/update/</code>: Atualiza os dados de uma previsão do tempo existente.</li>
+                    <li><code>DELETE /api/weather/:id/delete/</code>: Exclui uma previsão do tempo existente.</li>
+                </ul>
+            </ul>
+        </div>
+        {% endblock %}
     </div>
+
     <div class="footer">
         <p>Rafael Rodrigues - Análise e Desenvolvimento de Sistemas - 3.Semestre</p>
         <p>Senai Gaspar Ricardo Júnior - Sorocaba/SP - 2024</p>
