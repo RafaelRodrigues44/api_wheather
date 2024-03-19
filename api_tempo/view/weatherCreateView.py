@@ -1,26 +1,39 @@
-from rest_framework import viewsets, status
-from rest_framework.decorators import action
-from rest_framework.response import Response
+from django.shortcuts import render
+from django.views import View
 from api_tempo.models import Weather
-from api_tempo.serializers.weatherSerializer import WeatherSerializer
-from django.shortcuts import render, redirect
+from api_tempo.models.weatherRepositories import WeatherRepository
 
-class WeatherCreateViewSet(viewsets.ModelViewSet):
-    queryset = Weather.objects.all()
-    serializer_class = WeatherSerializer
+class WeatherCreateView(View):
+    template_name = 'weather_create.html'
+    repository = WeatherRepository()
 
-    def show_create_form(self, request):
-        # Se for uma solicitação GET, renderiza o formulário de criação de usuário
-        serializer = self.serializer_class()
-        return render(request, 'weather_create.html', {'serializer': serializer})
+    def get(self, request):
+        # Renderize o formulário para inserção de dados
+        return render(request, self.template_name)
 
+    def post(self, request):
+        # Obtenha os dados do formulário
+        city = request.POST.get('city')
+        date = request.POST.get('date')
+        temperature = float(request.POST.get('temperature'))
+        pressure = float(request.POST.get('pressure'))
+        humidity = float(request.POST.get('humidity'))
+        precipitation = float(request.POST.get('precipitation'))
+        weather_condition = request.POST.get('weather_condition')
 
-    def create(self, request, *args, **kwargs):
-        # Tenta criar um novo usuário com base nos dados enviados
-        serializer = self.serializer_class(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            
-            return redirect('weather-list')
-        
-        return self.show_create_form(request)
+        # Crie um objeto Weather
+        weather = Weather(
+            city=city,
+            date=date,
+            temperature=temperature,
+            pressure=pressure,
+            humidity=humidity,
+            precipitation=precipitation,
+            weather_condition=weather_condition
+        )
+
+        # Insira o objeto no banco de dados
+        self.repository.create(weather)
+
+        # Renderize a página de sucesso ou redirecione para outra página
+        return render(request, 'base.html')

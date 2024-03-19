@@ -1,49 +1,22 @@
 {% extends 'base.html' %}
 
-{% block title %}Weather List{% endblock %}
-
 {% block content %}
-    <h2 style="text-align: center;">Registros</h2>
+    <h2 style="text-align: center;">Dados Meteorológicos</h2>
     <div class="weather-list-container">
         <ul class="weather-list">
-            {% for record in weather_records %}
+            {% for weather in weather_collections %}
                 <li class="weather-item">
-                    <h3>{{ record.city }}</h3>
-                    <p>Data: {{ record.date }}</p>
-                    <p>Temperatura: {{ record.temperature }}</p>
-                    <p>Pressão: {{ record.pressure }}</p>
-                    <p>Umidade: {{ record.humidity }}</p>
-                    <p>Precipitação: {{ record.precipitation }}</p>
-                    <p>Condição: {{ record.weather_condition }}</p>
-                    <div>
-                        {% if record.id %}
-                            <!-- Verifique se o registro possui um id válido -->
-                            <button class="edit-btn btn btn-danger" data-pk="{{ record.id }}" data-edit-url="{% url 'weather-update' pk=record.id %}">Editar</button>
-                            <button class="delete-btn btn btn-danger" data-pk="{{ record.id }}" data-delete-url="{% url 'weather-delete' pk=record.id %}">Excluir</button>
-                        {% else %}
-                            <!-- Se o registro não tiver um id válido, exiba uma mensagem -->
-                            <p>Registro sem ID válido</p>
-                        {% endif %}
-                    </div>
+                    <h3>Cidade: {{ weather.city }}</h3>
+                    <p>Data: {{ weather.date }}</p>
+                    <p>Temperatura: {{ weather.temperature }}</p>
+                    <p>Pressão: {{ weather.pressure }}</p>
+                    <p>Umidade: {{ weather.humidity }}</p>
+                    <p>Precipitação: {{ weather.precipitation }}</p>
+                    <p>Condição: {{ weather.weather_condition }}</p>
                 </li>
             {% endfor %}
         </ul>
     </div>
-    <script>
-        document.querySelectorAll('.edit-btn').forEach(function(button) {
-            button.addEventListener('click', function() {
-                var editUrl = button.dataset.editUrl;
-                window.location.href = editUrl;
-            });
-        });
-
-        document.querySelectorAll('.delete-btn').forEach(function(button) {
-            button.addEventListener('click', function() {
-                var deleteUrl = button.dataset.deleteUrl;
-                if (confirm('Tem certeza que deseja excluir este registro?')) {
-                    window.location.href = deleteUrl;
-                }
-            });
-        });
-    </script>
 {% endblock %}
+
+
