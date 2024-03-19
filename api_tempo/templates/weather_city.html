@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2 style="text-align: center;">Dados Meteorológicos para {{ city }}</h2>
+
+    <div class="weather-list-container">
+        <ul class="weather-list">
+            {% for weather in weather_list %}
+                <li class="weather-item">
+                    <h3>Data: {{ weather.date }}</h3>
+                    <p>Temperatura: {{ weather.temperature }}</p>
+                    <p>Pressão: {{ weather.pressure }}</p>
+                    <p>Umidade: {{ weather.humidity }}</p>
+                    <p>Precipitação: {{ weather.precipitation }}</p>
+                    <p>Condição: {{ weather.weather_condition }}</p>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endblock %}
