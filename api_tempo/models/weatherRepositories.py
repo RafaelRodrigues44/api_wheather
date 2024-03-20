@@ -38,7 +38,6 @@ class WeatherRepository:
         documents = collection.find({"city": city})
         return list(documents)
 
-
     def create(self, weather):
         collection = self.get_collection()
         data = {
