@@ -46,10 +46,12 @@
 
         document.querySelectorAll('.delete-btn').forEach(button => {
             button.addEventListener('click', function() {
-                var documentId = this.getAttribute('data-document-id'); // Captura o ID do documento
-                var deleteUrl = '/weather/delete/' + JSON.parse(documentId)._id.$oid; // Extrai o ID do objeto BSON
-                window.location.href = deleteUrl; // Redireciona para a URL de exclusão
+                var documentId = this.getAttribute('data-document-id');
+                console.log(documentId)
+                var deleteUrl = '/weather/delete/' + documentId; 
+                window.location.href = deleteUrl; 
             });
         });
     </script>
 {% endblock %}
+
