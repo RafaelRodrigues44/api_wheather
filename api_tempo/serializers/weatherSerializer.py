@@ -1,51 +1,23 @@
 from rest_framework import serializers
-from pymongo import MongoClient
-from bson import ObjectId
+from api_tempo.repositories import WeatherRepository
 
 class WeatherSerializer(serializers.Serializer):
-    city = serializers.CharField(max_length=100)
-    date = serializers.DateTimeField()
+    id = serializers.CharField(max_length=255, allow_blank=True)  
     temperature = serializers.FloatField()
-    pressure = serializers.FloatField()
-    humidity = serializers.FloatField()
-    precipitation = serializers.FloatField()
-    weather_condition = serializers.CharField(max_length=100)
+    date = serializers.DateTimeField()
+    city = serializers.CharField(max_length=255, allow_blank=True)
+    atmosphericPressure = serializers.FloatField(required=False)
+    humidity = serializers.FloatField(required=False)
+    weather = serializers.CharField(max_length=255, allow_blank=True)
+    
 
     def create(self, validated_data):
-        # Conectar-se ao MongoDB
-        client = MongoClient("mongodb://localhost:27017/")
-        db = client["weather_database"]
-        weather_collection = db["weather"]
-
-        # Inserir os dados validados no MongoDB
-        result = weather_collection.insert_one(validated_data)
-        
-        # Retorna o ID do documento inserido
-        return str(result.inserted_id)
-
-    def update(self, instance_id, validated_data):
-        # Conectar-se ao MongoDB
-        client = MongoClient("mongodb://localhost:27017/")
-        db = client["weather_database"]
-        weather_collection = db["weather"]
-
-        # Atualizar o documento no MongoDB
-        filter_query = {"_id": ObjectId(instance_id)}
-        update_query = {"$set": validated_data}
-        weather_collection.update_one(filter_query, update_query)
-
-        # Retorna os dados atualizados
+        validated_data.pop('id', None)
+        repository = WeatherRepository(collectionName='weathers')
+        repository = repository.insert(validated_data)  
         return validated_data
 
-    def delete(self, instance_id):
-        # Conectar-se ao MongoDB
-        client = MongoClient("mongodb://localhost:27017/")
-        db = client["weather_database"]
-        weather_collection = db["weather"]
-
-        # Excluir o documento do MongoDB
-        filter_query = {"_id": ObjectId(instance_id)}
-        weather_collection.delete_one(filter_query)
-
-        # Retorna True se a exclusão for bem-sucedida
-        return True
+    def to_representation(self, instance):
+        representation = super().to_representation(instance)
+        representation['date'] = instance.get('date', '') 
+        return representation

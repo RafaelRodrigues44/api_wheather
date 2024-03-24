@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block title %}Search Results{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2 class="text-center">Registros da Consulta</h2>
+    
+    <div class="weather-list-container">
+        <ul class="weather-list">
+            {% for record in weather_records %}
+            <li class="weather-item card">
+                <div class="card-body">
+                    <h3 class="card-title">{{ record.city }}</h3>
+                    <p class="card-text">Data: {{ record.date|date:"d/m/Y H:i:s" }}</p> 
+                    <p class="card-text">Temperatura: {{ record.temperature }}</p>
+                    <p class="card-text">Pressão: {{ record.atmosphericPressure }}</p> 
+                    <p class="card-text">Umidade: {{ record.humidity }}</p>
+                    <p class="card-text">Condição: {{ record.weather }}</p>
+                    <div>
+                    </div>
+                </div>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+
+<style>
+    .container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+
+    .weather-item {
+        margin-bottom: 20px;
+    }
+</style>
+
+<script>  
+</script>
+{% endblock %}

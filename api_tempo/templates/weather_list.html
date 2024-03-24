@@ -9,34 +9,25 @@
             {% for record in weather_records %}
                 <li class="weather-item">
                     <h3>{{ record.city }}</h3>
-                    <p>Data: {{ record.date }}</p>
+                    <p>Data: {{ record.date|date:"d/m/Y H:i:s" }}</p> 
                     <p>Temperatura: {{ record.temperature }}</p>
-                    <p>Pressão: {{ record.pressure }}</p>
+                    <p>Pressão: {{ record.atmosphericPressure }}</p> 
                     <p>Umidade: {{ record.humidity }}</p>
-                    <p>Precipitação: {{ record.precipitation }}</p>
-                    <p>Condição: {{ record.weather_condition }}</p>
+                    <p>Condição: {{ record.weather }}</p>
                     <div>
                         {% if record.id %}
                             <!-- Verifique se o registro possui um id válido -->
-                            <button class="edit-btn btn btn-danger" data-pk="{{ record.id }}" data-edit-url="{% url 'weather-update' pk=record.id %}">Editar</button>
                             <button class="delete-btn btn btn-danger" data-pk="{{ record.id }}" data-delete-url="{% url 'weather-delete' pk=record.id %}">Excluir</button>
                         {% else %}
                             <!-- Se o registro não tiver um id válido, exiba uma mensagem -->
-                            <p>Registro sem ID válido</p>
+                            <p>id vazio</p>
                         {% endif %}
                     </div>
                 </li>
             {% endfor %}
         </ul>
     </div>
-    <script>
-        document.querySelectorAll('.edit-btn').forEach(function(button) {
-            button.addEventListener('click', function() {
-                var editUrl = button.dataset.editUrl;
-                window.location.href = editUrl;
-            });
-        });
-
+    <script>  
         document.querySelectorAll('.delete-btn').forEach(function(button) {
             button.addEventListener('click', function() {
                 var deleteUrl = button.dataset.deleteUrl;

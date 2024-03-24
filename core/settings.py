@@ -1,5 +1,3 @@
-# settings.py
-
 from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -53,21 +51,22 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'core.wsgi.application'
 
-# Usando a configuração correta do banco de dados MongoDB
+MONGO_CONNECTION_STRING = 'mongodb+srv://dkrcido:123@cluster0.ky1knzt.mongodb.net/'
+MONGO_DATABASE_NAME = 'weather_rafaelrodrigues'
+
 DATABASES = {
     'default': {
         'ENGINE': 'djongo',
-        'ENFORCE_SCHEMA': False, # Opcional, dependendo de sua necessidade
+        'ENFORCE_SCHEMA': True,
+        'NAME': 'weather_rafaelRodrigues',
         'CLIENT': {
-            'host': 'mongodb+srv://gkrcido:128Acido@cluster0.xglpozx.mongodb.net/',
-            'username': 'gkrcido',
-            'password': '128Acido',
-            'name': 'weather_rafaelRodrigues',
-            'authSource': 'admin',
-            'authMechanism': 'SCRAM-SHA-1',
+            'host': MONGO_CONNECTION_STRING + MONGO_DATABASE_NAME,
+            'username': 'dkrcido',
+            'password': '123',
         }
     }
 }
+
 
 AUTH_PASSWORD_VALIDATORS = [
     {
