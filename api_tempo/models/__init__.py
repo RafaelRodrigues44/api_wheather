@@ -1,1 +1,0 @@
-from api_tempo.models.weatherModel import Weather
