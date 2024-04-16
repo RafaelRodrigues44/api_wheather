@@ -3,13 +3,64 @@
 {% block title %}Weather List{% endblock %}
 
 {% block content %}
+    <style>
+        /* Estilos para os cards de clima */
+        .weather-item {
+            width: 300px;
+            background-color: #ffffff;
+            border: 1px solid #e0e0e0;
+            border-radius: 5px;
+            padding: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .weather-item h3 {
+            margin-top: 0;
+            margin-bottom: 10px;
+            font-size: 18px;
+            color: #333333;
+        }
+
+        .weather-item p {
+            margin: 0;
+            color: #666666;
+        }
+
+        .weather-item .delete-btn {
+            background-color: #dc3545;
+            color: #ffffff;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .weather-item .delete-btn:hover {
+            background-color: #c82333;
+        }
+
+        .weather-item .message {
+            color: #666666;
+        }
+    </style>
+
     <h2 style="text-align: center;">Registros</h2>
+
+    <!-- Formulário para digitar o nome da cidade -->
+    <form id="search-form">
+        <label for="city-input">Digite o nome da cidade:</label>
+        <input type="text" id="city-input" name="city" required>
+        <button type="button" id="search-button">Buscar</button>
+    </form>
+
     <div class="weather-list-container">
         <ul class="weather-list">
             {% for record in weather_records %}
                 <li class="weather-item">
                     <h3>{{ record.city }}</h3>
-                    <p>Data: {{ record.date|date:"d/m/Y H:i:s" }}</p> 
+                    <p>Data: {{ record.date }}</p> 
                     <p>Temperatura: {{ record.temperature }}</p>
                     <p>Pressão: {{ record.atmosphericPressure }}</p> 
                     <p>Umidade: {{ record.humidity }}</p>
@@ -27,6 +78,7 @@
             {% endfor %}
         </ul>
     </div>
+
     <script>  
         document.querySelectorAll('.delete-btn').forEach(function(button) {
             button.addEventListener('click', function() {
@@ -34,6 +86,15 @@
                 if (confirm('Tem certeza que deseja excluir este registro?')) {
                     window.location.href = deleteUrl;
                 }
+            });
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('search-button').addEventListener('click', function() {
+                var cityInput = document.getElementById('city-input').value;
+                var baseUrl = '{{ request.scheme }}://{{ request.get_host }}';  // Obtém o endereço base da URL
+                var searchUrl = baseUrl + '/api_tempo/weather/city/' + encodeURIComponent(cityInput) + '/';
+                window.location.href = searchUrl;
             });
         });
     </script>

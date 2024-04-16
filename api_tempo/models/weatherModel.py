@@ -22,5 +22,7 @@ class WeatherModel(models.Model):
             return object.__getattribute__(self, name).strftime("%d/%m/%Y %H:%M:%S")
         elif name == '_id':
             return object.__getattribute__(self, 'id')
+        elif name == 'city':
+            return object.__getattribute__(self, 'city')
         else:
             return object.__getattribute__(self, name)
