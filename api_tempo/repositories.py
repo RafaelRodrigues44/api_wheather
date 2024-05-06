@@ -1,3 +1,4 @@
+from api_tempo.models.weatherModel import WeatherModel
 from bson import ObjectId
 from django.conf import settings
 import pymongo
@@ -32,3 +33,23 @@ class WeatherRepository:
 
     def delete(self, document_id):
         self.getCollection().delete_one({'_id': ObjectId(document_id)})
+
+    def update(self, document_id, new_data):
+        self.getCollection().update_one({'_id': ObjectId(document_id)}, {'$set': new_data})
+
+    def get(self, document_id):
+        weather_data = self.getCollection().find_one({'_id': ObjectId(document_id)})
+        if weather_data:
+            # Criando uma instância de WeatherModel com os dados do MongoDB
+            weather_model = WeatherModel(
+                id=weather_data.get('id', None),
+                temperature=weather_data['temperature'],
+                city=weather_data['city'],
+                atmosphericPressure=weather_data['atmosphericPressure'],
+                humidity=weather_data['humidity'],
+                weather=weather_data['weather'],
+                date=weather_data['date']
+            )
+            return weather_model
+        else:
+            return None

@@ -1,101 +1,164 @@
 {% extends 'base.html' %}
 
-{% block title %}Weather List{% endblock %}
+{% block title %}Listagem de previsões{% endblock %}
 
 {% block content %}
-    <style>
-        /* Estilos para os cards de clima */
-        .weather-item {
-            width: 300px;
-            background-color: #ffffff;
-            border: 1px solid #e0e0e0;
-            border-radius: 5px;
-            padding: 15px;
-            margin-bottom: 20px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
+<style>
+    /* Mantenha os estilos existentes */
+    .weather-item {
+        width: 300px;
+        background-color: #ffffff;
+        border: 1px solid #e0e0e0;
+        border-radius: 5px;
+        padding: 15px;
+        margin-bottom: 20px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
 
-        .weather-item h3 {
-            margin-top: 0;
-            margin-bottom: 10px;
-            font-size: 18px;
-            color: #333333;
-        }
+    .weather-item h3 {
+        margin-top: 0;
+        margin-bottom: 10px;
+        font-size: 18px;
+        color: #333333;
+    }
 
-        .weather-item p {
-            margin: 0;
-            color: #666666;
-        }
+    .weather-item p {
+        margin: 0;
+        color: #666666;
+    }
 
-        .weather-item .delete-btn {
-            background-color: #dc3545;
-            color: #ffffff;
-            border: none;
-            padding: 8px 12px;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
+    .weather-item .delete-btn {
+        background-color: #dc3545;
+        color: #ffffff;
+        border: none;
+        padding: 8px 12px;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
 
-        .weather-item .delete-btn:hover {
-            background-color: #c82333;
-        }
+    .weather-item .delete-btn:hover {
+        background-color: #c82333;
+    }
 
-        .weather-item .message {
-            color: #666666;
-        }
-    </style>
+    
 
-    <h2 style="text-align: center;">Registros</h2>
 
-    <!-- Formulário para digitar o nome da cidade -->
+    .weather-item .update-btn {
+        background-color: #35089d;
+        color: #ffffff;
+        border: none;
+        padding: 8px 12px;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .weather-item .update-btn:hover {
+        background-color: #7143da;
+    }
+
+    .message {
+        color: #666666;
+        background-color: #fce4ec; /* Fundo rosa claro */
+        border: 1px solid #f44336; /* Borda vermelha */
+        padding: 10px;
+        border-radius: 5px;
+        margin-bottom: 20px; /* Adicione um espaço abaixo da mensagem */
+        text-align: center;
+    }
+
+    /* Estilos para o contêiner e os elementos dentro dele */
+    .search-container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 20px;
+    }
+
+    /* Estilos para o formulário de busca */
+    #search-form {
+        display: flex;
+        align-items: center;
+    }
+
+    #search-form label {
+        margin-right: 10px;
+    }
+
+    #city-input {
+        flex-grow: 1;
+        margin-right: 10px;
+    }
+</style>
+
+<h2 style="text-align: center;">Registros</h2>
+
+{% if not authenticated %}
+    <!-- Exibe a mensagem apenas se o usuário não estiver autenticado -->
+    <div class="message">
+        <p>Usuário não autenticado.</p>
+    </div>
+{% endif %}
+
+<!-- Formulário para digitar o nome da cidade -->
+<div class="search-container">
     <form id="search-form">
         <label for="city-input">Digite o nome da cidade:</label>
         <input type="text" id="city-input" name="city" required>
         <button type="button" id="search-button">Buscar</button>
     </form>
+</div>
 
-    <div class="weather-list-container">
-        <ul class="weather-list">
-            {% for record in weather_records %}
-                <li class="weather-item">
-                    <h3>{{ record.city }}</h3>
-                    <p>Data: {{ record.date }}</p> 
-                    <p>Temperatura: {{ record.temperature }}</p>
-                    <p>Pressão: {{ record.atmosphericPressure }}</p> 
-                    <p>Umidade: {{ record.humidity }}</p>
-                    <p>Condição: {{ record.weather }}</p>
-                    <div>
-                        {% if record.id %}
-                            <!-- Verifique se o registro possui um id válido -->
-                            <button class="delete-btn btn btn-danger" data-pk="{{ record.id }}" data-delete-url="{% url 'weather-delete' pk=record.id %}">Excluir</button>
-                        {% else %}
-                            <!-- Se o registro não tiver um id válido, exiba uma mensagem -->
-                            <p>id vazio</p>
-                        {% endif %}
-                    </div>
-                </li>
-            {% endfor %}
-        </ul>
-    </div>
+<!-- Lista de previsões do tempo -->
+<div class="weather-list-container">
+    <ul class="weather-list">
+        {% for record in weather_records %}
+            <li class="weather-item">
+                <h3>{{ record.city }}</h3>
+                <p>Data: {{ record.date }}</p>
+                <p>Temperatura: {{ record.temperature }}</p>
+                <p>Pressão: {{ record.atmosphericPressure }}</p>
+                <p>Umidade: {{ record.humidity }}</p>
+                <p>Condição: {{ record.weather }}</p>
+                <div>
+                    {% if not authenticated and record.id %}
+                         <!-- Renderiza o botão de atualização -->
+                         <button class="update-btn btn btn-primary" data-pk="{{ record.id }}" data-update-url="{% url 'weather-get' pk=record.id %}">Update</button>
+                        <!-- Renderiza o botão de exclusão -->
+                        <button class="delete-btn btn btn-danger" data-pk="{{ record.id }}" data-delete-url="{% url 'weather-delete' pk=record.id %}">Excluir</button>                      
+                    {% endif %}
+                </div>
+            </li>
+        {% endfor %}
+    </ul>
+</div>
 
-    <script>  
-        document.querySelectorAll('.delete-btn').forEach(function(button) {
-            button.addEventListener('click', function() {
-                var deleteUrl = button.dataset.deleteUrl;
-                if (confirm('Tem certeza que deseja excluir este registro?')) {
-                    window.location.href = deleteUrl;
-                }
-            });
+<script>
+    // Adicione os scripts JavaScript para interatividade
+    document.querySelectorAll('.delete-btn').forEach(function(button) {
+        button.addEventListener('click', function() {
+            var deleteUrl = button.dataset.deleteUrl;
+            if (confirm('Tem certeza que deseja excluir este registro?')) {
+                window.location.href = deleteUrl;
+            }
         });
+    });
 
-        document.addEventListener('DOMContentLoaded', function() {
-            document.getElementById('search-button').addEventListener('click', function() {
-                var cityInput = document.getElementById('city-input').value;
-                var baseUrl = '{{ request.scheme }}://{{ request.get_host }}';  // Obtém o endereço base da URL
-                var searchUrl = baseUrl + '/api_tempo/weather/city/' + encodeURIComponent(cityInput) + '/';
-                window.location.href = searchUrl;
-            });
+    document.querySelectorAll('.update-btn').forEach(function(button) {
+        button.addEventListener('click', function() {
+            var updateUrl = button.dataset.updateUrl;
+            window.location.href = updateUrl;
         });
-    </script>
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+        document.getElementById('search-button').addEventListener('click', function() {
+            var cityInput = document.getElementById('city-input').value;
+            var baseUrl = '{{ request.scheme }}://{{ request.get_host }}';  // Obtém o endereço base da URL
+            var searchUrl = baseUrl + '/api_tempo/weather/city/' + encodeURIComponent(cityInput) + '/';
+            window.location.href = searchUrl;
+        });
+    });
+</script>
 {% endblock %}
