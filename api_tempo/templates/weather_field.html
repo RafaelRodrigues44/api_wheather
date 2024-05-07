@@ -1,43 +1,85 @@
 {% extends 'base.html' %}
 
-{% block title %}Search Results{% endblock %}
+{% block title %}Weather City{% endblock %}
 
 {% block content %}
-<div class="container">
-    <h2 class="text-center">Registros da Consulta</h2>
-    
-    <div class="weather-list-container">
-        <ul class="weather-list">
-            {% for record in weather_records %}
-            <li class="weather-item card">
-                <div class="card-body">
-                    <h3 class="card-title">{{ record.city }}</h3>
-                    <p class="card-text">Data: {{ record.date|date:"d/m/Y H:i:s" }}</p> 
-                    <p class="card-text">Temperatura: {{ record.temperature }}</p>
-                    <p class="card-text">Pressão: {{ record.atmosphericPressure }}</p> 
-                    <p class="card-text">Umidade: {{ record.humidity }}</p>
-                    <p class="card-text">Condição: {{ record.weather }}</p>
-                    <div>
-                    </div>
-                </div>
-            </li>
-            {% endfor %}
-        </ul>
-    </div>
-</div>
 
 <style>
-    .container {
-        max-width: 800px;
-        margin: 0 auto;
-        padding: 20px;
+    /* Estilos para os cards de clima */
+    .user-card {
+        width: 300px;
+        background-color: #ffffff;
+        border: 1px solid #e0e0e0;
+        border-radius: 5px;
+        padding: 15px;
+        margin-bottom: 20px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
 
-    .weather-item {
-        margin-bottom: 20px;
+    .user-card h3 {
+        margin-top: 0;
+        margin-bottom: 10px;
+        font-size: 18px;
+        color: #333333;
+    }
+
+    .user-card p {
+        margin: 0;
+        color: #666666;
+    }
+
+    .user-card .delete-btn {
+        background-color: #dc3545;
+        color: #ffffff;
+        border: none;
+        padding: 8px 12px;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .user-card .delete-btn:hover {
+        background-color: #c82333;
+    }
+
+    .user-card .message {
+        color: #666666;
     }
 </style>
 
-<script>  
-</script>
+<!-- Título dinâmico -->
+<h1>Registros para {{ weather_records.0.city }}</h1>
+
+{% for record in weather_records %}
+    <div class="user-card">
+        <p>Data: {{ record.date }}</p>
+        <p>Temperatura: {{ record.temperature }}</p>
+        <p>Pressão: {{ record.atmosphericPressure }}</p>
+        <p>Umidade: {{ record.humidity }}</p>
+        <p>Condição: {{ record.weather }}</p>
+        <div>
+            {% if record.id %}
+                <!-- Verifique se o registro possui um ID válido -->
+                <button class="delete-btn btn btn-danger" data-pk="{{ record.id }}" data-delete-url="{% url 'weather-delete' pk=record.id %}">Excluir</button>
+            {% else %}
+                <!-- Se o registro não tiver um ID válido, exiba uma mensagem -->
+                <p class="message">ID vazio</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <script>
+        document.querySelectorAll('.delete-btn').forEach(function(button) {
+            button.addEventListener('click', function() {
+                var deleteUrl = button.dataset.deleteUrl;
+                if (confirm('Tem certeza que deseja excluir este registro?')) {
+                    window.location.href = deleteUrl;
+                }
+            });
+        });
+    </script>
+{% empty %}
+    <p>Nenhum registro encontrado.</p>
+{% endfor %}
+
 {% endblock %}

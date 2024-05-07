@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Title{% endblock %}</title>
+    <title>{% block title %}Previsão do Tempo{% endblock %}</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -85,6 +85,7 @@
             width: 100%;
             font-size: 14px;
             z-index: 999;
+           padding-left: 130px;
         }
 
         .user-card {
@@ -115,7 +116,9 @@
             <li><a href="{% url 'home' %}">Home</a></li>
             <li><a href="{% url 'weather-list' %}">Weathers</a></li>
             <li><a href="{% url 'weather-create' %}">Create Weather</a></li>
-            
+            <li><a href="#">Register</a></li>
+            <li><a href="#">Login</a></li>
+            <li><a href="#">Logout</a></li>
         </ul>
         
     </div>
