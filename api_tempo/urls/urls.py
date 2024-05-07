@@ -15,7 +15,6 @@ url_patterns = [
     path('weather/city/<str:city>/', FindCityView.as_view(), name='weather-city'),
     path('weather/get/<str:pk>/', WeatherGetView.as_view(), name='weather-get'),
     path('weather/update/<str:pk>/', WeatherUpdateView.as_view(), name='weather-update'),
-
 ]
 
 
