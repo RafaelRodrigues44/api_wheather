@@ -5,66 +5,29 @@
 {% block content %}
 <h2 style="text-align: center;">Atualização de Previsão de Tempo</h2>
 
-{% if success_message %}
-    <div class="message">
-        <p>{{ success_message }}</p>
-    </div>
-{% endif %}
-
-{% if show_form %}
-    <form method="post" action="{% url 'weather-update' pk=pk %}" id="update-form">
-        {% csrf_token %}
-        <input type="hidden" name="id" value="{{ weather.id }}">
-        <label for="city-input">Cidade:</label>
-        <input type="text" id="city-input" name="city" value="{{ weather.city }}" required><br><br>
-        
-        <label for="date-input">Data:</label>
-        <input type="text" id="date-input" name="date" value="{{ weather.date }}" required><br><br>
-        
-        <label for="temperature-input">Temperatura:</label>
-        <input type="text" id="temperature-input" name="temperature" value="{{ weather.temperature }}" required><br><br>
-        
-        <label for="pressure-input">Pressão Atmosférica:</label>
-        <input type="text" id="pressure-input" name="atmosphericPressure" value="{{ weather.atmosphericPressure }}" required><br><br>
-        
-        <label for="humidity-input">Umidade:</label>
-        <input type="text" id="humidity-input" name="humidity" value="{{ weather.humidity }}" required><br><br>
-        
-        <label for="weather-input">Condição do Tempo:</label>
-        <input type="text" id="weather-input" name="weather" value="{{ weather.weather }}" required><br><br>
-        
-        <button type="submit">Atualizar Previsão</button>
-    </form>
-{% endif %}
-
-<script>
-    document.getElementById('update-form').addEventListener('submit', function(event) {
-        event.preventDefault(); // Evita o envio padrão do formulário
-        var form = this;
-        var pk = form.querySelector('input[name="id"]').value;
-        var updateUrl = form.action; // URL da própria página
-
-        // Envie os dados do formulário usando AJAX
-        var formData = new FormData(form);
-        fetch(updateUrl, {
-            method: 'POST',
-            body: formData
-        })
-        .then(response => {
-            if (response.ok) {
-                // Redireciona para a página de detalhes ou exibe uma mensagem de sucesso
-                window.location.href = updateUrl; // Pode redirecionar para a mesma página ou outra de sua escolha
-            } else {
-                // Exibe erros de validação ou outras mensagens de erro
-                return response.json();
-            }
-        })
-        .then(data => {
-            // Lida com a resposta JSON, se necessário
-        })
-        .catch(error => {
-            console.error('Erro:', error);
-        });
-    });
-</script>
+    <div style="margin-left: 250px; margin-right: 250px; text-align: center;">
+        <form method="post" action="{% url 'weather-update' pk=pk %}" id="update-form">
+            {% csrf_token %}
+            <input type="hidden" name="id" value="{{ weather.id }}">
+            <label for="city-input">Cidade:</label>
+            <input type="text" id="city-input" name="city" value="{{ weather.city }}" required><br><br>
+            
+            <label for="date-input">Data:</label>
+            <input type="datetime-local" id="date-input" name="date" value="{{ weather.date }}" required><br><br>
+            
+            <label for="temperature-input">Temperatura:</label>
+            <input type="text" id="temperature-input" name="temperature" value="{{ weather.temperature }}" required><br><br>
+            
+            <label for="pressure-input">Pressão Atmosférica:</label>
+            <input type="text" id="pressure-input" name="atmosphericPressure" value="{{ weather.atmosphericPressure }}" required><br><br>
+            
+            <label for="humidity-input">Umidade:</label>
+            <input type="text" id="humidity-input" name="humidity" value="{{ weather.humidity }}" required><br><br>
+            
+            <label for="weather-input">Condição do Tempo:</label>
+            <input type="text" id="weather-input" name="weather" value="{{ weather.weather }}" required><br><br>
+            
+            <button type="submit">Atualizar Previsão</button>
+        </form>
+    </div>    
 {% endblock %}

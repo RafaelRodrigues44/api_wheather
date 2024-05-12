@@ -1,25 +1,14 @@
 from django.shortcuts import render, redirect
 from django.views import View
-from rest_framework_simplejwt.authentication import JWTAuthentication
-from rest_framework.permissions import IsAuthenticated
 from api_tempo.repositories import WeatherRepository
 from api_tempo.serializers.weatherSerializer import WeatherSerializer
 
 class WeatherInsert(View):
-    authentication_classes = [JWTAuthentication]
-    permission_classes = [IsAuthenticated]
-
     def get(self, request):
-        if not request.user.is_authenticated:
-            return render(request, "weather_create.html", {"login_required": True})
-        
         return render(request, "weather_create.html", {"show_form": True})
 
     def post(self, request):
         try:
-            if not request.user.is_authenticated:
-                return render(request, "weather_create.html", {"login_required": True})
-            
             id = request.POST.get('id')  
             city = request.POST.get('city')
             date = request.POST.get('date')
