@@ -38,6 +38,17 @@
         transition: background-color 0.3s ease;
     }
 
+    .user-card .update-btn {
+        background-color: #0f32a5;
+        color: #ffffff;
+        border: none;
+        padding: 8px 12px;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+
     .user-card .delete-btn:hover {
         background-color: #c82333;
     }
@@ -59,8 +70,10 @@
         <p>Condição: {{ record.weather }}</p>
         <div>
             {% if record.id %}
-                <!-- Verifique se o registro possui um ID válido -->
-                <button class="delete-btn btn btn-danger" data-pk="{{ record.id }}" data-delete-url="{% url 'weather-delete' pk=record.id %}">Excluir</button>
+                 <!-- Renderiza o botão de atualização -->
+                 <button class="update-btn btn btn-primary" data-pk="{{ record.id }}" data-update-url="{% url 'weather-get' pk=record.id %}">Update</button>
+                 <!-- Renderiza o botão de exclusão -->
+                 <button class="delete-btn btn btn-danger" data-pk="{{ record.id }}" data-delete-url="{% url 'weather-delete' pk=record.id %}">Excluir</button>
             {% else %}
                 <!-- Se o registro não tiver um ID válido, exiba uma mensagem -->
                 <p class="message">ID vazio</p>
@@ -69,12 +82,20 @@
     </div>
 
     <script>
+        // Adicione os scripts JavaScript para interatividade
         document.querySelectorAll('.delete-btn').forEach(function(button) {
             button.addEventListener('click', function() {
                 var deleteUrl = button.dataset.deleteUrl;
                 if (confirm('Tem certeza que deseja excluir este registro?')) {
                     window.location.href = deleteUrl;
                 }
+            });
+        });
+    
+        document.querySelectorAll('.update-btn').forEach(function(button) {
+            button.addEventListener('click', function() {
+                var updateUrl = button.dataset.updateUrl;
+                window.location.href = updateUrl;
             });
         });
     </script>

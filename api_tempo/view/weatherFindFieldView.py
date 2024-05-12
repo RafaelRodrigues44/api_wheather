@@ -19,6 +19,10 @@ class FindCityView(APIView):
             else:
                 weather_data = repository.getAll()
 
+            # Adiciona o campo 'id' aos objetos retornados
+            for item in weather_data:
+                item['id'] = str(item['_id'])
+
             # Serializa os dados do clima
             serializer = WeatherSerializer(weather_data, many=True)
 
@@ -27,5 +31,3 @@ class FindCityView(APIView):
         
         except Exception as e:
             return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-
-   

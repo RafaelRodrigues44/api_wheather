@@ -1,4 +1,3 @@
-import datetime
 from django.http import HttpResponseBadRequest, HttpResponseRedirect
 from django.urls import reverse
 from django.views import View
