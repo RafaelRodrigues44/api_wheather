@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block title %}Login{% endblock %}
+
+{% block content %}
+    <div style="text-align: center;">
+        <form method="post" action="{% url 'login' %}" style="max-width: 400px; margin: 0 auto;">
+            {% csrf_token %}
+            <div style="margin-top: 30px;">
+                <!-- Campos do formulário -->
+                <label for="email" style="display: block; margin-bottom: 10px;">Email:</label>
+                <input type="email" id="email" name="email" style="width: 100%; padding: 8px; margin-bottom: 20px;" required>
+
+                <label for="password" style="display: block; margin-bottom: 10px;">Senha:</label>
+                <input type="password" id="password" name="password" style="width: 100%; padding: 8px; margin-bottom: 20px;" required>
+            </div>
+
+            <!-- Botão de submissão do formulário -->
+            <button type="submit" style="display: block; margin: 0 auto; padding: 10px 20px; background-color: #007bff; color: #fff; border: none; border-radius: 5px; cursor: pointer;">Login</button>
+        </form>
+    </div>
+{% endblock %}
+

@@ -1,0 +1,102 @@
+{% extends 'base.html' %}
+
+{% block title %}User Email{% endblock %}
+
+{% block content %}
+
+<style>
+    /* Estilos para os cards de clima */
+    .user-card {
+        width: 300px;
+        background-color: #ffffff;
+        border: 1px solid #e0e0e0;
+        border-radius: 5px;
+        padding: 15px;
+        margin-bottom: 20px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .user-card h3 {
+        margin-top: 0;
+        margin-bottom: 10px;
+        font-size: 18px;
+        color: #333333;
+    }
+
+    .user-card p {
+        margin: 0;
+        color: #666666;
+    }
+
+    .user-card .delete-btn {
+        background-color: #dc3545;
+        color: #ffffff;
+        border: none;
+        padding: 8px 12px;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .user-card .update-btn {
+        background-color: #0f32a5;
+        color: #ffffff;
+        border: none;
+        padding: 8px 12px;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+
+    .user-card .delete-btn:hover {
+        background-color: #c82333;
+    }
+
+    .user-card .message {
+        color: #666666;
+    }
+</style>
+
+<!-- Título dinâmico -->
+<h1>Registros para {{ user_records.0.email }}</h1>
+
+{% for record in user_records %}
+    <div class="user-card">
+        <p>User Name: {{ record.username }}</p>
+        <div>
+            {% if record.id %}
+                 <!-- Renderiza o botão de atualização -->
+                 <button class="update-btn btn btn-primary" data-pk="{{ record.id }}" data-update-url="{% url 'user-get' pk=record.id %}">Update</button>
+                 <!-- Renderiza o botão de exclusão -->
+                 <button class="delete-btn btn btn-danger" data-pk="{{ record.id }}" data-delete-url="{% url 'user-delete' pk=record.id %}">Excluir</button>
+            {% else %}
+                <!-- Se o registro não tiver um ID válido, exiba uma mensagem -->
+                <p class="message">ID vazio</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <script>
+        // Adicione os scripts JavaScript para interatividade
+        document.querySelectorAll('.delete-btn').forEach(function(button) {
+            button.addEventListener('click', function() {
+                var deleteUrl = button.dataset.deleteUrl;
+                if (confirm('Tem certeza que deseja excluir este registro?')) {
+                    window.location.href = deleteUrl;
+                }
+            });
+        });
+    
+        document.querySelectorAll('.update-btn').forEach(function(button) {
+            button.addEventListener('click', function() {
+                var updateUrl = button.dataset.updateUrl;
+                window.location.href = updateUrl;
+            });
+        });
+    </script>
+{% empty %}
+    <p>Nenhum registro encontrado.</p>
+{% endfor %}
+
+{% endblock %}
