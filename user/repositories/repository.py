@@ -27,10 +27,6 @@ class UserRepository:
         
         documents = self.get_collection().find(query)
         return list(documents)
-    
-    def get_hash(self):
-        collection = self.get_collection()
-
    
     def create_user(self, user_data):
         collection = self.get_collection()
@@ -42,22 +38,6 @@ class UserRepository:
 
     def update(self, document_id, new_user_data):
         self.get_collection().update_one({'_id': ObjectId(document_id)}, {'$set': new_user_data})
-   
-    # def authenticate_user(self, email, password):
-    #     user = self.get_by_email(email=email)
-        
-    #     if user:
-    #         # Obter a senha armazenada do usuário no banco de dados
-    #         stored_password = user[0]['password']
-
-    #         print(f'Email do cadastro: {email}')
-    #         print(f'Hash do cadastro: {stored_password}')
-            
-    #         # Comparar a senha fornecida com a senha armazenada usando check_password
-    #         if check_password(password, stored_password):
-    #             return user[0]
-        
-    #     return None
 
     def authenticate_user(self, email, password):
         user = self.get_by_email(email=email)

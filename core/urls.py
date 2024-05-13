@@ -20,5 +20,5 @@ urlpatterns = [
     path('api_tempo/user/get/<str:username>/', UserListField.as_view(), name='user-field'),
     path('api_tempo/user/get/<str:pk>/', UserGetView.as_view(), name='user-get'),
     path('api_tempo/user/update/<str:pk>/', UserUpdate.as_view(), name='user-update'),
-    path('api_tempo/login/', Login.as_view(), name='login'),
+    path('api_tempo/login/', Login.as_view(), name='login')
 ]

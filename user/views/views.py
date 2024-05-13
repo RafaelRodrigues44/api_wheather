@@ -1,25 +1,21 @@
-import hashlib
-from pyexpat.errors import messages
-from urllib import response
-from django.urls import reverse
-import logging
 from django.http import HttpRequest, HttpResponse, HttpResponseBadRequest, HttpResponseRedirect
-from django.shortcuts import render, redirect
-from django.views import View
+from rest_framework_simplejwt.authentication import JWTAuthentication
 from django.contrib.auth.hashers import make_password
 from user.repositories.repository import UserRepository
-from rest_framework_simplejwt.authentication import JWTAuthentication
+from user.models.userEntity import UserEntity
 from rest_framework.permissions import IsAuthenticated
+from django.shortcuts import render, redirect
+from pyexpat.errors import messages
+from django.urls import reverse
+from django.views import View
+from urllib import response
 from rest_framework import status
-from uuid import uuid4
 from django.contrib import messages
- 
-# Configuração do logger
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
-console_handler = logging.StreamHandler()  
-logger.addHandler(console_handler)
-logger.setLevel(logging.INFO)  
+from django.conf import settings
+from uuid import uuid4
+from datetime import datetime, timedelta
+import jwt
+  
  
 class UserRegister(View):
     def get(self, request):
@@ -54,7 +50,6 @@ class UserRegister(View):
  
             return HttpResponseRedirect(reverse('user-list'))
         except Exception as e:
-            logger.error(f'Erro ao registrar usuário: {e}')
             return render(request, 'base.html')
         
 
@@ -164,25 +159,81 @@ class WeatherUpdateView(View):
 class Login(View):
     def get(self, request):
         return render(request, 'login.html')
-
+   
     def post(self, request):
         email = request.POST.get('email')
         password = request.POST.get('password')
 
-        # Autenticar o usuário
+        # Autentica o usuário
         user_repo = UserRepository()
         user = user_repo.authenticate_user(email, password)
 
         if user:
-            # Autenticação bem-sucedida, redirecione para alguma página
-            return redirect('weather-list')
+            # Autenticação bem-sucedida, gerar token e redirecionar para a página 'base.html'
+            token = TokenManager.generate_token(user)
+            response = HttpResponse()
+            response = set_token_cookie(response, token)
+            print(f'Token = {token}')
+            print('Login feito com sucesso')
+            return redirect('home')  
         else:
             # Autenticação falhou
-            print('A autenticação falhou')
             messages.error(request, 'Email ou senha incorretos.')
+            return render(request, 'login.html')
 
-        return render(request, 'login.html')
-    
+def set_token_cookie(response, token):
+    # Define o token no cookie
+    response.set_cookie('jwt_token', token, secure=True, httponly=True, samesite='Strict')
+    # Retorna a resposta HTTP com o cookie definido
+    return response
+
+def get_user_from_token(token):
+    try:
+        payload = jwt.decode(token, settings.SECRET_KEY, algorithms=['HS256'])
+        # Cria um objeto de usuário com base nos dados do payload
+        user = UserEntity(email=payload['email']) 
+        return user
+    except jwt.ExpiredSignatureError:
+        return None  # Token expirado
+    except jwt.InvalidTokenError:
+        return None  # Token inválido
+
+class TokenManager:
+    @staticmethod
+    def generate_token(user_data):
+        payload = {
+            'email': user_data.get('email'),  
+            'exp': datetime.utcnow() + timedelta(minutes=5)  
+        }
+        return jwt.encode(payload=payload, key=settings.SECRET_KEY, algorithm='HS256')
+
+    @staticmethod
+    def refresh_token(token):
+        payload = jwt.decode(jwt=token, key=settings.SECRET_KEY, algorithms=['HS256'])
+        # Verificar se o token está expirado e retornar um novo token com uma nova expiração
+        if datetime.utcnow() > datetime.fromtimestamp(payload['exp']):
+            user = UserEntity(username=payload['username'])  # Recupera o usuário do payload
+            return TokenManager.generate_token(user)
+        return None
+
+    @staticmethod
+    def verify_token(token):
+        try:
+            payload = jwt.decode(jwt=token, key=settings.SECRET_KEY, algorithms=['HS256'])
+            return payload
+        except jwt.ExpiredSignatureError:
+            return None  # Token expirado
+        except jwt.InvalidTokenError:
+            return None  # Token inválido
+
+    @staticmethod
+    def get_authenticated_user(token):
+        payload = TokenManager.verify_token(token)
+        if payload:
+            # Se o token for válido, retorne um objeto de usuário autenticado
+            return UserEntity(username=payload['username'])
+        return None
+
 
 class UserUpdate(View):
     pass
