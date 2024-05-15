@@ -110,12 +110,12 @@
     <div class="menu">
         <h3>Menu</h3>
         <ul>
-            {% if request.user.is_authenticated %}
+            {% if user %}
                 <!-- Se o usuário estiver autenticado, mostra todos os itens do menu -->
                 <li><a href="{% url 'weather-list' %}">Weathers</a></li>
                 <li><a href="{% url 'weather-create' %}">Create Weather</a></li>
                 <li><a href="{% url 'user-list' %}">Usuários</a></li>
-                <li><a href="{% url 'logout' %}">Logout</a></li>
+                
             {% else %}
                 <!-- Se o usuário não estiver autenticado, mostra apenas os itens de login e registro -->
                 <li><a href="{% url 'home' %}">Home</a></li>

@@ -14,6 +14,7 @@ from django.contrib import messages
 from django.conf import settings
 from uuid import uuid4
 from datetime import datetime, timedelta
+from django.contrib.auth import login as auth_login
 import jwt
   
  
@@ -149,7 +150,7 @@ class WeatherUpdateView(View):
                 'password': hashed_password,
             }
 
-                # Atualizar no MongoDB
+            # Atualizar no MongoDB
             repository.update(pk, new_user_data)
 
             return HttpResponseRedirect(reverse('user-list'))
@@ -168,18 +169,21 @@ class Login(View):
         user_repo = UserRepository()
         user = user_repo.authenticate_user(email, password)
 
-        if user:
+        if user is True:
             # Autenticação bem-sucedida, gerar token e redirecionar para a página 'base.html'
             token = TokenManager.generate_token(user)
             response = HttpResponse()
             response = set_token_cookie(response, token)
             print(f'Token = {token}')
             print('Login feito com sucesso')
-            return redirect('home')  
+
+            # Passe o usuário autenticado para o contexto do template
+            return render(request, 'base.html', {'token': token}) 
         else:
             # Autenticação falhou
             messages.error(request, 'Email ou senha incorretos.')
             return render(request, 'login.html')
+
 
 def set_token_cookie(response, token):
     # Define o token no cookie
