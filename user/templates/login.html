@@ -2,22 +2,79 @@
 
 {% block title %}Login{% endblock %}
 
+ <!-- Estilos do Popup -->
+ <style>
+    .popup {
+        position: fixed;
+        top: 50%;
+        left: 60%;
+        transform: translate(-50%, -50%);
+        background-color: #fff;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        padding: 10px;
+        max-width: 300px;
+        text-align: center;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        z-index: 9999; 
+    }
+
+    .popup h2 {
+        margin-top: 0;
+    }
+</style>
+
 {% block content %}
+    {% if login_failed %}
+        <!-- Popup de Acesso Negado -->
+        <div class="popup">
+            <img style="width: 40px; height: 40px;" src="https://cdn-icons-png.flaticon.com/512/2996/2996824.png" alt="">
+            <h2 style="color: #7d2323;">Acesso Negado</h2>
+            <p style="color: #7d2323;">O login não foi feito com sucesso. Verifique suas credenciais e tente novamente.</p>
+        </div>
+    {% endif %}
+
     <div style="text-align: center;">
+        <h2 style="color: #6985a3; margin-bottom: 30px; margin-top: 50px;">Faça seu login</h2>
         <form method="post" action="{% url 'login' %}" style="max-width: 400px; margin: 0 auto;">
             {% csrf_token %}
-            <div style="margin-top: 30px;">
+            <div style="margin-top: 20px;">
                 <!-- Campos do formulário -->
-                <label for="email" style="display: block; margin-bottom: 10px;">Email:</label>
-                <input type="email" id="email" name="email" style="width: 100%; padding: 8px; margin-bottom: 20px;" required>
+                <div style="margin-bottom: 20px;">
+                    <label for="email" style="font-size: 16px; color: #333; margin-bottom: 5px;">Email:</label>
+                    <input type="email" id="email" name="email" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px;" required>
+                </div>
 
-                <label for="password" style="display: block; margin-bottom: 10px;">Senha:</label>
-                <input type="password" id="password" name="password" style="width: 100%; padding: 8px; margin-bottom: 20px;" required>
+                <div style="margin-bottom: 20px;">
+                    <label for="password" style="font-size: 16px; color: #333; margin-bottom: 5px;">Senha:</label>
+                    <input type="password" id="password" name="password" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px;" required>
+                </div>
             </div>
 
             <!-- Botão de submissão do formulário -->
-            <button type="submit" style="display: block; margin: 0 auto; padding: 10px 20px; background-color: #007bff; color: #fff; border: none; border-radius: 5px; cursor: pointer;">Login</button>
+            <button type="submit" style="display: block; margin: 0 auto; padding: 12px 24px; background-color: #6985a3; color: #fff; border: none; border-radius: 5px; cursor: pointer;">Login</button>
         </form>
     </div>
-{% endblock %}
 
+    <!-- Estilos do Popup -->
+    <style>
+        .popup {
+            position: fixed;
+            top: 50%;
+            left: 60%;
+            transform: translate(-50%, -50%);
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 10px;
+            max-width: 300px;
+            text-align: center;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            z-index: 9999; 
+        }
+
+        .popup h2 {
+            margin-top: 0;
+        }
+    </style>
+{% endblock %}

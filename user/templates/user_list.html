@@ -27,6 +27,20 @@
         color: #666666;
     }
 
+    .user-item .update-btn {
+        background-color: #6d599c;
+        color: #ffffff;
+        border: none;
+        padding: 8px 12px;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .user-item .update-btn:hover {
+        background-color: #4b289e;
+    }
+
     .user-item .delete-btn {
         background-color: #dc3545;
         color: #ffffff;
@@ -96,11 +110,13 @@
     <!-- Lista de usuários -->
     <div class="weather-list-container">
         <ul class="user-list">
-            {% for record in weather_records %}
+            {% for record in user_records %}
                 <li class="user-item">
                     <h3>{{ record.username }}</h3>
                     <p>Email: {{ record.email }}</p>
                     <div>
+                        <!-- Renderiza o botão de atualização -->
+                        <button class="update-btn btn btn-primary" data-pk="{{ record.id }}" data-update-url="{% url 'user-get' pk=record.id %}">Update</button>
                         <!-- Renderiza o botão de exclusão -->
                         <button class="delete-btn btn btn-danger" data-pk="{{ record.id }}" data-delete-url="{% url 'user-delete' pk=record.id %}">Excluir</button>                     
                     </div>
@@ -119,6 +135,13 @@
                 }
             });
         });
+
+        document.querySelectorAll('.update-btn').forEach(function(button) {
+        button.addEventListener('click', function() {
+            var updateUrl = button.dataset.updateUrl;
+            window.location.href = updateUrl;
+        });
+    });
 
         document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('search-button').addEventListener('click', function() {

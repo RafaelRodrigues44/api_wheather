@@ -1,11 +1,11 @@
-from rest_framework.views import APIView
+from rest_framework.views import View
 from rest_framework.response import Response
 from rest_framework import status
 from django.shortcuts import render
 from api_tempo.repositories import WeatherRepository
 from api_tempo.serializers.weatherSerializer import WeatherSerializer
 
-class FindCityView(APIView):
+class FindCityView(View):
     def get(self, request, **kwargs):
         city = kwargs.get('city')
 

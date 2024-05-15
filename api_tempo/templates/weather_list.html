@@ -41,11 +41,8 @@
         background-color: #c82333;
     }
 
-    
-
-
     .weather-item .update-btn {
-        background-color: #35089d;
+        background-color: #6d599c;
         color: #ffffff;
         border: none;
         padding: 8px 12px;
@@ -55,7 +52,7 @@
     }
 
     .weather-item .update-btn:hover {
-        background-color: #7143da;
+        background-color: #4b289e;
     }
 
     .message {
@@ -115,7 +112,7 @@
                 <p>Umidade: {{ record.humidity }}</p>
                 <p>Condição: {{ record.weather }}</p>
                 <div>
-                    {% if not authenticated and record.id %}
+                    {% if request.user and record.id %}
                          <!-- Renderiza o botão de atualização -->
                          <button class="update-btn btn btn-primary" data-pk="{{ record.id }}" data-update-url="{% url 'weather-get' pk=record.id %}">Update</button>
                         <!-- Renderiza o botão de exclusão -->

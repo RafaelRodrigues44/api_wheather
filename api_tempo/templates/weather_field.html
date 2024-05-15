@@ -6,7 +6,7 @@
 
 <style>
     /* Estilos para os cards de clima */
-    .user-card {
+    .weather-card {
         width: 300px;
         background-color: #ffffff;
         border: 1px solid #e0e0e0;
@@ -16,19 +16,19 @@
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
 
-    .user-card h3 {
+    .weather-card h3 {
         margin-top: 0;
         margin-bottom: 10px;
         font-size: 18px;
         color: #333333;
     }
 
-    .user-card p {
+    .weather-card p {
         margin: 0;
         color: #666666;
     }
 
-    .user-card .delete-btn {
+    .weather-card .delete-btn {
         background-color: #dc3545;
         color: #ffffff;
         border: none;
@@ -38,7 +38,7 @@
         transition: background-color 0.3s ease;
     }
 
-    .user-card .update-btn {
+    .weather-card .update-btn {
         background-color: #0f32a5;
         color: #ffffff;
         border: none;
@@ -49,11 +49,11 @@
     }
 
 
-    .user-card .delete-btn:hover {
+    .weather-card .delete-btn:hover {
         background-color: #c82333;
     }
 
-    .user-card .message {
+    .weather-card .message {
         color: #666666;
     }
 </style>
@@ -62,7 +62,7 @@
 <h1>Registros para {{ weather_records.0.city }}</h1>
 
 {% for record in weather_records %}
-    <div class="user-card">
+    <div class="weather-card">
         <p>Data: {{ record.date }}</p>
         <p>Temperatura: {{ record.temperature }}</p>
         <p>Pressão: {{ record.atmosphericPressure }}</p>

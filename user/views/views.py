@@ -60,9 +60,6 @@ class UserRegister(View):
         
 
 class UserList(View):
-    authentication_classes = [JWTAuthentication]
-    permission_classes = [IsAuthenticated]
-
     def get(self, request: HttpRequest):
         try:
             # Obtenha a lista de usuários do repositório
@@ -72,31 +69,26 @@ class UserList(View):
             for user in users:
                 user['id'] = str(user['_id'])
 
-            return render(request, "user_list.html", {"weather_records": users})
+            return render(request, "user_list.html", {"user_records": users})
 
         except Exception as e:
             return HttpResponse(content="Erro ao obter os dados dos usuários.", status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
 class UserListField(View):
-    def get(self, request, **kwargs):
-        email = kwargs.get('email')
-
-        # Instancia o repositório do clima
+    def get(self, request, email=None):
+        # Instancia o repositório de usuário
         repository = UserRepository()
 
         try:
-            # Busca os registros do clima para a cidade especificada
-            if email:
-                user_data = repository.get_by_email(email=email)
-            else:
-                user_data = repository.get_by_email()
+            # Busca os registros do usuário para o e-mail especificado
+            user_data = repository.get_by_email(email=email)
 
             # Adiciona o campo 'id' aos objetos retornados
             for item in user_data:
                 item['id'] = str(item['_id'])
 
-            # Renderiza o template weather-list.html com os dados serializados
+            # Renderiza o template user_field.html com os dados serializados
             return render(request, 'user_field.html', {'user_records': user_data})
         
         except Exception as e:
@@ -126,7 +118,7 @@ class UserGetView(View):
             return HttpResponseBadRequest(f"Erro ao recuperar registro: {str(e)}")
 
 
-class WeatherUpdateView(View):
+class UserUpdateView(View):
     def post(self, request, pk):
 
         repository = UserRepository()
@@ -179,14 +171,10 @@ class Login(View):
             token = TokenManager.generate_token(user)
             response = redirect('home')  
             response = set_token_cookie(response, token)
-            print(f'Token = {token}')
-            print('Login feito com sucesso')
             return response
         else:
-            # Autenticação falhou
-            print('A autenticação falhou')
-            messages.error(request, 'Email ou senha incorretos.')
-            return render(request, 'login.html')
+            # Autenticação falhou, passar variável login_failed como True para o contexto do template
+            return render(request, 'login.html', {'login_failed': True})
 
 def set_token_cookie(response, token):
     # Define o token no cookie
