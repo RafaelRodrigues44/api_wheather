@@ -112,6 +112,7 @@
         <ul>
             {% if request.user %}
                 <!-- Se o usuário estiver autenticado, mostra todos os itens do menu -->
+                <li><a href="{% url 'home' %}">Home</a></li>
                 <li><a href="{% url 'weather-list' %}">Weathers</a></li>
                 <li><a href="{% url 'weather-create' %}">Create Weather</a></li>
                 <li><a href="{% url 'user-list' %}">Usuários</a></li>
