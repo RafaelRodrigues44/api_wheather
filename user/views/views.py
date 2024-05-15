@@ -211,7 +211,7 @@ class TokenManager:
     def generate_token(user_data):
         payload = {
             'email': user_data.get('email'),  
-            'exp': datetime.utcnow() + timedelta(minutes=5)  
+            'exp': datetime.utcnow() + timedelta(minutes=10)  
         }
         return jwt.encode(payload=payload, key=settings.SECRET_KEY, algorithm='HS256')
 
@@ -244,10 +244,10 @@ class TokenManager:
 
 class LogoutView(View):
     def get(self, request):
-        # Limpar a sessão do usuário
-        logout(request)
-        # Redirecionar para a página de login, por exemplo
-        return redirect('login')
+        # Limpar o token do cookie
+        response = redirect('login')
+        response.delete_cookie('jwt_token')
+        return response
     
 class UserUpdate(View):
     pass
