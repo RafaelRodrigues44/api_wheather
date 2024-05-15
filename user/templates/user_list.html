@@ -77,56 +77,57 @@
 
 <h2 style="text-align: center;">Registros</h2>
 
-{% if not authenticated %}
-    <!-- Exibe a mensagem apenas se o usuário não estiver autenticado -->
-    <div class="message">
-        <p>Usuário não autenticado.</p>
+    {% if not user %}
+        <!-- Exibe a mensagem apenas se o usuário não estiver autenticado -->
+        <div class="message">
+            <p>Usuário não autenticado.</p>
+        </div>
+
+    {% else %}
+    <!-- Formulário para digitar o nome do usuário -->
+    <div class="search-container">
+        <form id="search-form">
+            <label for="user-input">Digite o nome da usuário:</label>
+            <input type="text" id="user-input" name="user" required>
+            <button type="button" id="search-button">Buscar</button>
+        </form>
     </div>
-{% endif %}
 
-<!-- Formulário para digitar o nome do usuário -->
-<div class="search-container">
-    <form id="search-form">
-        <label for="user-input">Digite o nome da usuário:</label>
-        <input type="text" id="user-input" name="user" required>
-        <button type="button" id="search-button">Buscar</button>
-    </form>
-</div>
+    <!-- Lista de usuários -->
+    <div class="weather-list-container">
+        <ul class="user-list">
+            {% for record in weather_records %}
+                <li class="user-item">
+                    <h3>{{ record.username }}</h3>
+                    <p>Email: {{ record.email }}</p>
+                    <div>
+                        <!-- Renderiza o botão de exclusão -->
+                        <button class="delete-btn btn btn-danger" data-pk="{{ record.id }}" data-delete-url="{% url 'user-delete' pk=record.id %}">Excluir</button>                     
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
 
-<!-- Lista de usuários -->
-<div class="weather-list-container">
-    <ul class="user-list">
-        {% for record in weather_records %}
-            <li class="user-item">
-                <h3>{{ record.username }}</h3>
-                <p>Email: {{ record.email }}</p>
-                <div>
-                    <!-- Renderiza o botão de exclusão -->
-                    <button class="delete-btn btn btn-danger" data-pk="{{ record.id }}" data-delete-url="{% url 'user-delete' pk=record.id %}">Excluir</button>                     
-                </div>
-            </li>
-        {% endfor %}
-    </ul>
-</div>
-
-<script>
-    // Adicione os scripts JavaScript para interatividade
-    document.querySelectorAll('.delete-btn').forEach(function(button) {
-        button.addEventListener('click', function() {
-            var deleteUrl = button.dataset.deleteUrl;
-            if (confirm('Tem certeza que deseja excluir este registro?')) {
-                window.location.href = deleteUrl;
-            }
+    <script>
+        // Adicione os scripts JavaScript para interatividade
+        document.querySelectorAll('.delete-btn').forEach(function(button) {
+            button.addEventListener('click', function() {
+                var deleteUrl = button.dataset.deleteUrl;
+                if (confirm('Tem certeza que deseja excluir este registro?')) {
+                    window.location.href = deleteUrl;
+                }
+            });
         });
-    });
 
-    document.addEventListener('DOMContentLoaded', function() {
-        document.getElementById('search-button').addEventListener('click', function() {
-            var userInput = document.getElementById('user-input').value;
-            var baseUrl = '{{ request.scheme }}://{{ request.get_host }}';  
-            var searchUrl = baseUrl + '/api_tempo/user/get/' + encodeURIComponent(userInput) + '/';
-            window.location.href = searchUrl;
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('search-button').addEventListener('click', function() {
+                var userInput = document.getElementById('user-input').value;
+                var baseUrl = '{{ request.scheme }}://{{ request.get_host }}';  
+                var searchUrl = baseUrl + '/api_tempo/user/get/' + encodeURIComponent(userInput) + '/';
+                window.location.href = searchUrl;
+            });
         });
-    });
-</script>
+    </script>
+    {% endif %}
 {% endblock %}

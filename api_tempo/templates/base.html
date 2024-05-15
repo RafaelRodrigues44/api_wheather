@@ -110,17 +110,20 @@
     <div class="menu">
         <h3>Menu</h3>
         <ul>
-            {% if user %}
+            {% if request.user %}
                 <!-- Se o usuário estiver autenticado, mostra todos os itens do menu -->
                 <li><a href="{% url 'weather-list' %}">Weathers</a></li>
                 <li><a href="{% url 'weather-create' %}">Create Weather</a></li>
                 <li><a href="{% url 'user-list' %}">Usuários</a></li>
+                <li><a href="{% url 'logout' %}">Logout</a></li>
+               
                 
             {% else %}
                 <!-- Se o usuário não estiver autenticado, mostra apenas os itens de login e registro -->
                 <li><a href="{% url 'home' %}">Home</a></li>
                 <li><a href="{% url 'login' %}">Login</a></li>
                 <li><a href="{% url 'user-create' %}">Register</a></li>
+
             {% endif %}
         </ul>
     </div>
@@ -165,13 +168,13 @@
         <p>Senai Gaspar Ricardo Júnior - Sorocaba/SP - 2024</p>
     </div>
 
-    {% if user.is_authenticated %}
+    {% if request.user %}
         <script>
-            console.log("Usuário autenticado: " + { user });
+            console.log("Usuário autenticado: " + "{{request.user }}");
         </script>
     {% endif %}
 
-    {% if not user.is_authenticated %}
+    {% if not request.user %}
         <script>
             console.log("Usuário não autenticado: ");
         </script>

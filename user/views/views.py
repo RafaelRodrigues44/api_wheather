@@ -4,7 +4,7 @@ from django.contrib.auth.hashers import make_password
 from user.repositories.repository import UserRepository
 from user.models.userEntity import UserEntity
 from rest_framework.permissions import IsAuthenticated
-from django.shortcuts import render, redirect
+from django.shortcuts import redirect, render
 from pyexpat.errors import messages
 from django.urls import reverse
 from django.views import View
@@ -14,8 +14,13 @@ from django.contrib import messages
 from django.conf import settings
 from uuid import uuid4
 from datetime import datetime, timedelta
-from django.contrib.auth import login as auth_login
+from django.contrib.auth import logout
 import jwt
+
+
+
+from django.utils.deprecation import MiddlewareMixin
+
   
  
 class UserRegister(View):
@@ -160,7 +165,7 @@ class WeatherUpdateView(View):
 class Login(View):
     def get(self, request):
         return render(request, 'login.html')
-   
+
     def post(self, request):
         email = request.POST.get('email')
         password = request.POST.get('password')
@@ -169,27 +174,26 @@ class Login(View):
         user_repo = UserRepository()
         user = user_repo.authenticate_user(email, password)
 
-        if user is True:
-            # Autenticação bem-sucedida, gerar token e redirecionar para a página 'base.html'
+        if user:
+            # Autenticação bem-sucedida, gerar token e redirecionar para a página 'home'
             token = TokenManager.generate_token(user)
-            response = HttpResponse()
+            response = redirect('home')  
             response = set_token_cookie(response, token)
             print(f'Token = {token}')
             print('Login feito com sucesso')
-
-            # Passe o usuário autenticado para o contexto do template
-            return render(request, 'base.html', {'token': token}) 
+            return response
         else:
             # Autenticação falhou
+            print('A autenticação falhou')
             messages.error(request, 'Email ou senha incorretos.')
             return render(request, 'login.html')
-
 
 def set_token_cookie(response, token):
     # Define o token no cookie
     response.set_cookie('jwt_token', token, secure=True, httponly=True, samesite='Strict')
     # Retorna a resposta HTTP com o cookie definido
     return response
+
 
 def get_user_from_token(token):
     try:
@@ -235,9 +239,15 @@ class TokenManager:
         payload = TokenManager.verify_token(token)
         if payload:
             # Se o token for válido, retorne um objeto de usuário autenticado
-            return UserEntity(username=payload['username'])
+            return UserEntity(username=payload['email'])
         return None
 
-
+class LogoutView(View):
+    def get(self, request):
+        # Limpar a sessão do usuário
+        logout(request)
+        # Redirecionar para a página de login, por exemplo
+        return redirect('login')
+    
 class UserUpdate(View):
     pass

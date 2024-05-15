@@ -48,6 +48,5 @@ class UserRepository:
             
             # Comparar a senha fornecida com a senha armazenada usando check_password
             if check_password(password, stored_password):
-                return user[0]
-        
+                return user[0]    
         return None

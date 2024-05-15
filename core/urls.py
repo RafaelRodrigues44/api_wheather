@@ -8,6 +8,8 @@ from user.views.views import UserListField
 from user.views.views import UserUpdate
 from user.views.views import UserGetView
 from user.views.views import Login
+from user.views.views import LogoutView
+
 from api_tempo.urls.urls import url_patterns as api_tempo_urls
 
 urlpatterns = [
@@ -20,5 +22,6 @@ urlpatterns = [
     path('api_tempo/user/get/<str:username>/', UserListField.as_view(), name='user-field'),
     path('api_tempo/user/get/<str:pk>/', UserGetView.as_view(), name='user-get'),
     path('api_tempo/user/update/<str:pk>/', UserUpdate.as_view(), name='user-update'),
-    path('api_tempo/login/', Login.as_view(), name='login')
+    path('api_tempo/login/', Login.as_view(), name='login'),
+    path('logout/', LogoutView.as_view(), name='logout'),
 ]

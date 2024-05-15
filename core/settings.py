@@ -32,6 +32,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'corsheaders.middleware.CorsMiddleware',
+    'user.middleware.AuthenticationMiddleware',
 ]
 
 ROOT_URLCONF = 'core.urls'
@@ -85,8 +86,6 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
-
-SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
 
 LANGUAGE_CODE = 'en-us'
 
