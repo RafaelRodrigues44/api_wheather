@@ -12,7 +12,7 @@ from rest_framework.response import Response
 
 
 class WeatherView(View):
-    authentication_classes = [JWTAuthentication]
+    
     permission_classes = [IsAuthenticated]
 
     def get(self, request: HttpRequest):

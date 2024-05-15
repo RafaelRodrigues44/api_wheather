@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %}Weather City{% endblock %}
+{% block title %}User Email{% endblock %}
 
 {% block content %}
 
@@ -59,21 +59,17 @@
 </style>
 
 <!-- Título dinâmico -->
-<h1>Registros para {{ weather_records.0.city }}</h1>
+<h1>Registros para {{ user_records.0.email }}</h1>
 
-{% for record in weather_records %}
+{% for record in user_records %}
     <div class="user-card">
-        <p>Data: {{ record.date }}</p>
-        <p>Temperatura: {{ record.temperature }}</p>
-        <p>Pressão: {{ record.atmosphericPressure }}</p>
-        <p>Umidade: {{ record.humidity }}</p>
-        <p>Condição: {{ record.weather }}</p>
+        <p>User Name: {{ record.username }}</p>
         <div>
             {% if record.id %}
                  <!-- Renderiza o botão de atualização -->
-                 <button class="update-btn btn btn-primary" data-pk="{{ record.id }}" data-update-url="{% url 'weather-get' pk=record.id %}">Update</button>
+                 <button class="update-btn btn btn-primary" data-pk="{{ record.id }}" data-update-url="{% url 'user-get' pk=record.id %}">Update</button>
                  <!-- Renderiza o botão de exclusão -->
-                 <button class="delete-btn btn btn-danger" data-pk="{{ record.id }}" data-delete-url="{% url 'weather-delete' pk=record.id %}">Excluir</button>
+                 <button class="delete-btn btn btn-danger" data-pk="{{ record.id }}" data-delete-url="{% url 'user-delete' pk=record.id %}">Excluir</button>
             {% else %}
                 <!-- Se o registro não tiver um ID válido, exiba uma mensagem -->
                 <p class="message">ID vazio</p>

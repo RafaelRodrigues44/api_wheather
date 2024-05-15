@@ -1,4 +1,5 @@
 from pathlib import Path
+from datetime import timedelta
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -16,7 +17,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-     'rest_framework_simplejwt',
+    'rest_framework_simplejwt',
     'api_tempo',
     'corsheaders',
     'user'
@@ -31,6 +32,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'corsheaders.middleware.CorsMiddleware',
+    'user.middleware.AuthenticationMiddleware',
 ]
 
 ROOT_URLCONF = 'core.urls'

@@ -1,10 +1,12 @@
 {% extends 'base.html' %}
 
-{% block title %}Criar usuário{% endblock %}
+{% block title %}Atualização de Usuário{% endblock %}
 
 {% block content %}
-    <div style="text-align: center;">
-        <form id="createUserForm" method="post" action="{% url 'user-create' %}" style="max-width: 400px; margin: 0 auto;">
+<h2 style="text-align: center;">Atualização de Cadastro</h2>
+
+    <div style="margin-left: 250px; margin-right: 250px; text-align: center;">
+        <form method="post" action="{% url 'weather-update' pk=pk %}" id="update-form">
             {% csrf_token %}
             <div style="margin-top: 30px;">
                 <!-- Campos do formulário -->
@@ -16,13 +18,9 @@
 
                 <label for="password" style="display: block; margin-bottom: 10px;">Senha:</label>
                 <input type="password" id="password" name="password" style="width: 100%; padding: 8px; margin-bottom: 20px;" required>
-            </div>
-
-            <!-- Botão de submissão do formulário -->
-            <button type="submit" style="display: block; margin: 0 auto; padding: 10px 20px; background-color: #007bff; color: #fff; border: none; border-radius: 5px; cursor: pointer;">Criar Usuário</button>
+            </div>>
+            
+            <button type="submit">Atualizar Cadastro</button>
         </form>
-    </div>
-
+    </div>    
 {% endblock %}
-
-

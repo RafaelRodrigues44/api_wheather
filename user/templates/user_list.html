@@ -1,0 +1,133 @@
+{% extends 'base.html' %}
+
+{% block title %}Listagem de usuários{% endblock %}
+
+{% block content %}
+<style>
+    /* Mantenha os estilos existentes */
+    .user-item {
+        width: 300px;
+        background-color: #ffffff;
+        border: 1px solid #e0e0e0;
+        border-radius: 5px;
+        padding: 15px;
+        margin-bottom: 20px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .user-item h3 {
+        margin-top: 0;
+        margin-bottom: 10px;
+        font-size: 18px;
+        color: #333333;
+    }
+
+    .user-item p {
+        margin: 0;
+        color: #666666;
+    }
+
+    .user-item .delete-btn {
+        background-color: #dc3545;
+        color: #ffffff;
+        border: none;
+        padding: 8px 12px;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .user-item .delete-btn:hover {
+        background-color: #c82333;
+    }
+
+    .message {
+        color: #666666;
+        background-color: #fce4ec; /* Fundo rosa claro */
+        border: 1px solid #f44336; /* Borda vermelha */
+        padding: 10px;
+        border-radius: 5px;
+        margin-bottom: 20px; /* Adicione um espaço abaixo da mensagem */
+        text-align: center;
+    }
+
+    /* Estilos para o contêiner e os elementos dentro dele */
+    .search-container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 20px;
+    }
+
+    /* Estilos para o formulário de busca */
+    #search-form {
+        display: flex;
+        align-items: center;
+    }
+
+    #search-form label {
+        margin-right: 10px;
+    }
+
+    #name-input {
+        flex-grow: 1;
+        margin-right: 10px;
+    }
+</style>
+
+<h2 style="text-align: center;">Registros</h2>
+
+    {% if not user %}
+        <!-- Exibe a mensagem apenas se o usuário não estiver autenticado -->
+        <div class="message">
+            <p>Usuário não autenticado.</p>
+        </div>
+
+    {% else %}
+    <!-- Formulário para digitar o nome do usuário -->
+    <div class="search-container">
+        <form id="search-form">
+            <label for="user-input">Digite o nome da usuário:</label>
+            <input type="text" id="user-input" name="user" required>
+            <button type="button" id="search-button">Buscar</button>
+        </form>
+    </div>
+
+    <!-- Lista de usuários -->
+    <div class="weather-list-container">
+        <ul class="user-list">
+            {% for record in weather_records %}
+                <li class="user-item">
+                    <h3>{{ record.username }}</h3>
+                    <p>Email: {{ record.email }}</p>
+                    <div>
+                        <!-- Renderiza o botão de exclusão -->
+                        <button class="delete-btn btn btn-danger" data-pk="{{ record.id }}" data-delete-url="{% url 'user-delete' pk=record.id %}">Excluir</button>                     
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <script>
+        // Adicione os scripts JavaScript para interatividade
+        document.querySelectorAll('.delete-btn').forEach(function(button) {
+            button.addEventListener('click', function() {
+                var deleteUrl = button.dataset.deleteUrl;
+                if (confirm('Tem certeza que deseja excluir este registro?')) {
+                    window.location.href = deleteUrl;
+                }
+            });
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('search-button').addEventListener('click', function() {
+                var userInput = document.getElementById('user-input').value;
+                var baseUrl = '{{ request.scheme }}://{{ request.get_host }}';  
+                var searchUrl = baseUrl + '/api_tempo/user/get/' + encodeURIComponent(userInput) + '/';
+                window.location.href = searchUrl;
+            });
+        });
+    </script>
+    {% endif %}
+{% endblock %}

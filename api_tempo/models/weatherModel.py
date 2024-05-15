@@ -1,13 +1,12 @@
 from django.db import models
-from datetime import datetime
 
 class WeatherModel(models.Model):
-    id = models.IntegerField(primary_key=True, default='')
+    id = models.IntegerField(primary_key=True)
     temperature = models.FloatField()
-    city = models.CharField(max_length=100, default='')
+    city = models.CharField(max_length=100)
     atmosphericPressure = models.FloatField(default=0)
     humidity = models.FloatField(default=0)
-    weather = models.CharField(max_length=100, default='')
+    weather = models.CharField(max_length=100)
     date = models.DateTimeField()
 
     @property
@@ -25,4 +24,4 @@ class WeatherModel(models.Model):
         elif name == 'city':
             return object.__getattribute__(self, 'city')
         else:
-            return object.__getattribute__(self, name)
+            return super().__getattribute__(name)

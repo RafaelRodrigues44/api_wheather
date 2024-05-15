@@ -1,25 +1,16 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render
+from django.http import HttpResponseBadRequest, HttpResponseRedirect
+from django.urls import reverse
 from django.views import View
-from rest_framework_simplejwt.authentication import JWTAuthentication
-from rest_framework.permissions import IsAuthenticated
 from api_tempo.repositories import WeatherRepository
 from api_tempo.serializers.weatherSerializer import WeatherSerializer
 
 class WeatherInsert(View):
-    authentication_classes = [JWTAuthentication]
-    permission_classes = [IsAuthenticated]
-
     def get(self, request):
-        if not request.user.is_authenticated:
-            return render(request, "weather_create.html", {"login_required": True})
-        
         return render(request, "weather_create.html", {"show_form": True})
 
     def post(self, request):
         try:
-            if not request.user.is_authenticated:
-                return render(request, "weather_create.html", {"login_required": True})
-            
             id = request.POST.get('id')  
             city = request.POST.get('city')
             date = request.POST.get('date')
@@ -43,9 +34,9 @@ class WeatherInsert(View):
             if serializer.is_valid():
                 repository = WeatherRepository(collectionName='weathers')
                 object_id = repository.insert(serializer.validated_data)
-                return render(request, "weather_create.html", {"success_message": "Previsão do tempo criada com sucesso!", "show_form": False})
+                return HttpResponseRedirect(reverse('weather-list'))
             else:
                 return render(request, "weather_create.html", {"form": request.POST, "errors": serializer.errors, "show_form": True})
 
         except Exception as e:
-            return render(request, "weather_create.html", {"error_message": "Erro ao criar a previsão do tempo.", "show_form": True})
+            return render(request, "weather_.html", {"error_message": "Erro ao criar a previsão do tempo.", "show_form": True})

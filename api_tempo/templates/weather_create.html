@@ -4,56 +4,35 @@
 
 {% block content %}
     <div style="margin-left: 250px; margin-right: 250px; text-align: center;">
+        <form id="createWeatherForm" method="post" action="{% url 'weather-create' %}" style="max-width: 400px; margin: 0 auto;">
+            {% csrf_token %}
+            <div style="text-align: center;">
 
-        {% if login_required %}
-            <div style="background-color: #f8d7da; border: 1px solid #f5c6cb; color: #721c24; padding: 10px; border-radius: 5px; margin-bottom: 20px;">
-                É necessário estar autenticado para criar uma previsão do tempo.
+                <!-- Campo oculto para o ID -->
+                <input type="hidden" id="id" name="id" value="null">
+
+                <!-- Campos do formulário -->
+                <label for="city" style="display: block; margin-bottom: 10px;">Cidade:</label>
+                <input type="text" id="city" name="city" style="width: 100%; padding: 8px; margin-bottom: 20px;" required>
+
+                <label for="date" style="display: block; margin-bottom: 10px;">Data:</label>
+                <input type="datetime-local" id="date" name="date" style="width: 100%; padding: 8px; margin-bottom: 20px;" required>
+
+                <label for="temperature" style="display: block; margin-bottom: 10px;">Temperatura:</label>
+                <input type="number" id="temperature" name="temperature" style="width: 100%; padding: 8px; margin-bottom: 20px;" required>
+
+                <label for="atmosphericPressure" style="display: block; margin-bottom: 10px;">Pressão Atmosférica:</label>
+                <input type="number" id="atmosphericPressure" name="atmosphericPressure" style="width: 100%; padding: 8px; margin-bottom: 20px;" required>
+
+                <label for="humidity" style="display: block; margin-bottom: 10px;">Umidade:</label>
+                <input type="number" id="humidity" name="humidity" style="width: 100%; padding: 8px; margin-bottom: 20px;" required>
+
+                <label for="weather" style="display: block; margin-bottom: 10px;">Tempo:</label>
+                <input type="text" id="weather" name="weather" style="width: 100%; padding: 8px; margin-bottom: 20px;" required>
             </div>
-        {% endif %}
 
-        {% if success_message %}
-            <div style="background-color: #d4edda; border: 1px solid #c3e6cb; color: #155724; padding: 10px; border-radius: 5px; margin-bottom: 20px;">
-                {{ success_message }}
-            </div>
-        {% endif %}
-
-        {% if error_message %}
-            <div style="background-color: #f8d7da; border: 1px solid #f5c6cb; color: #721c24; padding: 10px; border-radius: 5px; margin-bottom: 20px;">
-                {{ error_message }}
-            </div>
-        {% endif %}
-
-        {% if show_form %}
-            <form id="createWeatherForm" method="post" action="{% url 'weather-create' %}" style="max-width: 400px; margin: 0 auto;">
-                {% csrf_token %}
-                <div style="text-align: center;">
-
-                    <!-- Campo oculto para o ID -->
-                    <input type="hidden" id="id" name="id" value="null">
-
-                    <!-- Campos do formulário -->
-                    <label for="city" style="display: block; margin-bottom: 10px;">Cidade:</label>
-                    <input type="text" id="city" name="city" style="width: 100%; padding: 8px; margin-bottom: 20px;" required>
-
-                    <label for="date" style="display: block; margin-bottom: 10px;">Data:</label>
-                    <input type="datetime-local" id="date" name="date" style="width: 100%; padding: 8px; margin-bottom: 20px;" required>
-
-                    <label for="temperature" style="display: block; margin-bottom: 10px;">Temperatura:</label>
-                    <input type="number" id="temperature" name="temperature" style="width: 100%; padding: 8px; margin-bottom: 20px;" required>
-
-                    <label for="atmosphericPressure" style="display: block; margin-bottom: 10px;">Pressão Atmosférica:</label>
-                    <input type="number" id="atmosphericPressure" name="atmosphericPressure" style="width: 100%; padding: 8px; margin-bottom: 20px;" required>
-
-                    <label for="humidity" style="display: block; margin-bottom: 10px;">Umidade:</label>
-                    <input type="number" id="humidity" name="humidity" style="width: 100%; padding: 8px; margin-bottom: 20px;" required>
-
-                    <label for="weather" style="display: block; margin-bottom: 10px;">Tempo:</label>
-                    <input type="text" id="weather" name="weather" style="width: 100%; padding: 8px; margin-bottom: 20px;" required>
-                </div>
-
-                <!-- Botão de submissão do formulário -->
-                <button type="submit" style="display: block; margin: 0 auto; padding: 10px 20px; background-color: #007bff; color: #fff; border: none; border-radius: 5px; cursor: pointer;">Criar Previsão do Tempo</button>
-            </form>
-        {% endif %}
+            <!-- Botão de submissão do formulário -->
+            <button type="submit" style="display: block; margin: 0 auto; padding: 10px 20px; background-color: #007bff; color: #fff; border: none; border-radius: 5px; cursor: pointer;">Criar Previsão do Tempo</button>
+        </form>
     </div>
 {% endblock %}
