@@ -5,6 +5,7 @@ from django.views import View
 from api_tempo.repositories import WeatherRepository
 from api_tempo.serializers.weatherSerializer import WeatherSerializer
 
+
 class WeatherInsert(View):
     def get(self, request):
         return render(request, "weather_create.html", {"show_form": True})

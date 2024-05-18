@@ -129,15 +129,13 @@ class UserUpdateView(View):
             username = request.POST.get('username')
             password = request.POST.get('password')
  
-            user_repo = UserRepository()
- 
             # Validação do email
             if not email or '@' not in email or '.' not in email:
                 raise ValueError('Por favor, insira um email válido.')
  
-            existing_user = user_repo.get_by_email(email=email)
+            existing_user = repository.get_by_email(email=email)
             if existing_user:
-                raise ValueError('Este email já está em uso. Por favor, escolha outro.')
+                email = email
  
             hashed_password = make_password(password)
  
@@ -147,10 +145,10 @@ class UserUpdateView(View):
                 'username': username,
                 'password': hashed_password,
             }
-
+            print(new_user_data)
             # Atualizar no MongoDB
             repository.update(pk, new_user_data)
-
+            
             return HttpResponseRedirect(reverse('user-list'))
         except Exception as e:
             return HttpResponseBadRequest(f"Erro ao atualizar registro: {str(e)}")

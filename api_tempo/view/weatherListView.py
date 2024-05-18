@@ -8,13 +8,9 @@ from api_tempo.serializers.weatherSerializer import WeatherSerializer
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
-from rest_framework.response import Response
 
 
 class WeatherView(View):
-    
-    permission_classes = [IsAuthenticated]
-
     def get(self, request: HttpRequest):
         try:
             # A autenticação acontece automaticamente com JWTAuthentication
@@ -27,6 +23,7 @@ class WeatherView(View):
             serializer = WeatherSerializer(data=weathers, many=True)
 
             if serializer.is_valid():
+                print(f'O valor da requisição é : {request}')
                 return render(request, "weather_list.html", {"weather_records": serializer.data})
             else:
                 return render(request, "weather_list.html", {"weather_records": []})
