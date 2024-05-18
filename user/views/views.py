@@ -111,6 +111,7 @@ class UserGetView(View):
         try:
             user_data = repository.get(pk)
             if user_data:
+                print(user_data)
                 return render(request, 'user_update.html', {'user': user_data, 'pk': pk})  
             else:
                 return HttpResponseBadRequest(f"Registro não encontrado para o ID: {pk}")
@@ -237,5 +238,3 @@ class LogoutView(View):
         response.delete_cookie('jwt_token')
         return response
     
-class UserUpdate(View):
-    pass

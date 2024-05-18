@@ -10,7 +10,7 @@ class WeatherGetView(View):
         try:
             weather_data = repository.get(pk)
             if weather_data:
-                return render(request, 'weather_update.html', {'weather': weather_data, 'pk': pk})  # Passar pk para o template
+                return render(request, 'weather_update.html', {'weather': weather_data, 'pk': pk})  
             else:
                 return HttpResponseBadRequest(f"Registro não encontrado para o ID: {pk}")
         except Exception as e:

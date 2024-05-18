@@ -50,3 +50,6 @@ class UserRepository:
             if check_password(password, stored_password):
                 return user[0]    
         return None
+    
+    def get(self, document_id):
+     return self.get_collection().find_one({'_id': ObjectId(document_id)})
