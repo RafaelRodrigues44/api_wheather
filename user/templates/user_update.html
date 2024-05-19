@@ -1,27 +1,32 @@
 {% extends 'base.html' %}
 
-{% block title %}Atualização de Usuário{% endblock %}
+{% block title %}User Update{% endblock %}
 
 {% block content %}
-<h2 style="text-align: center;">Atualização de Cadastro</h2>
-
-<div style="margin-left: 250px; margin-right: 250px; text-align: center;">
-    <form method="post" action="{% url 'user-update' pk=pk %}" id="update-form">
-        {% csrf_token %}
-        <div style="margin-top: 30px;">
-            <!-- Campos do formulário preenchidos com os dados do usuário -->
-            <label for="email" style="display: block; margin-bottom: 10px;">Email:</label>
-            <input type="email" id="email" name="email" style="width: 100%; padding: 8px; margin-bottom: 20px;" value="{{ user.email }}" required>
-
-            <label for="username" style="display: block; margin-bottom: 10px;">Nome de usuário:</label>
-            <input type="text" id="username" name="username" style="width: 100%; padding: 8px; margin-bottom: 20px;" value="{{ user.username }}" required>
-
-            <!-- Como você não deve exibir a senha atual do usuário no formulário de atualização, você pode deixar este campo vazio -->
-            <label for="password" style="display: block; margin-bottom: 10px;">Senha:</label>
-            <input type="password" id="password" name="password" style="width: 100%; padding: 8px; margin-bottom: 20px;" required>
-        </div>
+    <div style="background-color: rgba(0, 0, 0, 0.5); width: 450px; height: auto; border-radius: 15px; padding: 30px; margin: 15vh auto;">
+        <h2 style="color: #ffffff; margin-bottom: 30px; margin-left: 120px;">Change your data</h2>
         
-        <button type="submit">Atualizar Cadastro</button>
-    </form>
-</div>    
+        <form id="update-form" method="post" action="{% url 'user-update' pk=pk %}" style="margin-left: 25px;">
+            {% csrf_token %}
+            <div>
+                <div style="margin-bottom: 20px;">
+                    <label for="email" style="font-size: 16px; color: #ffffff; margin-bottom: 5px;">Email:</label>
+                    <input type="email" id="email" name="email" style="width: 55%; padding: 10px; border-radius: 5px; margin-left: 100px;" value="{{ user.email }}" required>
+                </div>
+
+                <div style="margin-bottom: 20px;">
+                    <label for="username" style="font-size: 16px; color: #ffffff; margin-bottom: 5px;">Username:</label>
+                    <input type="text" id="username" name="username" style="width: 55%; padding: 10px; border-radius: 5px;margin-left: 66px;" value="{{ user.username }}" required>
+                </div>
+
+                <div style="margin-bottom: 20px;">
+                    <label for="password" style="font-size: 16px; color: #ffffff; margin-bottom: 5px;">Password:</label>
+                    <input type="password" id="password" name="password" style="width: 55%; padding: 10px; border-radius: 5px; margin-left:69px ;" required>
+                </div>
+            </div>
+
+            <!-- Botão de submissão do formulário -->
+            <button type="submit" style="display: block; margin: 0 auto; margin-top: 50px ;padding: 12px 24px; background-color: #6985a3; color: #fff; border: none; border-radius: 5px; cursor: pointer">Update</button>
+        </form>
+    </div>
 {% endblock %}

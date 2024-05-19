@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+
+{% block title %}About{% endblock %}
+
+{% block content %}
+    <style>
+        .about-container {
+            background-color: rgba(0, 0, 0, 0.8);
+            width: 90%;
+            height: auto;
+            border-radius: 15px;
+            padding: 30px;
+            margin: 2vh auto;
+            text-align: center;
+            line-height: 2;
+        }
+        .about-container h2 {
+            color: #ffffff;
+            margin-bottom: 30px;
+        }
+        .about-container p, .about-container ul {
+            color: #ffffff;
+            text-align: left;
+            margin-bottom: 10px;
+        }
+        .about-container li {
+            margin-left: 20px;
+        }
+    </style>
+
+    <div class="about-container">
+        <h2>Trabalho da disciplina de Desenvolvimento Web II</h2>
+        <p>Professor André Cassolino</p>
+    </div>
+
+    <div class="about-container">
+        <p>Esta API, construída em Django com Django Rest Framework (DRF), é uma RESTful API que segue o padrão MVT (Model-View-Template).</p>
+        <p>O padrão MVT é uma variação do padrão MVC (Model-View-Controller), comumente usado em frameworks web como o Django. Aqui está uma breve explicação de cada componente:</p>
+        <ul>
+            <li><strong>Modelo (Model):</strong> Representa a estrutura de dados da aplicação. No caso desta API, os modelos definem a estrutura das previsões do tempo e dos usuários.</li>
+            <li><strong>Visão (View):</strong> Lida com a lógica de apresentação e interação do usuário. As views são responsáveis por processar solicitações HTTP e retornar respostas apropriadas. As views neste contexto são implementadas como classes de visualização do Django.</li>
+            <li><strong>Template (Template):</strong> Fornece a estrutura de apresentação para as respostas das views. Os templates são arquivos HTML que podem incluir dados dinâmicos renderizados pelas views.</li>
+        </ul>
+        <p>Além disso, esta API utiliza o banco de dados NoSQL MongoDB para armazenar os dados das previsões do tempo. O MongoDB é uma escolha comum para aplicações que exigem escalabilidade e flexibilidade no esquema de dados.</p>
+
+        <h2 style="margin-top: 40px;">Endpoints Disponíveis</h2>
+        <ul>
+            <li><strong>Usuários:</strong>
+                <ul>
+                    <li><code>GET /api_tempo/users/</code>: Retorna a lista de usuários.</li>
+                    <li><code>POST /api_tempo/user/create/</code>: Cria um novo usuário.</li>
+                    <li><code>GET /api_tempo/user/get/:email/</code>: Retorna os detalhes de um usuário específico.</li>
+                    <li><code>PUT /api_tempo/user/update/:pk/</code>: Atualiza os dados de um usuário existente.</li>
+                    <li><code>DELETE /api_tempo/user/delete/:pk/</code>: Exclui um usuário existente.</li>
+                </ul>
+            </li>
+            <li><strong>Previsão do Tempo:</strong>
+                <ul>
+                    <li><code>GET /api_tempo/weather/</code>: Retorna a lista de previsões do tempo.</li>
+                    <li><code>POST /api_tempo/weather/create/</code>: Cria uma nova previsão do tempo.</li>
+                    <li><code>GET /api_tempo/weather/get/:pk/</code>: Retorna os detalhes de uma previsão do tempo específica.</li>
+                    <li><code>PUT /api_tempo/weather/update/:pk/</code>: Atualiza os dados de uma previsão do tempo existente.</li>
+                    <li><code>DELETE /api_tempo/weather/delete/:pk/</code>: Exclui uma previsão do tempo existente.</li>
+                    <li><code>GET /api_tempo/weather/city/:city/</code>: Retorna previsões do tempo para uma cidade específica.</li>
+                </ul>
+            </li>
+        </ul>
+
+        <h2 style="margin-top: 40px;">Funcionalidades de Autenticação</h2>
+        <p>As funcionalidades de login, logout e autenticação foram implementadas utilizando Django e Django Rest Framework. Aqui está uma breve explicação de como cada funcionalidade foi implementada:</p>
+        <ul>
+            <li><strong>Login:</strong> A funcionalidade de login foi implementada na página de login. Os usuários podem inserir seu email e senha para autenticar-se na API.</li>
+            <li><strong>Logout:</strong> A funcionalidade de logout permite que os usuários façam logout de suas contas, limpa o token JWT do cookie e os redireciona de volta para a página de login.</li>
+            <li><strong>Autenticação:</strong> A autenticação é realizada utilizando tokens JWT. Um middleware intercepta todas as requisições para verificar se o usuário está autenticado. Se estiver, o usuário é definido no objeto de requisição para uso posterior.</li>
+        </ul>
+    </div>
+{% endblock %}

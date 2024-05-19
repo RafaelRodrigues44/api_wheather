@@ -155,7 +155,8 @@ class UserUpdateView(View):
 
 class Login(View):
     def get(self, request):
-        return render(request, 'login.html')
+        login_failed = request.GET.get('login_failed', 'false').lower() == 'true'
+        return render(request, 'login.html', {'login_failed': login_failed})
 
     def post(self, request):
         email = request.POST.get('email')
@@ -172,8 +173,8 @@ class Login(View):
             response = set_token_cookie(response, token)
             return response
         else:
-            # Autenticação falhou, passar variável login_failed como True para o contexto do template
-            return render(request, 'login.html', {'login_failed': True})
+            # Redirecionar para a página de login com um parâmetro de query indicando falha
+            return redirect('/api_tempo/login/?login_failed=true')
 
 def set_token_cookie(response, token):
     # Define o token no cookie

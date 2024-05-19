@@ -4,82 +4,82 @@
 
 {% block content %}
 
-<style>
-    /* Estilos para os cards de clima */
-    .weather-card {
-        width: 300px;
-        background-color: #ffffff;
-        border: 1px solid #e0e0e0;
-        border-radius: 5px;
-        padding: 15px;
-        margin-bottom: 20px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    }
+    <style>
+        /* Estilos para os cards de clima */
+        .weather-card {
+            width: 300px;
+            background-color: rgba(0, 0, 0, 0.5);
+            border-radius: 5px;
+            padding: 30px;
+            margin-bottom: 20px;
+            margin-top: 100px;
+            margin-left: 650px;
 
-    .weather-card h3 {
-        margin-top: 0;
-        margin-bottom: 10px;
-        font-size: 18px;
-        color: #333333;
-    }
+        }
 
-    .weather-card p {
-        margin: 0;
-        color: #666666;
-    }
+        .weather-card p {
+            margin: 0;
+            color: #ffffff;
+            margin-left: 40px;
+            margin-bottom: 30px;
+        }
 
-    .weather-card .delete-btn {
-        background-color: #dc3545;
-        color: #ffffff;
-        border: none;
-        padding: 8px 12px;
-        border-radius: 5px;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
-    }
+        .weather-card .delete-btn,
+        .weather-card .update-btn {
+            padding: 8px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            color: #ffffff;
+            border: none;
+            margin-left: 55px;
+        }
 
-    .weather-card .update-btn {
-        background-color: #0f32a5;
-        color: #ffffff;
-        border: none;
-        padding: 8px 12px;
-        border-radius: 5px;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
-    }
+        .weather-card .delete-btn {
+            background-color: #c9626c;
+        }
 
+        .weather-card .update-btn {
+            background-color: #1abc9c;
+        }
 
-    .weather-card .delete-btn:hover {
-        background-color: #c82333;
-    }
+        .useweather-card .delete-btn:hover{
+            background-color: #c82333;
+        }
 
-    .weather-card .message {
-        color: #666666;
-    }
-</style>
+        .weather-card .update-btn:hover {
+            background-color: #296559;
+        }
+    </style>
 
-<!-- Título dinâmico -->
-<h1>Registros para {{ weather_records.0.city }}</h1>
+    <!-- Título dinâmico -->
+    <h1 style="text-align: center; background-color: rgba(0, 0, 0, 0.5); padding: 30px; border-radius: 15px; width: 800px; margin-left: 400px;">Registros para {{ weather_records.0.city }}</h1>
 
-{% for record in weather_records %}
-    <div class="weather-card">
-        <p>Data: {{ record.date }}</p>
-        <p>Temperatura: {{ record.temperature }}</p>
-        <p>Pressão: {{ record.atmosphericPressure }}</p>
-        <p>Umidade: {{ record.humidity }}</p>
-        <p>Condição: {{ record.weather }}</p>
-        <div>
-            {% if record.id %}
-                 <!-- Renderiza o botão de atualização -->
-                 <button class="update-btn btn btn-primary" data-pk="{{ record.id }}" data-update-url="{% url 'weather-get' pk=record.id %}">Update</button>
-                 <!-- Renderiza o botão de exclusão -->
-                 <button class="delete-btn btn btn-danger" data-pk="{{ record.id }}" data-delete-url="{% url 'weather-delete' pk=record.id %}">Excluir</button>
-            {% else %}
-                <!-- Se o registro não tiver um ID válido, exiba uma mensagem -->
-                <p class="message">ID vazio</p>
-            {% endif %}
-        </div>
+    <div>
+        <ul class="weather-list">
+            {% for record in weather_records %}
+                <li class="weather-card">
+                    <p>Data: {{ record.date }}</p>
+                    <p>Temperatura: {{ record.temperature }}</p>
+                    <p>Pressão: {{ record.atmosphericPressure }}</p>
+                    <p>Umidade: {{ record.humidity }}</p>
+                    <p>Condição: {{ record.weather }}</p>
+                    <div>
+                        {% if request.user and record.id %}
+                            <!-- Renderiza o botão de atualização -->
+                            <button class="update-btn btn btn-primary" data-pk="{{ record.id }}" data-update-url="{% url 'weather-get' pk=record.id %}">Update</button>
+                            <!-- Renderiza o botão de exclusão -->
+                            <button class="delete-btn btn btn-danger" data-pk="{{ record.id }}" data-delete-url="{% url 'weather-delete' pk=record.id %}">Excluir</button>
+                        {% else %}
+                            <!-- Se o registro não tiver um ID válido, exiba uma mensagem -->
+                            <p class="message">ID vazio</p>
+                        {% endif %}
+                    </div>
+                </li>
+            {% endfor %}    
+        </ul>
     </div>
+        
 
     <script>
         // Adicione os scripts JavaScript para interatividade
@@ -99,8 +99,8 @@
             });
         });
     </script>
-{% empty %}
-    <p>Nenhum registro encontrado.</p>
-{% endfor %}
-
 {% endblock %}
+
+
+
+

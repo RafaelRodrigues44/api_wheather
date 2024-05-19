@@ -1,51 +1,77 @@
 {% extends 'base.html' %}
 
-{% block title %}Criar previsões{% endblock %}
+{% block title %}Weather Update{% endblock %}
 
 {% block content %}
-    <div style="margin-left: 250px; margin-right: 250px; text-align: center;">
-        <h2 style="color: #6985a3; margin-bottom: 30px;">Criar Previsão do Tempo</h2>
-        <form id="createWeatherForm" method="post" action="{% url 'weather-create' %}" style="max-width: 400px; margin: 0 auto;">
+    <style>
+        /* Estilos para labels */
+        label {
+            font-size: 16px;
+            color: #ffffff;
+            margin-bottom: 5px;
+            margin-left: 30px;
+        }
+
+        /* Estilos para inputs */
+        input {
+            width: 40%;
+            padding: 10px;
+            border-radius: 5px;
+            margin-left: 65px;
+            margin-bottom: 20px;
+        }
+
+        /* Estilos para o botão */
+        button {
+            margin: 0 auto;
+            margin-top: 20px;
+            margin-left: 280px;
+            padding: 12px 24px;
+            background-color: #6985a3;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+
+    <div style="background-color: rgba(0, 0, 0, 0.5); width: 600px; border-radius: 15px; padding: 30px; margin-top: 10px;margin-left: 500px; padding-left: 30px;" >
+        <h2 style="color: #ffffff; margin-bottom: 30px; margin-left: 180px;">Create Weather</h2>
+        
+        <form id="createWeatherForm" method="post" action="{% url 'weather-create' %}">
             {% csrf_token %}
-            <div style="text-align: center;">
-
-                <!-- Campo oculto para o ID -->
-                <input type="hidden" id="id" name="id" value="null">
-
-                <!-- Campos do formulário -->
-                <div style="margin-bottom: 20px;">
-                    <label for="city" style="display: block; margin-bottom: 5px; color: #333;">Cidade:</label>
-                    <input type="text" id="city" name="city" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px;" required>
-                </div>
-
-                <div style="margin-bottom: 20px;">
-                    <label for="date" style="display: block; margin-bottom: 5px; color: #333;">Data:</label>
-                    <input type="datetime-local" id="date" name="date" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px;" required>
-                </div>
-
-                <div style="margin-bottom: 20px;">
-                    <label for="temperature" style="display: block; margin-bottom: 5px; color: #333;">Temperatura:</label>
-                    <input type="number" id="temperature" name="temperature" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px;" required>
-                </div>
-
-                <div style="margin-bottom: 20px;">
-                    <label for="atmosphericPressure" style="display: block; margin-bottom: 5px; color: #333;">Pressão Atmosférica:</label>
-                    <input type="number" id="atmosphericPressure" name="atmosphericPressure" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px;" required>
-                </div>
-
-                <div style="margin-bottom: 20px;">
-                    <label for="humidity" style="display: block; margin-bottom: 5px; color: #333;">Umidade:</label>
-                    <input type="number" id="humidity" name="humidity" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px;" required>
-                </div>
-
-                <div style="margin-bottom: 20px;">
-                    <label for="weather" style="display: block; margin-bottom: 5px; color: #333;">Tempo:</label>
-                    <input type="text" id="weather" name="weather" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px;" required>
-                </div>
+            <input type="hidden" name="id" value="{{ weather.id }}">
+            
+            <div>
+                <label for="city-input">City:</label>
+                <input type="text" id="city-input" name="city" style="width: 55%; padding: 10px; border-radius: 5px; margin-left: 150px;" value="{{ weather.city }}" required>
             </div>
-
-            <!-- Botão de submissão do formulário -->
-            <button type="submit" style="display: block; margin: 0 auto; padding: 12px 24px; background-color: #6985a3; color: #fff; border: none; border-radius: 5px; cursor: pointer;">Criar Previsão do Tempo</button>
+            
+            <div>
+                <label for="date-input">Date:</label>
+                <input type="datetime-local" id="date-input" name="date" style="width: 55%; padding: 10px; border-radius: 5px; margin-left: 145px;" value="{{ weather.date }}" required>
+            </div>
+            
+            <div>
+                <label for="temperature-input">Temperature:</label>
+                <input type="text" id="temperature-input" name="temperature" style="width: 55%; padding: 10px; border-radius: 5px; margin-left: 90px;" value="{{ weather.temperature }}" required>
+            </div>
+            
+            <div>
+                <label for="pressure-input">Atmospheric Pressure:</label>
+                <input type="text" id="pressure-input" name="atmosphericPressure" style="width: 55%; padding: 10px; border-radius: 5px; margin-left: 20px;" value="{{ weather.atmosphericPressure }}" required>
+            </div>
+            
+            <div>
+                <label for="humidity-input">Humidity:</label>
+                <input type="text" id="humidity-input" name="humidity" style="width: 55%; padding: 10px; border-radius: 5px; margin-left: 115px;" value="{{ weather.humidity }}" required> 
+            </div>
+           
+            <div> 
+                <label for="weather-input">Weather Condition:</label>
+                <input type="text" id="weather-input" name="weather" style="width: 55%; padding: 10px; border-radius: 5px; margin-left: 45px;" value="{{ weather.weather }}" required>
+            </div>
+            <button type="submit">Create</button>
         </form>
-    </div>
+    </div>    
 {% endblock %}

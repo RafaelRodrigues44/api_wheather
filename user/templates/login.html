@@ -2,79 +2,60 @@
 
 {% block title %}Login{% endblock %}
 
- <!-- Estilos do Popup -->
- <style>
-    .popup {
-        position: fixed;
-        top: 50%;
-        left: 60%;
-        transform: translate(-50%, -50%);
-        background-color: #fff;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-        padding: 10px;
-        max-width: 300px;
-        text-align: center;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        z-index: 9999; 
-    }
-
-    .popup h2 {
-        margin-top: 0;
-    }
-</style>
-
 {% block content %}
     {% if login_failed %}
         <!-- Popup de Acesso Negado -->
-        <div class="popup">
+        <div id="popup" style="position: fixed;
+                                top: 50%;
+                                left: 50%;
+                                transform: translate(-50%, -50%);
+                                background-color: #ffffff;
+                                border: 1px solid #ccc;
+                                border-radius: 5px;
+                                padding: 10px;
+                                max-width: 300px;
+                                text-align: center;
+                                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                                z-index: 9999;">
+
             <img style="width: 40px; height: 40px;" src="https://cdn-icons-png.flaticon.com/512/2996/2996824.png" alt="">
-            <h2 style="color: #7d2323;">Acesso Negado</h2>
-            <p style="color: #7d2323;">O login não foi feito com sucesso. Verifique suas credenciais e tente novamente.</p>
+            <h2 style="color: #7d2323; margin-top: 0;">Access Denied</h2>
+            <p style="color: #7d2323;">Login was unsuccessful. Please check your credentials and try again.</p>
         </div>
     {% endif %}
 
-    <div style="text-align: center;">
-        <h2 style="color: #6985a3; margin-bottom: 30px; margin-top: 50px;">Faça seu login</h2>
-        <form method="post" action="{% url 'login' %}" style="max-width: 400px; margin: 0 auto;">
+    <div style="background-color: rgba(0, 0, 0, 0.5); width: 380px; height: auto; border-radius: 15px; 
+                padding-top: 10px; padding-left: 40px; margin-left: 73vh; margin-top: 18vh;">
+
+        <h2 style="color: #ffffff; margin-bottom: 30px; margin-left: 140px;">Login</h2>
+
+        <form method="post" action="{% url 'login' %}">
             {% csrf_token %}
-            <div style="margin-top: 20px;">
+            <div style="margin-top: 50px;">
                 <!-- Campos do formulário -->
                 <div style="margin-bottom: 20px;">
-                    <label for="email" style="font-size: 16px; color: #333; margin-bottom: 5px;">Email:</label>
-                    <input type="email" id="email" name="email" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px;" required>
+                    <label for="email" style="font-size: 16px; color: #ffffff; margin-bottom: 10px;">Email:</label>
+                    <input type="email" id="email" name="email" style="width: 50%; padding: 10px; border-radius: 5px;margin-left: 60px;" required>
                 </div>
 
                 <div style="margin-bottom: 20px;">
-                    <label for="password" style="font-size: 16px; color: #333; margin-bottom: 5px;">Senha:</label>
-                    <input type="password" id="password" name="password" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px;" required>
+                    <label for="password" style="font-size: 16px; color: #fff; margin-bottom: 10px;">Password:</label>
+                    <input type="password" id="password" name="password" style="width: 50%; padding: 10px; border-radius: 5px;margin-left: 30px;" required>
                 </div>
             </div>
 
             <!-- Botão de submissão do formulário -->
-            <button type="submit" style="display: block; margin: 0 auto; margin-bottom: 138px; padding: 12px 24px; background-color: #6985a3; color: #fff; border: none; border-radius: 5px; cursor: pointer;">Login</button>
+            <button type="submit" style="margin-top: 30px;margin-bottom: 30px;margin-left: 138px; padding: 12px 24px; background-color: #6985a3; color: #fff; border: none; border-radius: 5px; cursor: pointer;">Enter</button>
         </form>
     </div>
 
-    <!-- Estilos do Popup -->
-    <style>
-        .popup {
-            position: fixed;
-            top: 50%;
-            left: 60%;
-            transform: translate(-50%, -50%);
-            background-color: #fff;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            padding: 10px;
-            max-width: 300px;
-            text-align: center;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            z-index: 9999; 
-        }
-
-        .popup h2 {
-            margin-top: 0;
-        }
-    </style>
+    <script>
+        // Remove o popup após 10 segundos
+        setTimeout(function() {
+            var popup = document.getElementById('popup');
+            if (popup) {
+                popup.style.display = 'none';
+            }
+        }, 3000);
+    </script>
 {% endblock %}

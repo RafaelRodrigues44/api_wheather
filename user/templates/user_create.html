@@ -3,32 +3,29 @@
 {% block title %}Criar usuário{% endblock %}
 
 {% block content %}
-    <div style="text-align: center;">
-        <h2 style="color: #6985a3; margin-bottom: 30px;">Cadastre-se</h2>
-        <form id="createUserForm" method="post" action="{% url 'user-create' %}" style="max-width: 400px; margin: 0 auto;">
+    <div style="background-color: rgba(0, 0, 0, 0.5); width: 450px; height: auto; border-radius: 15px; padding: 30px; margin-left: 70vh; margin-top: 15vh;">
+        <h2 style="color: #ffffff; margin-bottom: 30px; margin-left: 120px;">Create your account</h2>
+        <form id="createUserForm" method="post" action="{% url 'user-create' %}" style="margin: 0 auto;">
             {% csrf_token %}
-            <div style="margin-top: 20px;">
-                <!-- Campos do formulário -->
+            <div>
                 <div style="margin-bottom: 20px;">
-                    <label for="email" style="font-size: 16px; color: #333; margin-bottom: 5px;">Email:</label>
-                    <input type="email" id="email" name="email" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px;" required>
+                    <label for="email" style="font-size: 16px; color: #ffffff; margin-bottom: 5px;">Email:</label>
+                    <input type="email" id="email" name="email" style="width: 55%; padding: 10px; border-radius: 5px; margin-left: 74px;" required>
                 </div>
 
                 <div style="margin-bottom: 20px;">
-                    <label for="username" style="font-size: 16px; color: #333; margin-bottom: 5px;">Nome de usuário:</label>
-                    <input type="text" id="username" name="username" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px;" required>
+                    <label for="username" style="font-size: 16px; color: #ffffff; margin-bottom: 5px;">Username:</label>
+                    <input type="text" id="username" name="username" style="width: 55%; padding: 10px; border-radius: 5px;margin-left: 40px;" required>
                 </div>
 
                 <div style="margin-bottom: 20px;">
-                    <label for="password" style="font-size: 16px; color: #333; margin-bottom: 5px;">Senha:</label>
-                    <input type="password" id="password" name="password" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px;" required>
+                    <label for="password" style="font-size: 16px; color: #ffffff; margin-bottom: 5px;">Password:</label>
+                    <input type="password" id="password" name="password" style="width: 55%; padding: 10px; border-radius: 5px; margin-left:42px ;" required>
                 </div>
             </div>
 
             <!-- Botão de submissão do formulário -->
-            <button type="submit" style="display: block; margin: 0 auto; padding: 12px 24px; background-color: #6985a3; color: #fff; border: none; border-radius: 5px; cursor: pointer;">Criar Usuário</button>
+            <button type="submit" style="display: block; margin: 0 auto; margin-top: 50px ;padding: 12px 24px; background-color: #6985a3; color: #fff; border: none; border-radius: 5px; cursor: pointer;">Register</button>
         </form>
     </div>
 {% endblock %}
-
-
