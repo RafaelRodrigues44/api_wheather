@@ -5,73 +5,87 @@
 {% block content %}
     <style>
         .about-container {
-            background-color: rgba(0, 0, 0, 0.8);
-            width: 90%;
+            background-color: rgba(0, 0, 0, 0.6);
+            width: 80%;
             height: auto;
             border-radius: 15px;
             padding: 30px;
             margin: 2vh auto;
             text-align: center;
-            line-height: 2;
+            line-height: 1.6;
+            color: #ffffff;
         }
         .about-container h2 {
             color: #ffffff;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
+            font-size: 2em;
         }
         .about-container p, .about-container ul {
-            color: #ffffff;
             text-align: left;
-            margin-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        .about-container ul {
+            padding-left: 20px;
         }
         .about-container li {
-            margin-left: 20px;
+            margin-bottom: 10px;
+        }
+        .section {
+            margin-top: 40px;
+        }
+        .section h2 {
+            text-align: center;
         }
     </style>
 
     <div class="about-container">
-        <h2>Trabalho da disciplina de Desenvolvimento Web II</h2>
-        <p>Professor André Cassolino</p>
+        <h2>Web Development II Course Project</h2>
+        <p><strong>Master:</strong> André Cassolino</p>
     </div>
 
-    <div class="about-container">
-        <p>Esta API, construída em Django com Django Rest Framework (DRF), é uma RESTful API que segue o padrão MVT (Model-View-Template).</p>
-        <p>O padrão MVT é uma variação do padrão MVC (Model-View-Controller), comumente usado em frameworks web como o Django. Aqui está uma breve explicação de cada componente:</p>
+    <div class="about-container section">
+        <p>This API, built with Django and Django Rest Framework (DRF), is a RESTful API that follows the MVT (Model-View-Template) pattern.</p>
+        <p>The MVT pattern is a variation of the MVC (Model-View-Controller) pattern, commonly used in web frameworks like Django. Here is a brief explanation of each component:</p>
         <ul>
-            <li><strong>Modelo (Model):</strong> Representa a estrutura de dados da aplicação. No caso desta API, os modelos definem a estrutura das previsões do tempo e dos usuários.</li>
-            <li><strong>Visão (View):</strong> Lida com a lógica de apresentação e interação do usuário. As views são responsáveis por processar solicitações HTTP e retornar respostas apropriadas. As views neste contexto são implementadas como classes de visualização do Django.</li>
-            <li><strong>Template (Template):</strong> Fornece a estrutura de apresentação para as respostas das views. Os templates são arquivos HTML que podem incluir dados dinâmicos renderizados pelas views.</li>
+            <li><strong>Model:</strong> Represents the data structure of the application. In the case of this API, the models define the structure of weather forecasts and users.</li>
+            <li><strong>View:</strong> Handles the presentation logic and user interaction. Views are responsible for processing HTTP requests and returning appropriate responses. Views in this context are implemented as Django view classes.</li>
+            <li><strong>Template:</strong> Provides the presentation structure for view responses. Templates are HTML files that can include dynamic data rendered by the views.</li>
         </ul>
-        <p>Além disso, esta API utiliza o banco de dados NoSQL MongoDB para armazenar os dados das previsões do tempo. O MongoDB é uma escolha comum para aplicações que exigem escalabilidade e flexibilidade no esquema de dados.</p>
+        <p>Additionally, this API uses the NoSQL database MongoDB to store weather forecast data. MongoDB is a common choice for applications that require scalability and flexibility in data schema.</p>
+    </div>
 
-        <h2 style="margin-top: 40px;">Endpoints Disponíveis</h2>
+    <div class="about-container section">
+        <h2>Available Endpoints</h2>
         <ul>
-            <li><strong>Usuários:</strong>
+            <li><strong>Users:</strong>
                 <ul>
-                    <li><code>GET /api_tempo/users/</code>: Retorna a lista de usuários.</li>
-                    <li><code>POST /api_tempo/user/create/</code>: Cria um novo usuário.</li>
-                    <li><code>GET /api_tempo/user/get/:email/</code>: Retorna os detalhes de um usuário específico.</li>
-                    <li><code>PUT /api_tempo/user/update/:pk/</code>: Atualiza os dados de um usuário existente.</li>
-                    <li><code>DELETE /api_tempo/user/delete/:pk/</code>: Exclui um usuário existente.</li>
+                    <li><code>GET /api_tempo/users/</code>: Returns the list of users.</li>
+                    <li><code>POST /api_tempo/user/create/</code>: Creates a new user.</li>
+                    <li><code>GET /api_tempo/user/get/:email/</code>: Returns the details of a specific user.</li>
+                    <li><code>PUT /api_tempo/user/update/:pk/</code>: Updates an existing user's data.</li>
+                    <li><code>DELETE /api_tempo/user/delete/:pk/</code>: Deletes an existing user.</li>
                 </ul>
             </li>
-            <li><strong>Previsão do Tempo:</strong>
+            <li><strong>Weather Forecast:</strong>
                 <ul>
-                    <li><code>GET /api_tempo/weather/</code>: Retorna a lista de previsões do tempo.</li>
-                    <li><code>POST /api_tempo/weather/create/</code>: Cria uma nova previsão do tempo.</li>
-                    <li><code>GET /api_tempo/weather/get/:pk/</code>: Retorna os detalhes de uma previsão do tempo específica.</li>
-                    <li><code>PUT /api_tempo/weather/update/:pk/</code>: Atualiza os dados de uma previsão do tempo existente.</li>
-                    <li><code>DELETE /api_tempo/weather/delete/:pk/</code>: Exclui uma previsão do tempo existente.</li>
-                    <li><code>GET /api_tempo/weather/city/:city/</code>: Retorna previsões do tempo para uma cidade específica.</li>
+                    <li><code>GET /api_tempo/weather/</code>: Returns the list of weather forecasts.</li>
+                    <li><code>POST /api_tempo/weather/create/</code>: Creates a new weather forecast.</li>
+                    <li><code>GET /api_tempo/weather/get/:pk/</code>: Returns the details of a specific weather forecast.</li>
+                    <li><code>PUT /api_tempo/weather/update/:pk/</code>: Updates an existing weather forecast.</li>
+                    <li><code>DELETE /api_tempo/weather/delete/:pk/</code>: Deletes an existing weather forecast.</li>
+                    <li><code>GET /api_tempo/weather/city/:city/</code>: Returns weather forecasts for a specific city.</li>
                 </ul>
             </li>
         </ul>
+    </div>
 
-        <h2 style="margin-top: 40px;">Funcionalidades de Autenticação</h2>
-        <p>As funcionalidades de login, logout e autenticação foram implementadas utilizando Django e Django Rest Framework. Aqui está uma breve explicação de como cada funcionalidade foi implementada:</p>
+    <div class="about-container section">
+        <h2>Authentication Features</h2>
+        <p>The login, logout, and authentication features were implemented using Django and Django Rest Framework. Here is a brief explanation of how each feature was implemented:</p>
         <ul>
-            <li><strong>Login:</strong> A funcionalidade de login foi implementada na página de login. Os usuários podem inserir seu email e senha para autenticar-se na API.</li>
-            <li><strong>Logout:</strong> A funcionalidade de logout permite que os usuários façam logout de suas contas, limpa o token JWT do cookie e os redireciona de volta para a página de login.</li>
-            <li><strong>Autenticação:</strong> A autenticação é realizada utilizando tokens JWT. Um middleware intercepta todas as requisições para verificar se o usuário está autenticado. Se estiver, o usuário é definido no objeto de requisição para uso posterior.</li>
+            <li><strong>Login:</strong> The login functionality was implemented on the login page. Users can enter their email and password to authenticate with the API.</li>
+            <li><strong>Logout:</strong> The logout functionality allows users to log out of their accounts, clears the JWT token from the cookie, and redirects them back to the login page.</li>
+            <li><strong>Authentication:</strong> Authentication is done using JWT tokens. Middleware intercepts all requests to check if the user is authenticated. If authenticated, the user is set in the request object for later use.</li>
         </ul>
     </div>
 {% endblock %}

@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Homepage</title>
+    <title>Weather Service</title>
     <style>
         body {
             margin: 0;
             font-family: Arial, sans-serif;
             color: #ffffff;
-            background: url('https://i.pinimg.com/originals/fc/dc/08/fcdc08e6be809dc348d4e4c27c720490.jpg') no-repeat center center fixed;
+            background: url('https://wallpaper.forfun.com/fetch/ce/ce1be03a8875c0f91987e20bf2a4edb5.jpeg') no-repeat center center fixed;
             background-size: cover;
             display: flex;
             flex-direction: column;
@@ -26,14 +26,15 @@
         }
 
         .logo img {
-            width: 150px;
-            height: 90px;
+            width: 120px;
+            height: 70px;
         }
 
         nav ul {
             list-style: none;
             display: flex;
             gap: 60px;
+            margin-right: 120px;
         }
 
         nav ul li a {
@@ -74,10 +75,36 @@
 
         footer {
             text-align: center;
-            background: rgba(0, 0, 0, 0.5);
+            background: rgba(0, 0, 0, 0.6);
             padding: 5px 0;
             font-size: 12px;
             flex: 0 1 5vh;
+        }
+
+        .container {
+            text-align: center;
+            color: white;
+            background: rgba(0, 0, 0, 0.4);
+            padding: 20px;
+            border-radius: 10px;
+            width: 1000px;
+            margin-left: 290px;
+            margin-top: 130px;
+        }
+        .title2 {
+            margin: 0;
+            font-size: 4em;
+            margin-bottom: 170px;
+            font-family: sans-serif
+        }
+        .title1 {
+            font-size: 4em;
+            margin: 0;
+            font-family: sans-serif;
+        }
+        .subtitle {
+            font-size: 1.2em;
+            font-style: italic;
         }
     </style>
 </head>
@@ -114,13 +141,16 @@
     </header>
     <main id="main-content">
         {% block content %}
-        <!-- Conteúdo principal da página pode ser adicionado aqui -->
+            <div class="container">
+                <h2 class="title1">THIS IS</h2>
+                <h1 class="title2">WEATHER SERVICE API</h1>
+                <p class="subtitle">A weather forecast RESTful API, designed by Rafael Rodrigues using Django, offers accurate and reliable forecasts.</p>
+            </div>
         {% endblock %}
     </main>
     <footer>
-        <p>Desenvolvido por Rafael Rodrigues - 3º Semestre - Análise e Desenvolvimento de Sistemas</p>
-        <p>Senai Gaspar Ricardo Júnior - Sorocaba - São Paulo</p>
-        <p>2024</p>
+        <p>Análise e Desenvolvimento de Sistemas - 3º Semestre </p> 
+        <p>Senai Gaspar Ricardo Júnior - Sorocaba/SP - 2024</p>
     </footer>
 
     <script>

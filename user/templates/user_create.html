@@ -1,8 +1,26 @@
 {% extends 'base.html' %}
 
-{% block title %}Criar usuário{% endblock %}
+{% block title %}User Create{% endblock %}
 
 {% block content %}
+    <style>
+        button{
+            display: block; 
+            margin: 0 auto; 
+            margin-top: 50px;
+            padding: 12px 24px; 
+            background-color: #6985a3; 
+            color: #fff; 
+            border: none; 
+            border-radius: 5px; 
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #234e54;  
+        }
+    </style>
+
     <div style="background-color: rgba(0, 0, 0, 0.5); width: 450px; height: auto; border-radius: 15px; padding: 30px; margin-left: 70vh; margin-top: 15vh;">
         <h2 style="color: #ffffff; margin-bottom: 30px; margin-left: 120px;">Create your account</h2>
         <form id="createUserForm" method="post" action="{% url 'user-create' %}" style="margin: 0 auto;">
@@ -24,8 +42,7 @@
                 </div>
             </div>
 
-            <!-- Botão de submissão do formulário -->
-            <button type="submit" style="display: block; margin: 0 auto; margin-top: 50px ;padding: 12px 24px; background-color: #6985a3; color: #fff; border: none; border-radius: 5px; cursor: pointer;">Register</button>
+            <button type="submit">Register</button>
         </form>
     </div>
 {% endblock %}

@@ -16,7 +16,7 @@ from api_tempo.urls.urls import url_patterns as api_tempo_urls
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', TemplateView.as_view(template_name='base.html'), name='home'), 
-    path('/about', About.as_view(), name='about'),
+    path('about/', About.as_view(), name='about'),
     path('api_tempo/', include(api_tempo_urls)), 
     path('api_tempo/users/', UserList.as_view(), name='user-list'),
     path('api_tempo/user/create/', UserRegister.as_view(), name='user-create'),

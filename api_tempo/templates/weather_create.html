@@ -4,7 +4,6 @@
 
 {% block content %}
     <style>
-        /* Estilos para labels */
         label {
             font-size: 16px;
             color: #ffffff;
@@ -12,7 +11,6 @@
             margin-left: 30px;
         }
 
-        /* Estilos para inputs */
         input {
             width: 40%;
             padding: 10px;
@@ -21,11 +19,10 @@
             margin-bottom: 20px;
         }
 
-        /* Estilos para o botão */
         button {
             margin: 0 auto;
             margin-top: 20px;
-            margin-left: 280px;
+            margin-left: 270px;
             padding: 12px 24px;
             background-color: #6985a3;
             color: #fff;
@@ -33,10 +30,14 @@
             border-radius: 5px;
             cursor: pointer;
         }
+
+        button:hover {
+            background-color: #234e54;  
+        }
     </style>
 
-    <div style="background-color: rgba(0, 0, 0, 0.5); width: 600px; border-radius: 15px; padding: 30px; margin-top: 10px;margin-left: 500px; padding-left: 30px;" >
-        <h2 style="color: #ffffff; margin-bottom: 30px; margin-left: 180px;">Create Weather</h2>
+    <div style="background-color: rgba(0, 0, 0, 0.5); width: 600px; border-radius: 15px; padding: 30px; margin-top: 40px;margin-left: 500px; padding-left: 30px;" >
+        <h2 style="color: #ffffff; margin-bottom: 30px; margin-left: 230px;">Create Weather</h2>
         
         <form id="createWeatherForm" method="post" action="{% url 'weather-create' %}">
             {% csrf_token %}

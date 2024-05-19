@@ -3,6 +3,23 @@
 {% block title %}User Update{% endblock %}
 
 {% block content %}
+    <style>
+        button {
+            display: block; 
+            margin: 0 auto; 
+            margin-top: 50px;
+            padding: 12px 24px; 
+            background-color: #6985a3; 
+            color: #fff; 
+            border: none; 
+            border-radius: 5px; 
+            cursor: pointer"
+        }
+        button:hover {
+            background-color: #234e54;  
+        }
+    </style>
+    
     <div style="background-color: rgba(0, 0, 0, 0.5); width: 450px; height: auto; border-radius: 15px; padding: 30px; margin: 15vh auto;">
         <h2 style="color: #ffffff; margin-bottom: 30px; margin-left: 120px;">Change your data</h2>
         
@@ -26,7 +43,7 @@
             </div>
 
             <!-- Botão de submissão do formulário -->
-            <button type="submit" style="display: block; margin: 0 auto; margin-top: 50px ;padding: 12px 24px; background-color: #6985a3; color: #fff; border: none; border-radius: 5px; cursor: pointer">Update</button>
+            <button type="submit">Update</button>
         </form>
     </div>
 {% endblock %}

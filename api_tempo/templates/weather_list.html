@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %}Listagem de previsões{% endblock %}
+{% block title %}Forecast List{% endblock %}
 
 {% block content %}
     <style>
@@ -8,18 +8,18 @@
         .weather-list {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 20px; /* Espaçamento entre os cards */
             list-style: none;
             padding: 0;
+            margin-left: 50px;
+            margin-top: 40px;
         }
 
        .weather-item {
-            width: 200px;
+            width: 300px;
             background-color: rgba(0, 0, 0, 0.5);
             border-radius: 5px;
             padding: 15px;
             margin-bottom: 20px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             line-height: 1.5;
         }
 
@@ -28,11 +28,14 @@
             margin-bottom: 10px;
             font-size: 18px;
             color: #f6f4f4;
+            margin-left: 120px;
         }
 
         .weather-item p {
             margin: 0;
             color: #f6f4f4;
+            margin-left: 30px;
+            margin-bottom: 5px;
         }
 
         .weather-item .update-btn {
@@ -43,7 +46,8 @@
             border-radius: 5px;
             cursor: pointer;
             margin-top: 20px;
-            margin-left: 20px;
+            margin-left: 60px;
+            padding: 12px;
         }
 
         .weather-item .update-btn:hover {
@@ -54,7 +58,8 @@
             background-color: #c9626c;
             color: #ffffff;
             border: none;
-            padding: 8px 12px;
+            padding: 12px;
+            padding-left: 14px;
             border-radius: 5px;
             cursor: pointer;
             transition: background-color 0.3s ease;
@@ -74,7 +79,6 @@
             text-align: center;
         }   
 
-        /* Estilos para o contêiner e os elementos dentro dele */
         .search-container {
             display: flex;
             align-items: center;
@@ -86,7 +90,6 @@
             margin-left: 650px;
         }
 
-        Estilos para o formulário de busca
         #search-form {
             display: flex;
             align-items: center;
@@ -115,7 +118,6 @@
 
     <main style="display: inline-block; padding-left: 50px">
         {% if not user %}
-        <!-- Exibe a mensagem apenas se o usuário não estiver autenticado -->
         <div class="message">
             <p>Usuário não autenticado.</p>
         </div>
@@ -143,11 +145,11 @@
                     {% for record in weather_records %}
                         <li class="weather-item">
                             <h3>{{ record.city }}</h3>
-                            <p>Data: {{ record.date }}</p>
-                            <p>Temperatura: {{ record.temperature }}</p>
-                            <p>Pressão: {{ record.atmosphericPressure }}</p>
-                            <p>Umidade: {{ record.humidity }}</p>
-                            <p>Condição: {{ record.weather }}</p>
+                            <p>Date: {{ record.date }}</p>
+                            <p>Temperature: {{ record.temperature }} ºC</p>
+                            <p>Atmmosphere Pressure: {{ record.atmosphericPressure }} PA</p>
+                            <p>Humidity: {{ record.humidity }}%</p>
+                            <p>Weather Condition: {{ record.weather }}</p>
                             <div>
                                 {% if request.user and record.id %}
                                     <!-- Renderiza o botão de atualização -->

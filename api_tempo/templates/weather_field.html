@@ -14,7 +14,6 @@
             margin-bottom: 20px;
             margin-top: 100px;
             margin-left: 650px;
-
         }
 
         .weather-card p {
@@ -52,26 +51,22 @@
         }
     </style>
 
-    <!-- Título dinâmico -->
-    <h1 style="text-align: center; background-color: rgba(0, 0, 0, 0.5); padding: 30px; border-radius: 15px; width: 800px; margin-left: 400px;">Registros para {{ weather_records.0.city }}</h1>
+    <h1 style="text-align: center; background-color: rgba(0, 0, 0, 0.5); padding: 30px; border-radius: 15px; width: 800px; margin-left: 400px;">Registers for {{ weather_records.0.city }}</h1>
 
     <div>
         <ul class="weather-list">
             {% for record in weather_records %}
                 <li class="weather-card">
-                    <p>Data: {{ record.date }}</p>
-                    <p>Temperatura: {{ record.temperature }}</p>
-                    <p>Pressão: {{ record.atmosphericPressure }}</p>
-                    <p>Umidade: {{ record.humidity }}</p>
-                    <p>Condição: {{ record.weather }}</p>
+                    <p>Date: {{ record.date }}</p>
+                    <p>Temperature: {{ record.temperature }}ºC</p>
+                    <p>Atmospheric Pressure: {{ record.atmosphericPressure }} PA</p>
+                    <p>Humidity: {{ record.humidity }}%</p>
+                    <p>Weather Condition: {{ record.weather }}</p>
                     <div>
                         {% if request.user and record.id %}
-                            <!-- Renderiza o botão de atualização -->
                             <button class="update-btn btn btn-primary" data-pk="{{ record.id }}" data-update-url="{% url 'weather-get' pk=record.id %}">Update</button>
-                            <!-- Renderiza o botão de exclusão -->
                             <button class="delete-btn btn btn-danger" data-pk="{{ record.id }}" data-delete-url="{% url 'weather-delete' pk=record.id %}">Excluir</button>
                         {% else %}
-                            <!-- Se o registro não tiver um ID válido, exiba uma mensagem -->
                             <p class="message">ID vazio</p>
                         {% endif %}
                     </div>
