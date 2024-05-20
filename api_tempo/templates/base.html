@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather Service</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            color: #ffffff;
+            background: url('https://wallpaper.forfun.com/fetch/ce/ce1be03a8875c0f91987e20bf2a4edb5.jpeg') no-repeat center center fixed;
+            background-size: cover;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1vh 5vw;
+            background: rgba(0, 0, 0, 0.6);
+        }
+
+        .logo img {
+            height: 9vh;
+            width: 15vh;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 3vw;
+        }
+
+        nav ul li a {
+            color: #ffffff;
+            text-decoration: none;
+            transition: all 0.3s ease; 
+        }
+
+        nav ul li:hover a {
+            color: #cccccc; 
+        }
+
+        nav ul li:hover {
+            transform: scale(1.10);
+        }
+
+        .user-actions {
+            display: flex;
+            align-items: center;
+            gap: 1vw;
+        }
+
+        .user-actions a {
+            color: #ffffff;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .user-actions a:hover {
+            transform: scale(1.20);
+            color: #cccccc;
+        }
+
+        main {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 2vh 5vw;
+        }
+
+        footer {
+            text-align: center;
+            background: rgba(0, 0, 0, 0.6);
+            padding: 1vh 0;
+            font-size: 0.7em;
+        }
+
+        .container {
+            background: rgba(0, 0, 0, 0.4);
+            padding: 2vh 5vw;
+            border-radius: 10px;
+            max-width: 50vw;
+            width: 100%;
+        }
+
+        .title2, .title1 {
+            margin: 0;
+            font-size: 3em;
+            font-family: sans-serif;
+        }
+
+        .title2 {
+            margin-bottom: 24vh;
+        }
+
+        .subtitle {
+            font-size: 0.8em;
+            font-style: italic;
+        }
+
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                padding: 1vh 2vw;
+            }
+
+            nav ul {
+                flex-direction: column;
+                gap: 2vh;
+            }
+
+            .container {
+                padding: 2vh 3vw;
+            }
+
+            .title2, .title1 {
+                font-size: 2em;
+            }
+        }
+    </style>
+</head>
+<body>
+    {% load static %}
+    <header>
+        <div class="logo">
+            <img src="{% static 'images/logo.png' %}" alt="Logo">
+        </div>
+        {% if user %}
+            <div class="user-info">
+                <p>User: {{ user.username }}</p>
+            </div>
+        {% endif %}
+
+        <nav>
+            <ul>
+                {% if user %}
+                    <li><a href="{% url 'home' %}">Home</a></li>
+                    <li><a href="{% url 'weather-list' %}">Weathers</a></li>
+                    <li><a href="{% url 'weather-create' %}">Create Weather</a></li>
+                    <li><a href="{% url 'user-list' %}">Users</a></li>
+                    <li><a href="{% url 'logout' %}">Log out</a></li>
+                {% else %}
+                    <li><a href="{% url 'home' %}">Home</a></li>
+                    <li><a href="{% url 'login' %}">Sign in</a></li>
+                    <li><a href="{% url 'user-create' %}">Register</a></li>
+                {% endif %}
+            </ul>
+        </nav>
+        <div class="user-actions">
+            <a href="{% url 'about' %}">About</a>
+        </div>
+    </header>
+    <main>
+        {% block content %}
+            <div class="container">
+                <h2 class="title1">THIS IS</h2>
+                <h1 class="title2">WEATHER SERVICE</h1>
+                <p class="subtitle">A weather forecast RESTful API, designed by Rafael Rodrigues using Django, offers accurate and reliable forecasts.</p>
+            </div>
+        {% endblock %}
+    </main>
+    <footer>
+        <p>Análise e Desenvolvimento de Sistemas - 3º Semestre </p> 
+        <p>Senai Gaspar Ricardo Júnior - Sorocaba/SP - 2024</p>
+    </footer>
+</body>
+</html>

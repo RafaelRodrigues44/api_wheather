@@ -1,0 +1,126 @@
+{% extends 'base.html' %}
+
+{% block title %}Weather City{% endblock %}
+
+{% block content %}
+
+    <style>
+        .weather-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(225px, 1fr));
+            list-style: none;
+            padding: 0;
+            margin-top: 10px;
+            gap: 20px;
+        }
+
+        .weather-card {
+            background-color: rgba(0, 0, 0, 0.5);
+            border-radius: 5px;
+            padding: 10px;
+            width: 100%;
+            line-height: 1.2;
+            box-sizing: border-box;
+        }
+
+        .weather-card p {
+            color: #ffffff;
+            margin-bottom: 10px; 
+            font-size: 0.8em; 
+        }
+
+        .weather-card .delete-btn,
+        .weather-card .update-btn {
+            padding: 6px 9px; 
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            color: #ffffff;
+            border: none;
+            margin-left: 10px;
+            margin-top: 10px; 
+            font-size: 0.75em; 
+        }
+
+        .weather-card .delete-btn {
+            background-color: #c9626c;
+        }
+
+        .weather-card .update-btn {
+            background-color: #1abc9c;
+        }
+
+        .weather-card .delete-btn:hover {
+            background-color: #c82333;
+        }
+
+        .weather-card .update-btn:hover {
+            background-color: #296559;
+        }
+
+        .message {
+            font-size: 0.75em; 
+        }
+
+        .title {
+            text-align: center;
+            background-color: rgba(0, 0, 0, 0.5);
+            padding: 15px; 
+            border-radius: 15px;
+            max-width: 450px; 
+            font-size: 1.3em;
+            margin: 0 auto; 
+            margin-bottom: 30px;
+        }
+
+        .container {
+            margin-top: -15vh;
+            padding: 0 20px;
+            background: none; 
+        }
+    </style>
+
+    <div class="container">
+        <div>
+            <h1 class="title">Registers for {{ weather_records.0.city }}</h1>
+        </div>
+
+        <ul class="weather-list">
+            {% for record in weather_records %}
+                <li class="weather-card">
+                    <p>Date: {{ record.date }}</p>
+                    <p>Temperature: {{ record.temperature }}ºC</p>
+                    <p>Atmospheric Pressure: {{ record.atmosphericPressure }} PA</p>
+                    <p>Humidity: {{ record.humidity }}%</p>
+                    <p>Weather Condition: {{ record.weather }}</p>
+                    <div>
+                        {% if request.user and record.id %}
+                            <button class="update-btn btn btn-primary" data-pk="{{ record.id }}" data-update-url="{% url 'weather-get' pk=record.id %}">Update</button>
+                            <button class="delete-btn btn btn-danger" data-pk="{{ record.id }}" data-delete-url="{% url 'weather-delete' pk=record.id %}">Excluir</button>
+                        {% else %}
+                            <p class="message">ID vazio</p>
+                        {% endif %}
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <script>
+        document.querySelectorAll('.delete-btn').forEach(function(button) {
+            button.addEventListener('click', function() {
+                var deleteUrl = button.dataset.deleteUrl;
+                if (confirm('Tem certeza que deseja excluir este registro?')) {
+                    window.location.href = deleteUrl;
+                }
+            });
+        });
+
+        document.querySelectorAll('.update-btn').forEach(function(button) {
+            button.addEventListener('click', function() {
+                var updateUrl = button.dataset.updateUrl;
+                window.location.href = updateUrl;
+            });
+        });
+    </script>
+{% endblock %}

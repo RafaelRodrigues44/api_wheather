@@ -1,0 +1,180 @@
+{% extends 'base.html' %}
+
+{% block title %}Listagem de usuários{% endblock %}
+
+{% block content %}
+    <style>
+        .search-container {
+            display: flex;
+            align-items: center;
+            height: 10vh;
+            margin-top: 3vh;
+            margin-bottom: 8vh;
+            background-color: rgba(0, 0, 0, 0.5);
+            border-radius: 10px;
+            margin-left: 30vh;
+            font-size: 0.75em; 
+            padding-left: 2vh;
+            padding-right: 2vh;
+        }
+        #search-form {
+            display: flex;
+            align-items: center;
+        }
+
+        #search-form label {
+            margin-right: 10px;
+            
+        }
+
+        .search-btn {
+            padding: 10px;
+            border: none;
+            background: #1abc9c;
+            color: #ffffff;
+            border-radius: 0 5px 5px 0;
+            cursor: pointer;
+        }
+
+        .input {
+            width: 300px;
+            padding: 10px;
+            border: none;
+            border-radius: 5px 0 0 5px;
+        }
+
+        .user-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 3vh; 
+            list-style: none;
+            padding: 0;
+            padding-left: 10vh;
+        }
+
+        .user-item {
+            width: 200px;
+            background-color: rgba(0, 0, 0, 0.5);
+            border-radius: 5px;
+            padding: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .user-item h3 {
+            margin-top: 0;
+            margin-bottom: 10px;
+            font-size: 18px;
+            color: #f6f4f4;
+        }
+
+        .user-item p {
+            margin: 0;
+            color: #f6f4f4;
+        }
+
+        .user-item .update-btn {
+            padding: 8px;
+            border: none;
+            background: #1abc9c;
+            color: #ffffff;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        .user-item .update-btn:hover {
+            background-color: #296559;
+        }
+
+        .user-item .delete-btn {
+            background-color: #c9626c;
+            color: #ffffff;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-left: 30px;
+        }
+
+        .user-item .delete-btn:hover {
+            background-color: #c82333;
+        }
+
+        .message {
+            color: #ffffff;
+            background-color: rgba(0, 0, 0, 0.5); 
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 20px; 
+            text-align: center;
+        }   
+    </style>
+
+    <main style="display: inline-block; padding-left: 50px">
+        {% if not user %}
+            <div class="message">
+                <p>Usuário não autenticado.</p>
+            </div>
+        
+        {% else %}
+
+        <div style="display: flex; gap: 100px">
+            <div>
+                <h2 style="background-color: rgba(0, 0, 0, 0.5);text-align: center; color: rgb(255, 255, 255); padding: 5px; border-radius: 30px; font-size: 20px; width: 30vh;">List of users</h2>
+            </div>
+
+            <div class="search-container">
+                <form id="search-form">
+                    <label for="user-input">Type user email:</label>
+                    <input class="input" type="text" id="user-input" name="user" required>
+                    <button class="search-btn" type="button" id="search-button">Search</button>
+                </form>
+            </div>
+        </div>
+            
+        <div>
+            <ul class="user-list">
+                {% for record in user_records %}
+                    <li class="user-item">
+                        <h3>{{ record.username }}</h3>
+                        <p>Email: {{ record.email }}</p>
+                        <div style="margin-left: 20px;">
+                            <button class="update-btn btn btn-primary" data-pk="{{ record.id }}" data-update-url="{% url 'user-get' pk=record.id %}">Update</button>
+                            <button class="delete-btn btn btn-danger" data-pk="{{ record.id }}" data-delete-url="{% url 'user-delete' pk=record.id %}">Delete</button>                     
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+        
+            <script>
+                document.querySelectorAll('.delete-btn').forEach(function(button) {
+                    button.addEventListener('click', function() {
+                        var deleteUrl = button.dataset.deleteUrl;
+                        if (confirm('Are you sure you want to delete this record?')) {
+                            window.location.href = deleteUrl;
+                        }
+                    });
+                });
+
+                document.querySelectorAll('.update-btn').forEach(function(button) {
+                button.addEventListener('click', function() {
+                    var updateUrl = button.dataset.updateUrl;
+                    window.location.href = updateUrl;
+                });
+            });
+
+                document.addEventListener('DOMContentLoaded', function() {
+                    document.getElementById('search-button').addEventListener('click', function() {
+                        var userInput = document.getElementById('user-input').value;
+                        var baseUrl = '{{ request.scheme }}://{{ request.get_host }}';  
+                        var searchUrl = baseUrl + '/api_tempo/user/get/' + encodeURIComponent(userInput) + '/';
+                        window.location.href = searchUrl;
+                    });
+                });
+            </script>
+        {% endif %}
+    </main>
+{% endblock %}

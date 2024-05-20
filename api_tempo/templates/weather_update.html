@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+
+{% block title %}Weather Update{% endblock %}
+
+{% block content %}
+    <style>
+        label {
+            font-size: 16px;
+            color: #ffffff;
+            margin-bottom: 5px;
+            margin-left: 30px;
+        }
+
+        input {
+            width: 40%;
+            padding: 10px;
+            border-radius: 5px;
+            margin-left: 65px;
+            margin-bottom: 20px;
+        }
+
+        button {
+            margin: 0 auto;
+            padding: 10px 22px;
+            background-color: #6985a3;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #234e54;  
+        }
+    </style>
+
+    <div style="background-color: rgba(0, 0, 0, 0.5); width: 500px; border-radius: 15px; padding: 30px">
+        <h2 style="color: #ffffff; margin-top: -1vh;">Change weather data</h2>
+        
+        <form method="post" action="{% url 'weather-update' pk=pk %}" id="update-form">
+            {% csrf_token %}
+            <input type="hidden" name="id" value="{{ weather.id }}">
+            
+            <div>
+                <label for="city-input">City:</label>
+                <input type="text" id="city-input" name="city" style="width: 50%; padding: 8px; border-radius: 5px; margin-left: 150px;" value="{{ weather.city }}" required>
+            </div>
+            
+            <div>
+                <label for="date-input">Date:</label>
+                <input type="datetime-local" id="date-input" name="date" style="width: 50%; padding: 8px; border-radius: 5px; margin-left: 145px;" value="{{ weather.date }}" required>
+            </div>
+            
+            <div>
+                <label for="temperature-input">Temperature:</label>
+                <input type="text" id="temperature-input" name="temperature" style="width: 50%; padding: 8px; border-radius: 5px; margin-left: 90px;" value="{{ weather.temperature }}" required>
+            </div>
+            
+            <div>
+                <label for="pressure-input">Atmospheric Pressure:</label>
+                <input type="text" id="pressure-input" name="atmosphericPressure" style="width: 50%; padding: 8px; border-radius: 5px; margin-left: 20px;" value="{{ weather.atmosphericPressure }}" required>
+            </div>
+            
+            <div>
+                <label for="humidity-input">Humidity:</label>
+                <input type="text" id="humidity-input" name="humidity" style="width: 50%; padding: 8px; border-radius: 5px; margin-left: 115px;" value="{{ weather.humidity }}" required> 
+            </div>
+           
+            <div> 
+                <label for="weather-input">Weather Condition:</label>
+                <input type="text" id="weather-input" name="weather" style="width: 50%; padding: 8px; border-radius: 5px; margin-left: 45px;" value="{{ weather.weather }}" required>
+            </div>
+            <button type="submit">Update</button>
+        </form>
+    </div>    
+{% endblock %}

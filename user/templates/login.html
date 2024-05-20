@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+
+{% block title %}Login{% endblock %}
+
+{% block content %}
+
+    <style>
+        button{
+            margin-top: 1.5vh;
+            margin-bottom: 5vh;
+            margin-left: 2.5vh; 
+            padding: 12px 24px; 
+            background-color: #6985a3; 
+            color: #fff; 
+            border: none; 
+            border-radius: 5px; 
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #234e54;  
+        }
+    </style>
+
+    {% if login_failed %}
+        <!-- Popup  -->
+        <div id="popup" style="position: fixed;
+                                top: 50%;
+                                left: 50%;
+                                transform: translate(-50%, -50%);
+                                background-color: #ffffff;
+                                border: 1px solid #ccc;
+                                border-radius: 5px;
+                                padding: 10px;
+                                max-width: 300px;
+                                text-align: center;
+                                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                                z-index: 9999;">
+
+            <img style="width: 40px; height: 40px;" src="https://cdn-icons-png.flaticon.com/512/2996/2996824.png" alt="">
+            <h2 style="color: #7d2323; margin-top: 0;">Access Denied</h2>
+            <p style="color: #7d2323;">Login was unsuccessful. Please check your credentials and try again.</p>
+        </div>
+    {% endif %}
+
+    <div style="background-color: rgba(0, 0, 0, 0.5); width: 380px; height: auto; border-radius: 15px; margin-left:-3vh;
+                padding-top: 2vh">
+
+        <h2 style="color: #ffffff; margin-bottom: 30px; margin-left: 2vh">Login</h2>
+
+        <form method="post" action="{% url 'login' %}">
+            {% csrf_token %}
+            <div style="margin-top: 30px;">
+                <div style="margin-bottom: 20px;">
+                    <label for="email" style="font-size: 14px; color: #ffffff; margin-bottom: 2vh;">Email:</label>
+                    <input type="email" id="email" name="email" style="width: 50%; padding: 10px; border-radius: 5px;margin-left: 6vh" required>
+                </div>
+
+                <div style="margin-bottom: 20px;">
+                    <label for="password" style="font-size: 14px; color: #fff; margin-bottom: 2vh;">Password:</label>
+                    <input type="password" id="password" name="password" style="width: 50%; padding: 10px; border-radius: 5px;margin-left: 1vh;" required>
+                </div>
+            </div>
+
+            <button type="submit">Enter</button>
+        </form>
+    </div>
+
+    <script>
+        // Remove o popup after 10 seconds
+        setTimeout(function() {
+            var popup = document.getElementById('popup');
+            if (popup) {
+                popup.style.display = 'none';
+            }
+        }, 3000);
+    </script>
+{% endblock %}

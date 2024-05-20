@@ -1,0 +1,183 @@
+{% extends 'base.html' %}
+
+{% block title %}Forecast List{% endblock %}
+
+{% block content %}
+    <style>
+        .weather-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(225px, 1fr));
+            list-style: none;
+            padding: 0;
+            margin-top: 10px;
+            gap: 20px;
+        }
+
+        .weather-item {
+            background-color: rgba(0, 0, 0, 0.5);
+            border-radius: 5px;
+            padding: 12px;
+            margin-bottom: 15px;
+            line-height: 1.2;
+            font-size: 0.75em; 
+        }
+
+        .weather-item h3 {
+            margin-top: 0;
+            margin-bottom: 8px;
+            font-size: 1.125em; 
+        }
+
+        .weather-item p {
+            margin: 0;
+            color: #f6f4f4;
+            margin-bottom: 4px;
+        }
+
+        .weather-item .update-btn,
+        .weather-item .delete-btn {
+            padding: 8px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 15px;
+            font-size: 0.75em; /* Diminuído em 25% */
+        }
+
+        .weather-item .update-btn {
+            background: #1abc9c;
+            color: #ffffff;
+        }
+
+        .weather-item .update-btn:hover {
+            background-color: #296559;
+        }
+
+        .weather-item .delete-btn {
+            background-color: #c9626c;
+            color: #ffffff;
+            margin-left: 20px;
+        }
+
+        .weather-item .delete-btn:hover {
+            background-color: #c82333;
+        }
+
+        .message {
+            color: #ffffff;
+            background-color: rgba(0, 0, 0, 0.5); 
+            padding: 8px;
+            border-radius: 5px;
+            margin-bottom: 15px; 
+            text-align: center;
+            font-size: 0.75em; 
+        }
+
+        .search-container {
+            display: flex;
+            align-items: center;
+            height: 10vh;
+            margin-top: 3vh;
+            background-color: rgba(0, 0, 0, 0.5);
+            border-radius: 10px;
+            margin-left: 30vh;
+            font-size: 0.75em; 
+            padding-left: 2vh;
+            padding-right: 2vh;
+        }
+
+        #search-form {
+            display: flex;
+            align-items: center;
+            margin-right: 4px;
+        }
+
+        #search-form label {
+            margin-right: 8px;
+        }
+
+        .search-btn {
+            padding: 8px;
+            border: none;
+            background: #1abc9c;
+            color: #ffffff;
+            border-radius: 0 5px 5px 0;
+            cursor: pointer;
+        }
+
+        .input {
+            width: 200px;
+            padding: 8px;
+            border: none;
+            border-radius: 5px 0 0 5px;
+        }
+    </style>
+
+    <main style="display: inline-block; padding-left: 40px;">
+        {% if not user %}
+        <div class="message">
+            <p>User not authenticated.</p>
+        </div>
+    
+        {% else %}
+            <div style="display: flex; justify-content: space-between; margin-top: -80px;">
+                <div>
+                    <h2 style="background-color: rgba(0, 0, 0, 0.5);text-align: center; color: rgb(255, 255, 255); padding: 16px; border-radius: 30px; font-size: 1.5em;">Weathers</h2>
+                </div>
+                <div class="search-container">
+                    <form id="search-form">
+                        <label for="city-input">Type city name:</label>
+                        <input type="text" id="city-input" name="city" class="input" required>
+                        <button type="button" id="search-button" class="search-btn">Find</button>
+                    </form>
+                </div>
+            </div>
+
+            <ul class="weather-list">
+                {% for record in weather_records %}
+                    <li class="weather-item">
+                        <h3>{{ record.city }}</h3>
+                        <p>Date: {{ record.date }}</p>
+                        <p>Temperature: {{ record.temperature }} ºC</p>
+                        <p>Atmospheric Pressure: {{ record.atmosphericPressure }} PA</p>
+                        <p>Humidity: {{ record.humidity }}%</p>
+                        <p>Weather Condition: {{ record.weather }}</p>
+                        <div>
+                            {% if request.user and record.id %}
+                                <button class="update-btn" data-pk="{{ record.id }}" data-update-url="{% url 'weather-get' pk=record.id %}">Update</button>
+                                <button class="delete-btn" data-pk="{{ record.id }}" data-delete-url="{% url 'weather-delete' pk=record.id %}">Excluir</button>                      
+                            {% endif %}
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+
+            <script>
+                document.querySelectorAll('.delete-btn').forEach(function(button) {
+                    button.addEventListener('click', function() {
+                        var deleteUrl = button.dataset.deleteUrl;
+                        if (confirm('Tem certeza que deseja excluir este registro?')) {
+                            window.location.href = deleteUrl;
+                        }
+                    });
+                });
+
+                document.querySelectorAll('.update-btn').forEach(function(button) {
+                    button.addEventListener('click', function() {
+                        var updateUrl = button.dataset.updateUrl;
+                        window.location.href = updateUrl;
+                    });
+                });
+
+                document.addEventListener('DOMContentLoaded', function() {
+                    document.getElementById('search-button').addEventListener('click', function() {
+                        var cityInput = document.getElementById('city-input').value;
+                        var baseUrl = '{{ request.scheme }}://{{ request.get_host }}';
+                        var searchUrl = baseUrl + '/api_tempo/weather/city/' + encodeURIComponent(cityInput) + '/';
+                        window.location.href = searchUrl;
+                    });
+                });
+            </script>
+        {% endif %}
+    </main>
+{% endblock %}
