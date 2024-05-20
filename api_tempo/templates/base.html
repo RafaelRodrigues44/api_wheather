@@ -20,21 +20,19 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 0 50px;
+            padding: 1vh 5vw;
             background: rgba(0, 0, 0, 0.6);
-            flex: 0 1 10vh;
         }
 
         .logo img {
-            width: 14vh;
             height: 9vh;
+            width: 15vh;
         }
 
         nav ul {
             list-style: none;
             display: flex;
-            gap: 60px;
-            margin-right: 120px;
+            gap: 3vw;
         }
 
         nav ul li a {
@@ -49,18 +47,18 @@
 
         nav ul li:hover {
             transform: scale(1.10);
-            color: #cccccc;
         }
 
         .user-actions {
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 1vw;
         }
 
         .user-actions a {
             color: #ffffff;
             text-decoration: none;
+            transition: all 0.3s ease;
         }
         
         .user-actions a:hover {
@@ -69,42 +67,62 @@
         }
 
         main {
-           margin: 0;
-           margin-top: 20px;
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 2vh 5vw;
         }
 
         footer {
             text-align: center;
             background: rgba(0, 0, 0, 0.6);
-            padding: 5px 0;
-            font-size: 12px;
-            flex: 0 1 5vh;
+            padding: 1vh 0;
+            font-size: 0.7em;
         }
 
         .container {
-            text-align: center;
-            color: white;
             background: rgba(0, 0, 0, 0.4);
-            padding: 20px;
+            padding: 2vh 5vw;
             border-radius: 10px;
-            width: 1000px;
-            margin-left: 37vh;
-            margin-top: 10vh;
+            max-width: 50vw;
+            width: 100%;
         }
-        .title2 {
+
+        .title2, .title1 {
             margin: 0;
-            font-size: 4em;
-            margin-bottom: 170px;
-            font-family: sans-serif
-        }
-        .title1 {
-            font-size: 4em;
-            margin: 0;
+            font-size: 3em;
             font-family: sans-serif;
         }
+
+        .title2 {
+            margin-bottom: 24vh;
+        }
+
         .subtitle {
-            font-size: 1.2em;
+            font-size: 0.8em;
             font-style: italic;
+        }
+
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                padding: 1vh 2vw;
+            }
+
+            nav ul {
+                flex-direction: column;
+                gap: 2vh;
+            }
+
+            .container {
+                padding: 2vh 3vw;
+            }
+
+            .title2, .title1 {
+                font-size: 2em;
+            }
         }
     </style>
 </head>
@@ -116,7 +134,7 @@
         </div>
         {% if user %}
             <div class="user-info">
-                    <p>User: {{ user.username }}</p>
+                <p>User: {{ user.username }}</p>
             </div>
         {% endif %}
 
@@ -139,11 +157,11 @@
             <a href="{% url 'about' %}">About</a>
         </div>
     </header>
-    <main id="main-content">
+    <main>
         {% block content %}
             <div class="container">
                 <h2 class="title1">THIS IS</h2>
-                <h1 class="title2">WEATHER SERVICE API</h1>
+                <h1 class="title2">WEATHER SERVICE</h1>
                 <p class="subtitle">A weather forecast RESTful API, designed by Rafael Rodrigues using Django, offers accurate and reliable forecasts.</p>
             </div>
         {% endblock %}
@@ -152,14 +170,5 @@
         <p>Análise e Desenvolvimento de Sistemas - 3º Semestre </p> 
         <p>Senai Gaspar Ricardo Júnior - Sorocaba/SP - 2024</p>
     </footer>
-
-    <script>
-        // Ajustar a altura da main de acordo com o conteúdo
-        window.addEventListener('DOMContentLoaded', function() {
-            var mainContent = document.getElementById('main-content');
-            var bodyHeight = document.body.scrollHeight;
-            mainContent.style.height = bodyHeight + 'px';
-        });
-    </script>
 </body>
 </html>

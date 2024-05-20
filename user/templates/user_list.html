@@ -7,11 +7,15 @@
         .search-container {
             display: flex;
             align-items: center;
-            justify-content: space-between;
-            margin-bottom: 20px;
+            height: 10vh;
+            margin-top: 3vh;
+            margin-bottom: 8vh;
             background-color: rgba(0, 0, 0, 0.5);
-            padding: 30px;
             border-radius: 10px;
+            margin-left: 30vh;
+            font-size: 0.75em; 
+            padding-left: 2vh;
+            padding-right: 2vh;
         }
         #search-form {
             display: flex;
@@ -33,7 +37,7 @@
         }
 
         .input {
-            width: 400px;
+            width: 300px;
             padding: 10px;
             border: none;
             border-radius: 5px 0 0 5px;
@@ -110,16 +114,15 @@
 
     <main style="display: inline-block; padding-left: 50px">
         {% if not user %}
-            <!-- Exibe a mensagem apenas se o usuário não estiver autenticado -->
             <div class="message">
                 <p>Usuário não autenticado.</p>
             </div>
         
         {% else %}
 
-        <div style="display: flex; gap: 600px">
+        <div style="display: flex; gap: 100px">
             <div>
-                <h2 style="background-color: rgba(0, 0, 0, 0.5);text-align: center; color: rgb(255, 255, 255); padding: 20px; border-radius: 30px;">List of users</h2>
+                <h2 style="background-color: rgba(0, 0, 0, 0.5);text-align: center; color: rgb(255, 255, 255); padding: 5px; border-radius: 30px; font-size: 20px; width: 30vh;">List of users</h2>
             </div>
 
             <div class="search-container">
@@ -138,9 +141,7 @@
                         <h3>{{ record.username }}</h3>
                         <p>Email: {{ record.email }}</p>
                         <div style="margin-left: 20px;">
-                            <!-- Renderiza o botão de atualização -->
                             <button class="update-btn btn btn-primary" data-pk="{{ record.id }}" data-update-url="{% url 'user-get' pk=record.id %}">Update</button>
-                            <!-- Renderiza o botão de exclusão -->
                             <button class="delete-btn btn btn-danger" data-pk="{{ record.id }}" data-delete-url="{% url 'user-delete' pk=record.id %}">Delete</button>                     
                         </div>
                     </li>
@@ -149,7 +150,6 @@
         </div>
         
             <script>
-                // Adicione os scripts JavaScript para interatividade
                 document.querySelectorAll('.delete-btn').forEach(function(button) {
                     button.addEventListener('click', function() {
                         var deleteUrl = button.dataset.deleteUrl;

@@ -4,50 +4,49 @@
 
 {% block content %}
     <style>
-
         .weather-list {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(225px, 1fr));
             list-style: none;
             padding: 0;
-            margin-left: 50px;
-            margin-top: 40px;
+            margin-top: 10px;
+            gap: 20px;
         }
 
-       .weather-item {
-            width: 300px;
+        .weather-item {
             background-color: rgba(0, 0, 0, 0.5);
             border-radius: 5px;
-            padding: 15px;
-            margin-bottom: 20px;
-            line-height: 1.5;
+            padding: 12px;
+            margin-bottom: 15px;
+            line-height: 1.2;
+            font-size: 0.75em; 
         }
 
         .weather-item h3 {
             margin-top: 0;
-            margin-bottom: 10px;
-            font-size: 18px;
-            color: #f6f4f4;
-            margin-left: 120px;
+            margin-bottom: 8px;
+            font-size: 1.125em; 
         }
 
         .weather-item p {
             margin: 0;
             color: #f6f4f4;
-            margin-left: 30px;
-            margin-bottom: 5px;
+            margin-bottom: 4px;
+        }
+
+        .weather-item .update-btn,
+        .weather-item .delete-btn {
+            padding: 8px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 15px;
+            font-size: 0.75em; /* Diminuído em 25% */
         }
 
         .weather-item .update-btn {
-            padding: 8px;
-            border: none;
             background: #1abc9c;
             color: #ffffff;
-            border-radius: 5px;
-            cursor: pointer;
-            margin-top: 20px;
-            margin-left: 60px;
-            padding: 12px;
         }
 
         .weather-item .update-btn:hover {
@@ -57,13 +56,7 @@
         .weather-item .delete-btn {
             background-color: #c9626c;
             color: #ffffff;
-            border: none;
-            padding: 12px;
-            padding-left: 14px;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-            margin-left: 30px;
+            margin-left: 20px;
         }
 
         .weather-item .delete-btn:hover {
@@ -73,34 +66,38 @@
         .message {
             color: #ffffff;
             background-color: rgba(0, 0, 0, 0.5); 
-            padding: 10px;
+            padding: 8px;
             border-radius: 5px;
-            margin-bottom: 20px; 
+            margin-bottom: 15px; 
             text-align: center;
-        }   
+            font-size: 0.75em; 
+        }
 
         .search-container {
             display: flex;
             align-items: center;
-            justify-content: space-between;
-            margin-bottom: 20px;
+            height: 10vh;
+            margin-top: 3vh;
             background-color: rgba(0, 0, 0, 0.5);
-            padding: 30px;
             border-radius: 10px;
-            margin-left: 650px;
+            margin-left: 30vh;
+            font-size: 0.75em; 
+            padding-left: 2vh;
+            padding-right: 2vh;
         }
 
         #search-form {
             display: flex;
             align-items: center;
+            margin-right: 4px;
         }
 
         #search-form label {
-            margin-right: 10px;
+            margin-right: 8px;
         }
 
         .search-btn {
-            padding: 10px;
+            padding: 8px;
             border: none;
             background: #1abc9c;
             color: #ffffff;
@@ -109,27 +106,24 @@
         }
 
         .input {
-            width: 400px;
-            padding: 10px;
+            width: 200px;
+            padding: 8px;
             border: none;
             border-radius: 5px 0 0 5px;
         }
     </style>
 
-    <main style="display: inline-block; padding-left: 50px">
+    <main style="display: inline-block; padding-left: 40px;">
         {% if not user %}
         <div class="message">
-            <p>Usuário não autenticado.</p>
+            <p>User not authenticated.</p>
         </div>
     
         {% else %}
-
-            <div style="display: flex; padding-left: 60px">
-
+            <div style="display: flex; justify-content: space-between; margin-top: -80px;">
                 <div>
-                    <h2 style="background-color: rgba(0, 0, 0, 0.5);text-align: center; color: rgb(255, 255, 255); padding: 20px; border-radius: 30px;">Weathers</h2>
+                    <h2 style="background-color: rgba(0, 0, 0, 0.5);text-align: center; color: rgb(255, 255, 255); padding: 16px; border-radius: 30px; font-size: 1.5em;">Weathers</h2>
                 </div>
-
                 <div class="search-container">
                     <form id="search-form">
                         <label for="city-input">Type city name:</label>
@@ -139,32 +133,26 @@
                 </div>
             </div>
 
-       
-            <div>
-                <ul class="weather-list">
-                    {% for record in weather_records %}
-                        <li class="weather-item">
-                            <h3>{{ record.city }}</h3>
-                            <p>Date: {{ record.date }}</p>
-                            <p>Temperature: {{ record.temperature }} ºC</p>
-                            <p>Atmmosphere Pressure: {{ record.atmosphericPressure }} PA</p>
-                            <p>Humidity: {{ record.humidity }}%</p>
-                            <p>Weather Condition: {{ record.weather }}</p>
-                            <div>
-                                {% if request.user and record.id %}
-                                    <!-- Renderiza o botão de atualização -->
-                                    <button class="update-btn btn btn-primary" data-pk="{{ record.id }}" data-update-url="{% url 'weather-get' pk=record.id %}">Update</button>
-                                    <!-- Renderiza o botão de exclusão -->
-                                    <button class="delete-btn btn btn-danger" data-pk="{{ record.id }}" data-delete-url="{% url 'weather-delete' pk=record.id %}">Excluir</button>                      
-                                {% endif %}
-                            </div>
-                        </li>
-                    {% endfor %}
-                </ul>
-            </div>
+            <ul class="weather-list">
+                {% for record in weather_records %}
+                    <li class="weather-item">
+                        <h3>{{ record.city }}</h3>
+                        <p>Date: {{ record.date }}</p>
+                        <p>Temperature: {{ record.temperature }} ºC</p>
+                        <p>Atmospheric Pressure: {{ record.atmosphericPressure }} PA</p>
+                        <p>Humidity: {{ record.humidity }}%</p>
+                        <p>Weather Condition: {{ record.weather }}</p>
+                        <div>
+                            {% if request.user and record.id %}
+                                <button class="update-btn" data-pk="{{ record.id }}" data-update-url="{% url 'weather-get' pk=record.id %}">Update</button>
+                                <button class="delete-btn" data-pk="{{ record.id }}" data-delete-url="{% url 'weather-delete' pk=record.id %}">Excluir</button>                      
+                            {% endif %}
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
 
             <script>
-                // Adicione os scripts JavaScript para interatividade
                 document.querySelectorAll('.delete-btn').forEach(function(button) {
                     button.addEventListener('click', function() {
                         var deleteUrl = button.dataset.deleteUrl;
@@ -184,7 +172,7 @@
                 document.addEventListener('DOMContentLoaded', function() {
                     document.getElementById('search-button').addEventListener('click', function() {
                         var cityInput = document.getElementById('city-input').value;
-                        var baseUrl = '{{ request.scheme }}://{{ request.get_host }}';  // Obtém o endereço base da URL
+                        var baseUrl = '{{ request.scheme }}://{{ request.get_host }}';
                         var searchUrl = baseUrl + '/api_tempo/weather/city/' + encodeURIComponent(cityInput) + '/';
                         window.location.href = searchUrl;
                     });

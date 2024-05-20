@@ -5,33 +5,41 @@
 {% block content %}
 
     <style>
-        /* Estilos para os cards de clima */
+        .weather-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(225px, 1fr));
+            list-style: none;
+            padding: 0;
+            margin-top: 10px;
+            gap: 20px;
+        }
+
         .weather-card {
-            width: 300px;
             background-color: rgba(0, 0, 0, 0.5);
             border-radius: 5px;
-            padding: 30px;
-            margin-bottom: 20px;
-            margin-top: 80px;
-            margin-left: 610px;
+            padding: 10px;
+            width: 100%;
+            line-height: 1.2;
+            box-sizing: border-box;
         }
 
         .weather-card p {
-            margin: 0;
             color: #ffffff;
-            margin-left: 45px;
-            margin-bottom: 30px;
+            margin-bottom: 10px; 
+            font-size: 0.8em; 
         }
 
         .weather-card .delete-btn,
         .weather-card .update-btn {
-            padding: 8px 12px;
+            padding: 6px 9px; 
             border-radius: 5px;
             cursor: pointer;
             transition: background-color 0.3s ease;
             color: #ffffff;
             border: none;
-            margin-left: 60px;
+            margin-left: 10px;
+            margin-top: 10px; 
+            font-size: 0.75em; 
         }
 
         .weather-card .delete-btn {
@@ -42,18 +50,41 @@
             background-color: #1abc9c;
         }
 
-        .useweather-card .delete-btn:hover{
+        .weather-card .delete-btn:hover {
             background-color: #c82333;
         }
 
         .weather-card .update-btn:hover {
             background-color: #296559;
         }
+
+        .message {
+            font-size: 0.75em; 
+        }
+
+        .title {
+            text-align: center;
+            background-color: rgba(0, 0, 0, 0.5);
+            padding: 15px; 
+            border-radius: 15px;
+            max-width: 450px; 
+            font-size: 1.3em;
+            margin: 0 auto; 
+            margin-bottom: 30px;
+        }
+
+        .container {
+            margin-top: -15vh;
+            padding: 0 20px;
+            background: none; 
+        }
     </style>
 
-    <h1 style="text-align: center; background-color: rgba(0, 0, 0, 0.5); padding: 30px; border-radius: 15px; width: 600px; margin-left: 510px;">Registers for {{ weather_records.0.city }}</h1>
+    <div class="container">
+        <div>
+            <h1 class="title">Registers for {{ weather_records.0.city }}</h1>
+        </div>
 
-    <div>
         <ul class="weather-list">
             {% for record in weather_records %}
                 <li class="weather-card">
@@ -71,13 +102,11 @@
                         {% endif %}
                     </div>
                 </li>
-            {% endfor %}    
+            {% endfor %}
         </ul>
     </div>
-        
 
     <script>
-        // Adicione os scripts JavaScript para interatividade
         document.querySelectorAll('.delete-btn').forEach(function(button) {
             button.addEventListener('click', function() {
                 var deleteUrl = button.dataset.deleteUrl;
@@ -86,7 +115,7 @@
                 }
             });
         });
-    
+
         document.querySelectorAll('.update-btn').forEach(function(button) {
             button.addEventListener('click', function() {
                 var updateUrl = button.dataset.updateUrl;
@@ -95,7 +124,3 @@
         });
     </script>
 {% endblock %}
-
-
-
-

@@ -4,34 +4,42 @@
 
 {% block content %}
     <style>
-        /* Estilos para os cards de clima */
+        .user-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(225px, 1fr));
+            list-style: none;
+            padding: 0;
+            margin-top: 10px;
+            gap: 20px;
+        }
+
         .user-card {
-            width: 300px;
             background-color: rgba(0, 0, 0, 0.5);
             border-radius: 5px;
-            padding: 30px;
-            margin-bottom: 20px;
-            margin-top: 100px;
-            margin-left: 650px;
-
+            padding: 10px;
+            width: 40%;
+            line-height: 1.2;
+            box-sizing: border-box;
+            margin-left: 30vh;
         }
 
         .user-card p {
-            margin: 0;
             color: #ffffff;
-            margin-left: 40px;
-            margin-bottom: 30px;
+            margin-bottom: 10px; 
+            font-size: 0.8em; 
         }
 
         .user-card .delete-btn,
         .user-card .update-btn {
-            padding: 8px 12px;
+            padding: 6px 9px; 
             border-radius: 5px;
             cursor: pointer;
             transition: background-color 0.3s ease;
             color: #ffffff;
             border: none;
-            margin-left: 55px;
+            margin-left: 10px;
+            margin-top: 10px; 
+            font-size: 0.75em; 
         }
 
         .user-card .delete-btn {
@@ -42,34 +50,57 @@
             background-color: #1abc9c;
         }
 
-        .user-card .delete-btn:hover{
+        .user-card .delete-btn:hover {
             background-color: #c82333;
         }
 
         .user-card .update-btn:hover {
             background-color: #296559;
         }
+
+        .message {
+            font-size: 0.75em; 
+        }
+
+        .title {
+            text-align: center;
+            background-color: rgba(0, 0, 0, 0.5);
+            padding: 15px; 
+            border-radius: 15px;
+            max-width: 450px; 
+            font-size: 1.3em;
+            margin: 0 auto; 
+            margin-bottom: 30px;
+        }
+
+        .container {
+            margin-top: -20vh;
+            padding: 0 20px;
+            background: none; 
+        }
     </style>
 
-    <!-- Título dinâmico -->
-    <h1 style="text-align: center; background-color: rgba(0, 0, 0, 0.5); padding: 30px; border-radius: 15px; width: 800px; margin-left: 400px;">Registers for {{ user_records.0.email }}</h1>
-
-    {% for record in user_records %}
-        <div class="user-card">
-            <p>Username: {{ record.email }}</p>
-            <div>
-                {% if record.id %}
-                    <!-- Renderiza o botão de atualização -->
-                    <button class="update-btn" data-pk="{{ record.id }}" data-update-url="{% url 'user-get' pk=record.id %}">Update</button>
-                    <!-- Renderiza o botão de exclusão -->
-                    <button class="delete-btn" data-pk="{{ record.id }}" data-delete-url="{% url 'user-delete' pk=record.id %}">Excluir</button>
-                {% else %}
-                    <!-- Se o registro não tiver um ID válido, exiba uma mensagem -->
-                    <p class="message">ID vazio</p>
-                {% endif %}
-            </div>
+    <div class="container">
+        <div>
+            <h1 class="title">Registers for {{ user_records.0.email }}</h1>
         </div>
-    {% empty %}
-        <p style="text-align: center;">Nothing found!.</p>
-    {% endfor %}
+
+        <ul class="weather-list"></ul>
+            {% for record in user_records %}
+                <div class="user-card">
+                    <p>Username: {{ record.email }}</p>
+                    <div>
+                        {% if record.id %}
+                            <button class="update-btn" data-pk="{{ record.id }}" data-update-url="{% url 'user-get' pk=record.id %}">Update</button>
+                            <button class="delete-btn" data-pk="{{ record.id }}" data-delete-url="{% url 'user-delete' pk=record.id %}">Excluir</button>
+                        {% else %}
+                            <p class="message">ID vazio</p>
+                        {% endif %}
+                    </div>
+                </div>
+            {% empty %}
+                <p style="text-align: center;">Nothing found!.</p>
+            {% endfor %}
+        </ul>
+    </div>
 {% endblock %}
