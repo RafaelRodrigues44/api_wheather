@@ -20,7 +20,8 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
     'api_tempo',
     'corsheaders',
-    'user'
+    'user',
+    'faker'
 ]
 
 MIDDLEWARE = [

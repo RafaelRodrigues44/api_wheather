@@ -9,6 +9,7 @@ from user.views.views import UserUpdateView
 from user.views.views import UserGetView
 from user.views.views import Login
 from user.views.views import LogoutView
+from include.consuptionScript import Alert
 from api_tempo.view.aboutRender import About
 
 from api_tempo.urls.urls import url_patterns as api_tempo_urls
@@ -25,5 +26,6 @@ urlpatterns = [
     path('api_tempo/user/<str:pk>/', UserGetView.as_view(), name='user-get'),
     path('api_tempo/user/update/<str:pk>/', UserUpdateView.as_view(), name='user-update'),
     path('api_tempo/login/', Login.as_view(), name='login'),
+    path('api_tempo/alert/script/', Alert.as_view(), name='earth-alert'),
     path('logout/', LogoutView.as_view(), name='logout'),
 ]

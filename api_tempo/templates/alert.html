@@ -1,0 +1,44 @@
+<!-- alert.html -->
+{% extends 'base.html' %}
+
+{% block title %}Alertas de Desastres Naturais{% endblock %}
+
+{% block content %}
+<main style="display: inline-block; padding-left: 40px;">
+    <h2>Alertas de Desastres Naturais</h2>
+
+    <ul class="alert-list">
+        {% for event in events_data %}
+            <li class="weather-item">
+                <h3>{{ event.event_name }} - {{ event.event_id }}</h3>
+                <p>Tipo de Evento: {{ event.event_type }}</p>
+                <p>Descrição: {{ event.description }}</p>
+                <p>Descrição HTML: {{ event.html_description }}</p>
+                <p>Nível de Alerta: {{ event.alert_level }}</p>
+                <p>Score de Alerta: {{ event.alert_score }}</p>
+                <p>Nível de Alerta do Episódio: {{ event.episode_alert_level }}</p>
+                <p>Score de Alerta do Episódio: {{ event.episode_alert_score }}</p>
+                <p>País: {{ event.country }}</p>
+                <p>Data do Alerta: {{ event.from_date }}</p>
+                <p>Data do Término do Alerta: {{ event.to_date }}</p>
+                <p>Data Modificada: {{ event.date_modified }}</p>
+                <p>ISO3: {{ event.iso3 }}</p>
+                <p>Fonte: {{ event.source }}</p>
+                <p>ID da Fonte: {{ event.source_id }}</p>
+                <p>Rótulo do Polígono: {{ event.polygon_label }}</p>
+                <p>Classe: {{ event.class }}</p>
+                <p>Países Afetados: 
+                    <ul>
+                        {% for country in event.affected_countries %}
+                            <li>{{ country.countryname }} ({{ country.iso3 }})</li>
+                        {% endfor %}
+                    </ul>
+                </p>
+                <p>Severidade: {{ event.severity }}</p>
+                <p>Texto de Severidade: {{ event.severity_text }}</p>
+                <p>Unidade de Severidade: {{ event.severity_unit }}</p>
+            </li>
+        {% endfor %}
+    </ul>
+</main>
+{% endblock %}
