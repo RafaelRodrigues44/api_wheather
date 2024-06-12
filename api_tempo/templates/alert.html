@@ -1,15 +1,68 @@
-<!-- alert.html -->
 {% extends 'base.html' %}
 
-{% block title %}Alertas de Desastres Naturais{% endblock %}
+{% block title %}Natural Desasters{% endblock %}
 
 {% block content %}
-<main style="display: inline-block; padding-left: 40px;">
+    <style>
+        .weather-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(225px, 1fr));
+            list-style: none;
+            padding: 0;
+            margin-top: 10px;
+            gap: 20px;
+        }
+
+        .weather-item {
+            background-color: rgba(0, 0, 0, 0.5);
+            border-radius: 5px;
+            padding: 12px;
+            line-height: 1.2;
+            font-size: 0.75em;
+        }
+
+        .weather-item h3 {
+            margin-top: 0;
+            margin-bottom: 8px;
+            font-size: 1.125em;
+            color: #f6f4f4;
+        }
+
+        .weather-item p {
+            margin: 0;
+            color: #f6f4f4;
+            margin-bottom: 4px;
+        }
+
+        .weather-item .update-btn,
+        .weather-item .delete-btn {
+            padding: 8px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 15px;
+            font-size: 0.75em; /* Diminuído em 25% */
+            background-color: #1abc9c;
+            color: #ffffff;
+        }
+
+        .weather-item .update-btn:hover {
+            background-color: #296559;
+        }
+
+        .weather-item .delete-btn:hover {
+            background-color: #c82333;
+        }
+    </style>
+</head>
+<body>
+
+<main style="display: inline-block; padding-left: 40px; color: #4f5252;">
     <h2>Alertas de Desastres Naturais</h2>
 
-    <ul class="alert-list">
+    <ul class="weather-list"> <!-- Alterado o nome da classe para 'weather-list' -->
         {% for event in events_data %}
-            <li class="weather-item">
+            <li class="weather-item"> <!-- Mantido o nome da classe como 'weather-item' -->
                 <h3>{{ event.event_name }} - {{ event.event_id }}</h3>
                 <p>Tipo de Evento: {{ event.event_type }}</p>
                 <p>Descrição: {{ event.description }}</p>
@@ -28,7 +81,7 @@
                 <p>Rótulo do Polígono: {{ event.polygon_label }}</p>
                 <p>Classe: {{ event.class }}</p>
                 <p>Países Afetados: 
-                    <ul>
+                    <ul style="color: #ffffff;">
                         {% for country in event.affected_countries %}
                             <li>{{ country.countryname }} ({{ country.iso3 }})</li>
                         {% endfor %}
@@ -41,4 +94,7 @@
         {% endfor %}
     </ul>
 </main>
+
+</body>
 {% endblock %}
+
