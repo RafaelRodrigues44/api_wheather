@@ -45,7 +45,8 @@ class UserRepository:
         if user:
             # Obter a senha armazenada do usuário no banco de dados
             stored_password = user[0]['password']
-            
+            print(password)
+            print(stored_password)
             # Comparar a senha fornecida com a senha armazenada usando check_password
             if check_password(password, stored_password):
                 return user[0]    
